@@ -22,7 +22,7 @@ if 'elasticsearch-1.0.0.tar.gz' not in os.listdir(DIR):
     call(['tar', '-xvzf', join(DIR, 'elasticsearch-1.0.0.tar.gz')])
 
     # install git river
-    call('bin/plugin --install com.bazoud.elasticsearch/elasticsearch-river-git/0.0.2'.split())
+    call([join(DIR, 'elasticsearch-1.0.0/bin/plugin')] + '--install com.bazoud.elasticsearch/elasticsearch-river-git/0.0.2'.split())
 
 # start elasticsearch
 Popen(join(DIR, 'elasticsearch-1.0.0/bin/elasticsearch'))
