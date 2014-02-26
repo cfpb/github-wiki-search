@@ -1,2 +1,5 @@
 elasticsearch-1.0.0*
 .vagrant
+settings.py
+bulk_data.txt
+*.pyc

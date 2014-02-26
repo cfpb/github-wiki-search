@@ -1,0 +1,55 @@
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "html_analyzer": {
+          "char_filter": [
+            "html_strip"
+          ],
+          "type": "custom",
+          "tokenizer": "standard"
+        },
+        "path_analyzer": {
+          "type": "custom",
+          "tokenizer": "path_hierarchy"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "page": {
+      "properties": {
+        "repo": {
+          "type": "multi_field",
+          "fields": {
+            "repo": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "path": {
+              "type": "string",
+              "search_analyzer": "keyword",
+              "index_analyzer": "path_analyzer"
+            }
+          }
+        },
+        "content": {
+          "index": "analyzed",
+          "type": "string",
+          "analyzer": "html_analyzer",
+          "store": "no"
+        },
+        "url": {
+          "type": "string",
+          "store": "yes"
+        },
+        "title": {
+          "index": "analyzed",
+          "type": "string",
+          "analyzer": "html_analyzer",
+          "store": "yes"
+        }
+      }
+    }
+  }
+}
