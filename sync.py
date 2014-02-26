@@ -57,12 +57,14 @@ class GitEvents(object):
 
 class ES(object):
     github = GitEvents()
-    def create_bulk_data(self, repo_name, urls):
+    def create_bulk_data(self, urls):
         bulk_data_obj = []
         for url in urls:
             html = requests.get(url).content
             soup = BS(html, 'lxml')
-            page_id = urllib.quote(urlparse(url).path[1:], '')  # remove initial slash
+            path = urlparse(url).path[1:]
+            repo_name = '/' + '/'.join(path.split('/')[:2])
+            page_id = urllib.quote(path, '')  # remove initial slash
             bulk_data_obj.append({ 
                 "index": {
                     "_index": "wiki", "_type": "page", "_id": page_id
@@ -71,7 +73,7 @@ class ES(object):
                 'url': url,
                 'title': unicode(soup.find(id='head').h1.text),
                 'content': unicode(soup.find(id='wiki-content')),
-                'repo': '/' + repo_name
+                'repo': repo_name
             })
         bulk_data = '\n'.join([json.dumps(row) for row in bulk_data_obj]) + '\n'
         return bulk_data
@@ -86,12 +88,15 @@ class ES(object):
         return resp
 
     def index_new_repo(self, repo_name):
+        """
+        repo_name format '<organization>/<repo>'
+        """
         list_url = '/'.join([settings.GITHUB_HOST, repo_name, 'wiki/_pages'])
         list_html = requests.get(list_url).content
         soup = BS(list_html, 'lxml')
         paths = [x.get('href') for x in soup.find(id='wiki-content').ul.find_all('a')]
         urls = [settings.GITHUB_HOST + path for path in paths]
-        bulk_data = self.create_bulk_data(repo_name, urls)
+        bulk_data = self.create_bulk_data(urls)
         with open('bulk_data.txt', 'w') as f:
             f.write(bulk_data)
         resp = requests.post(settings.ES_HOST + '/_bulk', data=bulk_data)
