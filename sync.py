@@ -89,6 +89,20 @@ class ES(object):
         requests.post(settings.ES_HOST + '/_refresh')
         return resp
 
+    def sync_all_repos(self, repo_id=False):
+        """
+        get a list of public repositories
+        """
+        repos = requests.get(settings.GITHUB_HOST + '/api/v3/repositories').json()
+
+        # print after 10 repo_ids
+        # call index_new_repo
+        repo_names = [repo['full_name'] for repo in repos]
+
+
+        return repo_names
+
+
     def index_new_repo(self, repo_name):
         """
         repo_name format '<organization>/<repo>'
