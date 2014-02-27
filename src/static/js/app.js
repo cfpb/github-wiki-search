@@ -4,7 +4,7 @@
 
 
 var currentSearchTerm = '';
-var queryLocation = '/search/wiki/page/_search';
+var queryLocation = '/search/wiki/page/';
 var queryResults = [];
 var queryData = {
   "query": {
