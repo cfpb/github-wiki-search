@@ -34,6 +34,8 @@ class GitEvents(object):
         eliminate) duplication.
         """
         data = self.get_page_of_events()
+        if not data:
+            return data
         newest_last_event = int(data[0]['id'])
         intermediate_last_event = int(data[-1]['id'])
         pages = range(2, 11)

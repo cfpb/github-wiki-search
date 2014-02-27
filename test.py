@@ -86,5 +86,18 @@ class TestGitEvents(unittest.TestCase):
         self.assertIn(page2_url, actual)
         self.assertEqual(len(actual), 2)
 
+    def test_get_changed_page_urls_when_no_events_expect_no_urls(self):
+        def moc_get_page_of_events(self, page=1, etag=True):
+            return []
+
+        cut = sync.GitEvents()
+        cut.get_page_of_events = types.MethodType(moc_get_page_of_events, cut)
+        cut.last_event = 5
+        actual = cut.get_changed_page_urls()
+
+        self.assertEqual(actual, [])
+
+
+
 if __name__ == '__main__':
     unittest.main() 
