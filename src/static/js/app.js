@@ -4,8 +4,25 @@
 
 
 var currentSearchTerm = '';
-var query = 'data.json';
+var queryLocation = '/search/wiki/page/_search';
 var queryResults = [];
+var queryData = {
+  "query": {
+    "query": {
+      "match": {
+        "_all": ""
+      }
+    }
+  },
+  "highlight": {
+    "pre_tags" : [ "<mark>" ],
+    "post_tags" : [ "</mark>" ],
+    "fields": {
+      "content": {},
+      "title": {}
+    }
+  }
+};
 
 var $megaSearchBar_query = $('#mega-search-bar_query');
 var $results = $('#results');
@@ -19,18 +36,13 @@ $(function() {
   $megaSearchBar_query
     .keyup(function() {
 
-      var queryString = '';
-      var encodedSearchTerm;
-
+      // Update the query object
       currentSearchTerm = $(this).val();
-      encodedSearchTerm = encodeURIComponent(currentSearchTerm);
-
-      queryString = query + '?' + encodedSearchTerm;
-      // console.log(queryString);
+      queryData.query.query.match._all = currentSearchTerm;
 
       // Make a query if the input is not empty
       if (currentSearchTerm !== '') {
-        $.getJSON(queryString, querySuccess);
+        $.getJSON(queryLocation, queryData, querySuccess);
       } else {
         $results.hide();
       }
@@ -163,14 +175,4 @@ function makeSearchResultItem(ul, item) {
       '</a>')
     .appendTo(ul);
 
-}
-
-
-// http://stackoverflow.com/questions/822452/strip-html-from-text-javascript
-
-function strip(html)
-{
-   var tmp = document.createElement("DIV");
-   tmp.innerHTML = html;
-   return tmp.textContent || tmp.innerText || "";
 }
