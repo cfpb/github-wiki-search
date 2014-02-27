@@ -18,7 +18,11 @@ try:
     pass
 except OSError:
     # if apt isn't installed, need to run yum commands
-    pass
+    call('sudo yum update -y'.split())
+    #install java
+    call('sudo yum install java-1.7.0-openjdk-devel -y'.split())
+    # install python dev packages
+    call('sudo yum install gcc python-pip python26-devel.x86_64 libxslt-devel.x86_64 libxslt-python.x86_64 libxml2-devel.x86_64 libxml2-python.x86_64 -y')
 
 #install elastic search
 if 'elasticsearch-1.0.0.tar.gz' not in os.listdir(DIR):

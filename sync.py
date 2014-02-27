@@ -60,6 +60,11 @@ class GitEvents(object):
 class ES(object):
     github = GitEvents()
     def create_bulk_data(self, urls):
+        """
+        given a list of urls, get the index data and return
+        in the bulk upload format
+        """
+        print "generating bulk data for %s urls" % len(urls)
         bulk_data_obj = []
         for url in urls:
             html = requests.get(url).content
@@ -78,8 +83,11 @@ class ES(object):
                 'repo': repo_name
             })
         bulk_data = '\n'.join([json.dumps(row) for row in bulk_data_obj]) + '\n'
+        print "writing bulk data"
+        with open('bulk_data.txt', 'w') as f:
+            f.write(bulk_data)
         return bulk_data
-    def update_indices(self):
+    def sync_indices(self):
         """
         update all wikis that have changed since last call to update_indices
         """
@@ -89,32 +97,51 @@ class ES(object):
         requests.post(settings.ES_HOST + '/_refresh')
         return resp
 
-    def sync_all_repos(self, repo_id=False):
+    def index_page_of_repos(self, repo_id=None):
         """
-        get a list of public repositories
+        index all wiki pages for all repos in one page of repos returned by github api (100 repos)
+        returns the id of the last repo synced.
         """
-        repos = requests.get(settings.GITHUB_HOST + '/api/v3/repositories').json()
-
-        # print after 10 repo_ids
-        # call index_new_repo
+        params={"since": repo_id} if repo_id is not None else {}
+        repos = requests.get(settings.GITHUB_HOST + '/api/v3/repositories', params=params).json()
         repo_names = [repo['full_name'] for repo in repos]
+        self.index_new_repos(*repo_names)
+        return repos[-1]['id'] if repos else None
 
-
-        return repo_names
-
-
-    def index_new_repo(self, repo_name):
+    def index_all_repos(self):
         """
-        repo_name format '<organization>/<repo>'
+        sync all repositories in github enterprise
+        """
+        last_repo_id = 0
+        while last_repo_id is not None:
+            print last_repo_id
+            last_repo_id = self.index_page_of_repos(last_repo_id)
+
+
+    def get_all_wiki_urls_for_repo(self, repo_name):
+        """
+        given a repo_name, return a list of all wiki pages for the repo.
         """
         list_url = '/'.join([settings.GITHUB_HOST, repo_name, 'wiki/_pages'])
         list_html = requests.get(list_url).content
         soup = BS(list_html, 'lxml')
-        paths = [x.get('href') for x in soup.find(id='wiki-content').ul.find_all('a')]
+        try:
+            paths = [x.get('href') for x in soup.find(id='wiki-content').ul.find_all('a')]
+        except AttributeError:
+            paths = []
         urls = [settings.GITHUB_HOST + path for path in paths]
+        print "%s: %s" % (repo_name, len(urls))
+        return urls
+
+    def index_new_repos(self, *repo_names):
+        """
+        Index all wiki pages for the list of repo_names
+        repo_name format '<organization>/<repo>'
+        """
+        url_lists = [self.get_all_wiki_urls_for_repo(repo_name) for repo_name in repo_names]
+        urls = [item for sublist in url_lists for item in sublist] # flatten
         bulk_data = self.create_bulk_data(urls)
-        with open('bulk_data.txt', 'w') as f:
-            f.write(bulk_data)
+
         resp = requests.post(settings.ES_HOST + '/_bulk', data=bulk_data)
         requests.post(settings.ES_HOST + '/_refresh')
         return resp
