@@ -29,6 +29,9 @@ var $results = $('#results');
 var $results_list = $('#results_list');
 var $results_searchAll_term = $('#results_search-all_term');
 
+// elasticsearch.js adds the elasticsearch namespace to the window
+var client = elasticsearch.Client({ host: queryLocation });
+
 
 // Kick things off
 $(function() {
@@ -42,7 +45,8 @@ $(function() {
 
       // Make a query if the input is not empty
       if (currentSearchTerm !== '') {
-        $.getJSON(queryLocation, queryData, querySuccess);
+        //$.getJSON(queryLocation, queryData, querySuccess);
+        client.search(queryData).then(querySuccess);
       } else {
         $results.slideUp('fast');
       }
