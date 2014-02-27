@@ -4,7 +4,8 @@
 
 
 var currentSearchTerm = '';
-var queryLocation = '/search/wiki/page';
+//var queryLocation = '/search/wiki/page';
+var queryLocation = '/search/wiki/page/_search?q=_all:';
 var queryResults = [];
 var queryData = {
   "query": {
@@ -41,12 +42,12 @@ $(function() {
 
       // Update the query object
       currentSearchTerm = $(this).val();
-      queryData.query.query.match._all = currentSearchTerm;
+      queryData.query.query.match._all = encodeURIComponent(currentSearchTerm);
 
       // Make a query if the input is not empty
       if (currentSearchTerm !== '') {
-        //$.getJSON(queryLocation, queryData, querySuccess);
-        client.search(queryData).then(querySuccess);
+        $.getJSON(queryLocation, queryLocation + encodeURIComponent(currentSearchTerm), querySuccess);
+        //client.search(queryData).then(querySuccess);
       } else {
         $results.slideUp('fast');
       }
