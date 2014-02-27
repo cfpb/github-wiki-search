@@ -2922,7 +2922,10 @@ body {
   display: block;
   width: 100%;
   padding-right: 1.5em;
-  font-size: 1.375em;
+  font-family: "Avenir Next", Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 2em;
 }
 .mega-search-bar_icon {
   display: block;
@@ -2930,7 +2933,7 @@ body {
   position: absolute;
   top: 0;
   right: 0;
-  font-size: 1.375em;
+  font-size: 2em;
   color: #e3e4e5;
 }
 /* Results
