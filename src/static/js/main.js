@@ -9641,7 +9641,7 @@ $(function() {
       if (currentSearchTerm !== '') {
         $.getJSON(queryLocation, queryData, querySuccess);
       } else {
-        $results.hide();
+        $results.slideUp('fast');
       }
 
     });
@@ -9743,11 +9743,11 @@ function updateSearchResultsHTML(ul, items) {
       makeSearchResultItem($results_list, items[i]);
     }
 
-    $results.show();
+    $results.slideDown('fast');
 
   } else {
 
-    $results.hide();
+    $results.slideUp('fast');
 
   }
 
