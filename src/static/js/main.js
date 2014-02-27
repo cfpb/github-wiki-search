@@ -37448,7 +37448,7 @@ $(function() {
 
       // Make a query if the input is not empty
       if (currentSearchTerm !== '') {
-        $.getJSON(queryLocation, queryLocation + encodeURIComponent(currentSearchTerm), querySuccess);
+        $.getJSON(queryLocation + encodeURIComponent(currentSearchTerm), querySuccess);
         //client.search(queryData).then(querySuccess);
       } else {
         $results.slideUp('fast');
