@@ -25,6 +25,7 @@
     "cf-forms": "git://github.com/cfpb/cf-forms.git",
     "cf-grid": "git://github.com/cfpb/cf-grid.git",
     "cf-typography": "git://github.com/cfpb/cf-typography.git",
+    "elasticsearch": "latest",
     "font-awesome": "~3.2.1",
     "html5shiv": "latest",
     "jquery": "~1.9",
