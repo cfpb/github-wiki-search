@@ -9616,12 +9616,18 @@ $(function() {
   $megaSearchBar_query
     .keyup(function() {
 
-      // Update the current search term on every keyup event
+      var queryString = '';
+      var encodedSearchTerm;
+
       currentSearchTerm = $(this).val();
+      encodedSearchTerm = encodeURIComponent(currentSearchTerm);
+
+      queryString = query + '?' + encodedSearchTerm;
+      // console.log(queryString);
 
       // Make a query if the input is not empty
       if (currentSearchTerm !== '') {
-        $.getJSON(query, querySuccess);
+        $.getJSON(queryString, querySuccess);
       } else {
         $results.hide();
       }
