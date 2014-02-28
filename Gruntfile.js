@@ -282,7 +282,7 @@ module.exports = function(grunt) {
           EventEmitter: true
         }
       },
-      all: ['src/static/js/main.js']
+      all: ['src/static/js/main.min.js']
     },
 
     /**
