@@ -53,6 +53,7 @@ module.exports = function(grunt) {
         src: [
           'src/vendor/jquery/jquery.js',
           'src/vendor/cf-*/*.js',
+          'src/vendor/elasticsearch/elasticsearch.js',
           'src/static/js/app.js'
         ],
         dest: 'src/static/js/main.js'
