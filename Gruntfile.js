@@ -48,15 +48,6 @@ module.exports = function(grunt) {
           'src/vendor/cf-*/*.less'
         ],
         dest: 'src/vendor/cf-concat/cf.less',
-      },
-      bodyScripts: {
-        src: [
-          'src/vendor/jquery/jquery.js',
-          'src/vendor/cf-*/*.js',
-          'src/vendor/elasticsearch/elasticsearch.js',
-          'src/static/js/app.js'
-        ],
-        dest: 'src/static/js/main.js'
       }
     },
 
@@ -164,10 +155,16 @@ module.exports = function(grunt) {
      */
     uglify: {
       options: {
-        banner: '' // Banner now prepended by the grunt-banner task.
+        drop_console: true,
+        sourceMapName: 'src/static/js/main.map'
       },
       bodyScripts: {
-        src: ['src/static/js/main.js'],
+        src: [
+          'src/vendor/jquery/jquery.js',
+          'src/vendor/cf-*/*.js',
+          'src/vendor/elasticsearch/elasticsearch.js',
+          'src/static/js/app.js'
+        ],
         dest: 'src/static/js/main.min.js'
       }
     },
@@ -312,8 +309,13 @@ module.exports = function(grunt) {
         options: {
           livereload: true
         },
-        files: ['Gruntfile.js', 'src/index.html', 'src/static/css/*.less', 'src/static/js/app.js', '!dist/**'],
-        tasks: ['default','dist']
+        files: [
+          'Gruntfile.js',
+          'src/index.html',
+          'src/static/css/*.less',
+          'src/static/js/app.js'
+        ],
+        tasks: ['default', 'dist']
       }
     }
   });
@@ -340,10 +342,13 @@ module.exports = function(grunt) {
    * Create custom task aliases and combinations
    */
   grunt.registerTask('vendor', ['clean:bowerDir', 'bower:install', 'concat:cf-less']);
-  grunt.registerTask('default', ['less', 'string-replace:vendor', 'autoprefixer', 'concat:bodyScripts']);
-  grunt.registerTask('compile', ['less', 'string-replace:vendor', 'autoprefixer', 'concat:bodyScripts']);
-  grunt.registerTask('dist', ['cssmin', 'uglify', 'clean:dist', 'copy:dist']);
-  // Start web server
+  grunt.registerTask('default', ['less', 'string-replace:vendor', 'autoprefixer', 'cssmin', 'uglify']);
+  grunt.registerTask('compile', ['less', 'string-replace:vendor', 'autoprefixer', 'cssmin', 'uglify']);
+  grunt.registerTask('dist', ['clean:dist', 'copy:dist']);
+
+  /**
+   * Start a connect server and watch for changes
+   */
   grunt.registerTask('serve', [
     'dist',
     'connect',
