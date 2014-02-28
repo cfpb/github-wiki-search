@@ -5,6 +5,14 @@ import settings
 from urlparse import urlparse
 import urllib
 import json
+import re
+
+whitespace_re = re.compile(r'(\W|\n)+')
+def extract_text_from_html(soup):
+    text_nodes = soup.findAll(text=True)
+    text_with_newlines = ' '.join(text_nodes)
+    text = whitespace_re.sub(' ', text_with_newlines)
+    return text
 
 class GitEvents(object):
     client = Client(settings.GITHUB_HOST + '/api/v3/events')
@@ -78,8 +86,8 @@ class ES(object):
             }})
             bulk_data_obj.append({
                 'url': url,
-                'title': unicode(soup.find(id='head').h1.text),
-                'content': unicode(soup.find(id='wiki-content')),
+                'title': ' '.join(soup.find(id='head').h1.findAll(text=True)),
+                'content': ' '.join(soup.find(id='wiki-content').findAll(text=True)),
                 'repo': repo_name
             })
         bulk_data = '\n'.join([json.dumps(row) for row in bulk_data_obj]) + '\n'
@@ -87,6 +95,7 @@ class ES(object):
         with open('bulk_data.txt', 'w') as f:
             f.write(bulk_data)
         return bulk_data
+
     def sync_indices(self):
         """
         update all wikis that have changed since last call to update_indices
@@ -117,7 +126,6 @@ class ES(object):
             print last_repo_id
             last_repo_id = self.index_page_of_repos(last_repo_id)
 
-
     def get_all_wiki_urls_for_repo(self, repo_name):
         """
         given a repo_name, return a list of all wiki pages for the repo.
@@ -145,7 +153,8 @@ class ES(object):
         resp = requests.post(settings.ES_HOST + '/_bulk', data=bulk_data)
         requests.post(settings.ES_HOST + '/_refresh')
         return resp
-# es = ES()
+
+es_client = ES()
 # es.index_new_repo('mbates/Design-DevRegroup')
 #r = es.incremental_update_wiki()
 
