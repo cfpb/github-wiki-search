@@ -1,11 +1,23 @@
 from universalclient import Client
-from bs4 import BeautifulSoup as BS
+from bs4 import SoupStrainer, BeautifulSoup as BS
 import requests
 import settings
 from urlparse import urlparse
 import urllib
 import json
 import re
+import gevent
+import grequests
+from gevent import monkey
+from gevent.pool import Pool
+
+pool = Pool(50)
+
+# patches stdlib (including socket and ssl modules) to cooperate with other greenlets
+monkey.patch_all()
+
+import urllib2
+
 
 whitespace_re = re.compile(r'(\W|\n)+')
 def extract_text_from_html(soup):
@@ -13,6 +25,28 @@ def extract_text_from_html(soup):
     text_with_newlines = ' '.join(text_nodes)
     text = whitespace_re.sub(' ', text_with_newlines)
     return text
+
+def _get_soup(url, id):
+    """
+    return generator that given a url, gets the content, parses it and
+    returns a tuple of the url and the soup of the tag with the given id
+    """
+    html = urllib2.urlopen(url).read()
+    # strainer = SoupStrainer(id=id)
+    soup = BS(html, 'lxml')
+    return (url, soup)
+
+def _get_soups(id, urls):
+    """
+    return generator that given a url, gets the content, parses it and
+    returns a tuple of the url and the soup of the tag with the given id
+    """
+    reqs = (grequests.get(url) for url in urls)
+    resps = grequests.map(reqs, size=20)
+    htmls = ((resp.request.url, resp.content,) for resp in resps)
+    strainer = SoupStrainer(id=id)
+    soups = ((url, BS(html, 'lxml', parse_only=strainer),) for url, html in htmls)
+    return soups
 
 class GitEvents(object):
     client = Client(settings.GITHUB_HOST + '/api/v3/events')
@@ -64,6 +98,18 @@ class GitEvents(object):
         self.last_event = newest_last_event
         return urls
 
+def _repo_pages():
+    """
+    generate pages of all repos in the repository
+    """
+    last_repo_id = 0
+    while last_repo_id is not None:
+        print last_repo_id
+        params={"since": last_repo_id}
+        repos = requests.get(settings.GITHUB_HOST + '/api/v3/repositories', params=params).json()
+        last_repo_id = repos[-1]['id'] if repos else None
+        if last_repo_id:
+            yield repos
 
 class ES(object):
     github = GitEvents()
@@ -74,7 +120,9 @@ class ES(object):
         """
         print "generating bulk data for %s urls" % len(urls)
         bulk_data_obj = []
-        for url in urls:
+        for url, count in zip(urls, range(len(urls))):
+            if not count % 100:
+                print 'url: ', count
             html = requests.get(url).content
             soup = BS(html, 'lxml')
             path = urlparse(url).path[1:]
@@ -121,10 +169,22 @@ class ES(object):
         """
         sync all repositories in github enterprise
         """
-        last_repo_id = 0
-        while last_repo_id is not None:
-            print last_repo_id
-            last_repo_id = self.index_page_of_repos(last_repo_id)
+        repo_names = (repo['full_name'] for page in _repo_pages() for repo in page)
+        url_template = '%s/%s/wiki/_pages'
+        repo_urls = (url_template % (settings.GITHUB_HOST, repo) for repo in repo_names)
+
+        jobs = [pool.spawn(_get_soup, url, 'wiki-content') for url in repo_urls]
+        gevent.joinall(jobs)
+        repo_soups = [job.value for job in jobs]
+#        repo_soups = _get_soups('wiki-content', repo_urls)
+        page_paths = (soup.find(id='wiki-content').ul.find_all('a') for url, soup in repo_soups if soup.find(id='wiki-content') and soup.find(id='wiki-content').ul)
+        page_urls = [settings.GITHUB_HOST + link.get('href') for sublist in page_paths for link in sublist]
+        with open('page_urls.txt', 'w') as f:
+            json.dump(page_urls, f)
+        bulk_data = self.create_bulk_data(page_urls)
+        resp = requests.post(settings.ES_HOST + '/_bulk', data=bulk_data)
+        requests.post(settings.ES_HOST + '/_refresh')
+        return resp
 
     def get_all_wiki_urls_for_repo(self, repo_name):
         """
