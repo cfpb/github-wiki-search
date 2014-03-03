@@ -120,12 +120,14 @@ class ES(object):
         """
         print "generating bulk data for %s urls" % len(urls)
         bulk_data_obj = []
-        for url, count in zip(urls, range(len(urls))):
+
+        jobs = [pool.spawn(_get_soup, url, 'wiki-wrapper') for url in urls]
+        gevent.joinall(jobs)
+        soups = [job.value for job in jobs]
+
+        for [url, soup], count in zip(soups, range(len(urls))):
             if not count % 100:
                 print 'url: ', count
-            html = requests.get(url).content
-            strainer = SoupStrainer(id='wiki-wrapper')
-            soup = BS(html, 'lxml', parse_only=strainer)
             path = urlparse(url).path[1:]
             repo_name = '/' + '/'.join(path.split('/')[:2])
             page_id = urllib.quote(path, '')  # remove initial slash
