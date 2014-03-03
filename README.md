@@ -31,3 +31,7 @@ Installation
 1. run the provisioning script
 
     /vagrant/provision.py
+
+1. visit the search page at
+
+    http://localhost:8080
