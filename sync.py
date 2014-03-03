@@ -32,8 +32,8 @@ def _get_soup(url, id):
     returns a tuple of the url and the soup of the tag with the given id
     """
     html = urllib2.urlopen(url).read()
-    # strainer = SoupStrainer(id=id)
-    soup = BS(html, 'lxml')
+    strainer = SoupStrainer(id=id)
+    soup = BS(html, 'lxml', parse_only=strainer)
     return (url, soup)
 
 def _get_soups(id, urls):
@@ -124,7 +124,8 @@ class ES(object):
             if not count % 100:
                 print 'url: ', count
             html = requests.get(url).content
-            soup = BS(html, 'lxml')
+            strainer = SoupStrainer(id='wiki-wrapper')
+            soup = BS(html, 'lxml', parse_only=strainer)
             path = urlparse(url).path[1:]
             repo_name = '/' + '/'.join(path.split('/')[:2])
             page_id = urllib.quote(path, '')  # remove initial slash
@@ -177,7 +178,7 @@ class ES(object):
         gevent.joinall(jobs)
         repo_soups = [job.value for job in jobs]
 #        repo_soups = _get_soups('wiki-content', repo_urls)
-        page_paths = (soup.find(id='wiki-content').ul.find_all('a') for url, soup in repo_soups if soup.find(id='wiki-content') and soup.find(id='wiki-content').ul)
+        page_paths = (soup.ul.find_all('a') for url, soup in repo_soups if soup.ul)
         page_urls = [settings.GITHUB_HOST + link.get('href') for sublist in page_paths for link in sublist]
         with open('page_urls.txt', 'w') as f:
             json.dump(page_urls, f)
