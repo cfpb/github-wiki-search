@@ -2,12 +2,14 @@
   "settings": {
     "analysis": {
       "analyzer": {
-        "html_analyzer": {
-          "char_filter": [
-            "html_strip"
-          ],
+        "text_analyzer": {
           "type": "custom",
-          "tokenizer": "standard"
+          "tokenizer": "standard",
+          "filter": [
+            "asciifolding",
+            "lowercase",
+            "kstem"
+          ]
         },
         "path_analyzer": {
           "type": "custom",
@@ -24,30 +26,35 @@
           "fields": {
             "repo": {
               "type": "string",
-              "index": "not_analyzed"
+              "index": "not_analyzed",
+              "include_in_all": "false"
             },
             "path": {
               "type": "string",
               "search_analyzer": "keyword",
-              "index_analyzer": "path_analyzer"
+              "index_analyzer": "path_analyzer",
+              "include_in_all": "false"
             }
           }
         },
         "content": {
+          "term_vector": "with_positions_offsets",
           "index": "analyzed",
           "type": "string",
-          "analyzer": "html_analyzer",
-          "store": "no"
+          "analyzer": "text_analyzer",
+          "store": "yes"
         },
         "url": {
           "type": "string",
-          "store": "yes"
+          "store": "yes",
+          "include_in_all": "false"
         },
         "title": {
           "index": "analyzed",
           "type": "string",
-          "analyzer": "html_analyzer",
-          "store": "yes"
+          "analyzer": "text_analyzer",
+          "store": "yes",
+          "boost": 2
         }
       }
     }
