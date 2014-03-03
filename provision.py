@@ -73,7 +73,7 @@ while True:
 print("elastic search started")
 
 # create wiki index with schema
-with open(join(DIR, 'wiki_page_schema.json')) as f:
+with open(join(DIR, 'schema_page.json')) as f:
     schema = f.read()
 
 requests.put(settings.ES_HOST + '/wiki', data=schema)
