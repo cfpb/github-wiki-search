@@ -7,7 +7,6 @@ import urllib
 import json
 import re
 import gevent
-import grequests
 from gevent import monkey
 from gevent.pool import Pool
 
@@ -35,18 +34,6 @@ def _get_soup(url, id):
     strainer = SoupStrainer(id=id)
     soup = BS(html, 'lxml', parse_only=strainer)
     return (url, soup)
-
-def _get_soups(id, urls):
-    """
-    return generator that given a url, gets the content, parses it and
-    returns a tuple of the url and the soup of the tag with the given id
-    """
-    reqs = (grequests.get(url) for url in urls)
-    resps = grequests.map(reqs, size=20)
-    htmls = ((resp.request.url, resp.content,) for resp in resps)
-    strainer = SoupStrainer(id=id)
-    soups = ((url, BS(html, 'lxml', parse_only=strainer),) for url, html in htmls)
-    return soups
 
 class GitEvents(object):
     client = Client(settings.GITHUB_HOST + '/api/v3/events')
@@ -157,17 +144,6 @@ class ES(object):
         requests.post(settings.ES_HOST + '/_refresh')
         return resp
 
-    def index_page_of_repos(self, repo_id=None):
-        """
-        index all wiki pages for all repos in one page of repos returned by github api (100 repos)
-        returns the id of the last repo synced.
-        """
-        params={"since": repo_id} if repo_id is not None else {}
-        repos = requests.get(settings.GITHUB_HOST + '/api/v3/repositories', params=params).json()
-        repo_names = [repo['full_name'] for repo in repos]
-        self.index_new_repos(*repo_names)
-        return repos[-1]['id'] if repos else None
-
     def index_all_repos(self):
         """
         sync all repositories in github enterprise
@@ -179,45 +155,19 @@ class ES(object):
         jobs = [pool.spawn(_get_soup, url, 'wiki-content') for url in repo_urls]
         gevent.joinall(jobs)
         repo_soups = [job.value for job in jobs]
-#        repo_soups = _get_soups('wiki-content', repo_urls)
         page_paths = (soup.ul.find_all('a') for url, soup in repo_soups if soup.ul)
         page_urls = [settings.GITHUB_HOST + link.get('href') for sublist in page_paths for link in sublist]
         with open('page_urls.txt', 'w') as f:
             json.dump(page_urls, f)
+
+        # reset index
+        requests.delete(settings.ES_HOST + '/wiki/')
+        with open('schema_page.json', 'r') as f:
+            schema_page = f.read()
+        requests.post(settings.ES_HOST + '/wiki/', data=schema_page)
         bulk_data = self.create_bulk_data(page_urls)
         resp = requests.post(settings.ES_HOST + '/_bulk', data=bulk_data)
         requests.post(settings.ES_HOST + '/_refresh')
         return resp
 
-    def get_all_wiki_urls_for_repo(self, repo_name):
-        """
-        given a repo_name, return a list of all wiki pages for the repo.
-        """
-        list_url = '/'.join([settings.GITHUB_HOST, repo_name, 'wiki/_pages'])
-        list_html = requests.get(list_url).content
-        soup = BS(list_html, 'lxml')
-        try:
-            paths = [x.get('href') for x in soup.find(id='wiki-content').ul.find_all('a')]
-        except AttributeError:
-            paths = []
-        urls = [settings.GITHUB_HOST + path for path in paths]
-        print "%s: %s" % (repo_name, len(urls))
-        return urls
-
-    def index_new_repos(self, *repo_names):
-        """
-        Index all wiki pages for the list of repo_names
-        repo_name format '<organization>/<repo>'
-        """
-        url_lists = [self.get_all_wiki_urls_for_repo(repo_name) for repo_name in repo_names]
-        urls = [item for sublist in url_lists for item in sublist] # flatten
-        bulk_data = self.create_bulk_data(urls)
-
-        resp = requests.post(settings.ES_HOST + '/_bulk', data=bulk_data)
-        requests.post(settings.ES_HOST + '/_refresh')
-        return resp
-
 es_client = ES()
-# es.index_new_repo('mbates/Design-DevRegroup')
-#r = es.incremental_update_wiki()
-
