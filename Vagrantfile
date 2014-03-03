@@ -8,8 +8,8 @@ Vagrant.configure("2") do |config|
   # vbox url
   config.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.5.1/centos65-x86_64-20131205.box"
 
-  # run provision.py on boot
-  config.vm.provision "shell", path: "provision.py"
+  # run provision.py on boot - not currently working
+  # config.vm.provision "shell", path: "provision.py"
 
   # enable package caching
   config.cache.auto_detect = true
