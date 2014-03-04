@@ -44,6 +44,10 @@ We welcome your feedback and contributions.
 
     /vagrant/provision.py
 
+1. run the sync script
+
+    /vagrant/sync.py
+
 1. visit the search page at
 
     http://localhost:8080

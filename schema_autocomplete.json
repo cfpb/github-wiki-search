@@ -1,0 +1,62 @@
+{
+  "settings": {
+    "index": {
+      "analysis": {
+        "analyzer": {
+          "autocomplete": {
+            "tokenizer": "engram",
+            "filter": [
+              "lowercase"
+            ]
+          }
+        },
+        "tokenizer": {
+          "engram": {
+            "type": "edgeNGram",
+            "min_gram": 3,
+            "max_gram": 10
+          }
+        }
+      }
+    }
+  },
+  "mappings": {
+    "repo": {
+      "properties": {
+        "owner": {
+          "type": "string",
+          "index_analyzer": "autocomplete",
+          "index": "analyzed",
+          "search_analyzer": "standard",
+          "store": "no"
+        },
+        "repo": {
+          "type": "string",
+          "index_analyzer": "autocomplete",
+          "index": "analyzed",
+          "search_analyzer": "standard",
+          "store": "no"
+        },
+        "count": {
+          "type": "integer",
+          "store": "true"
+        }
+      }
+    },
+    "user": {
+      "properties": {
+        "owner": {
+          "type": "string",
+          "index_analyzer": "autocomplete",
+          "index": "analyzed",
+          "search_analyzer": "standard",
+          "store": "no"
+        },
+        "count": {
+          "type": "integer",
+          "store": "true"
+        }
+      }
+    }
+  }
+}
