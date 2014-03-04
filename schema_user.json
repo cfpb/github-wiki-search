@@ -21,7 +21,7 @@
     }
   },
   "mappings": {
-    "contact": {
+    "repo": {
       "properties": {
         "owner": {
           "type": "string",
@@ -31,6 +31,17 @@
           "store": "no"
         },
         "repo": {
+          "type": "string",
+          "index_analyzer": "autocomplete",
+          "index": "analyzed",
+          "search_analyzer": "standard",
+          "store": "no"
+        }
+      }
+    },
+    "user": {
+      "properties": {
+        "owner": {
           "type": "string",
           "index_analyzer": "autocomplete",
           "index": "analyzed",
