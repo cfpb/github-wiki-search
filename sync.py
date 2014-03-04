@@ -1,3 +1,4 @@
+#! /usr/bin/python
 from universalclient import Client
 from bs4 import SoupStrainer, BeautifulSoup as BS
 import requests
@@ -157,9 +158,6 @@ class ES(object):
         repo_soups = [job.value for job in jobs]
         page_paths = (soup.ul.find_all('a') for url, soup in repo_soups if soup.ul)
         page_urls = [settings.GITHUB_HOST + link.get('href') for sublist in page_paths for link in sublist]
-        with open('page_urls.txt', 'w') as f:
-            json.dump(page_urls, f)
-
         # reset index
         requests.delete(settings.ES_HOST + '/wiki/')
         with open('schema_page.json', 'r') as f:
@@ -171,3 +169,6 @@ class ES(object):
         return resp
 
 es_client = ES()
+
+if __name__ == "__main__":
+    es_client.index_all_repos()
