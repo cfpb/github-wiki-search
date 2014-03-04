@@ -156,8 +156,7 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         beautify: false,
-        drop_console: true,
-        sourceMap: 'src/static/js/main.map'
+        drop_console: true
       },
       bodyScripts: {
         src: [
