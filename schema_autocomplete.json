@@ -36,6 +36,10 @@
           "index": "analyzed",
           "search_analyzer": "standard",
           "store": "no"
+        },
+        "count": {
+          "type": "integer",
+          "store": "true"
         }
       }
     },
@@ -48,6 +52,10 @@
           "search_analyzer": "standard",
           "store": "no"
         },
+        "count": {
+          "type": "integer",
+          "store": "true"
+        }
       }
     }
   }
