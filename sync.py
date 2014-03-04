@@ -25,7 +25,7 @@ print DIR, path.join(DIR, 'bulk_data.txt')
 
 es_client = Client(settings.ES_HOST)
 gh_client = Client(settings.GITHUB_HOST)
-gh_api_client = gh_client.api.v3.repositories
+gh_api_client = gh_client.api.v3
 
 whitespace_re = re.compile(r'(\W|\n)+')
 def extract_text_from_html(soup):
@@ -106,11 +106,10 @@ def _repo_pages():
     while last_repo_id is not None:
         print last_repo_id
         params={"since": last_repo_id}
-        repos = gh_api_client.get(params=params).json()
+        repos = gh_api_client.repositories.get(params=params).json()
         last_repo_id = repos[-1]['id'] if repos else None
         if last_repo_id:
             yield repos
-        last_repo_id = None
 
 class ES(object):
     github = GitEvents()
@@ -124,7 +123,7 @@ class ES(object):
 
         jobs = [pool.spawn(_get_soup, url, 'wiki-wrapper') for url in urls]
         gevent.joinall(jobs)
-        soups = [job.value for job in jobs]
+        soups = (job.value for job in jobs)
 
         for url, repo_name, path, soup in soups:
             page_id = urllib.quote(path, '')  # remove initial slash
@@ -201,7 +200,7 @@ class ES(object):
         repo_urls = [url_template % (settings.GITHUB_HOST, repo) for repo in repo_names]
         jobs = [pool.spawn(_get_soup, url, 'wiki-content') for url in repo_urls]
         gevent.joinall(jobs)
-        repo_soups = [job.value for job in jobs]
+        repo_soups = (job.value for job in jobs)
         repo_tuples = [(url, repo_name, path, soup.ul.find_all('a'),) for url, repo_name, path, soup in repo_soups if soup.ul]
 
         bulk_data = self._create_wiki_bulk_data(repo_tuples)
