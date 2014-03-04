@@ -18,6 +18,10 @@ monkey.patch_all()
 
 import urllib2
 
+from os import path
+from os.path import join as path_join
+DIR = path.dirname(path.realpath(__file__))
+print DIR, path.join(DIR, 'bulk_data.txt')
 
 whitespace_re = re.compile(r'(\W|\n)+')
 def extract_text_from_html(soup):
@@ -131,7 +135,7 @@ class ES(object):
             })
         bulk_data = '\n'.join([json.dumps(row) for row in bulk_data_obj]) + '\n'
         print "writing bulk data"
-        with open('bulk_data.txt', 'w') as f:
+        with open(path_join(DIR, 'bulk_data.txt'), 'w') as f:
             f.write(bulk_data)
         return bulk_data
 
@@ -160,7 +164,7 @@ class ES(object):
         page_urls = [settings.GITHUB_HOST + link.get('href') for sublist in page_paths for link in sublist]
         # reset index
         requests.delete(settings.ES_HOST + '/wiki/')
-        with open('schema_page.json', 'r') as f:
+        with open(path_join(DIR, 'schema_page.json'), 'r') as f:
             schema_page = f.read()
         requests.post(settings.ES_HOST + '/wiki/', data=schema_page)
         bulk_data = self.create_bulk_data(page_urls)
