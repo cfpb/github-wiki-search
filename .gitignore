@@ -1,7 +1,8 @@
 elasticsearch-1.0.0*
 .vagrant
 settings.py
-bulk_data.txt
+*_data.txt
+
 *.pyc
 node_modules
 src/vendor
