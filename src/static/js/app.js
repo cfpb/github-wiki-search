@@ -36,15 +36,24 @@ $(function() {
   $megaSearchBar_query
     .keyup(function() {
 
-      // Update the query object
-      currentSearchTerm = $(this).val();
-      queryData.query.query.match._all = currentSearchTerm;
+      var val = $(this).val();
 
-      // Make a query if the input is not empty
-      if (currentSearchTerm !== '') {
-        $.post(queryLocation, queryData, querySuccess, 'json');
-      } else {
+      // Make a query if the input is not empty or the same
+      if (val === '') {
+
+        currentSearchTerm = '';
         $results.slideUp('fast');
+
+      } else if (val !== currentSearchTerm) {
+
+        currentSearchTerm = val;
+
+        // Update the query object
+        queryData.query.query.match._all = currentSearchTerm;
+        console.log(queryData.query.query.match._all);
+
+        $.post(queryLocation, queryData, querySuccess, 'json');
+
       }
 
     });
