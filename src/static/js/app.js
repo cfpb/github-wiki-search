@@ -4,8 +4,7 @@
 
 
 var currentSearchTerm = '';
-//var queryLocation = '/search/wiki/page';
-var queryLocation = '/search/wiki/page/_search?q=_all:';
+var queryLocation = '/search/wiki/page/_search';
 var queryResults = [];
 var queryData = {
   "query": {
@@ -30,9 +29,6 @@ var $results = $('#results');
 var $results_list = $('#results_list');
 var $results_searchAll_term = $('#results_search-all_term');
 
-// elasticsearch.js adds the elasticsearch namespace to the window
-var client = elasticsearch.Client({ host: queryLocation });
-
 
 // Kick things off
 $(function() {
@@ -42,12 +38,11 @@ $(function() {
 
       // Update the query object
       currentSearchTerm = $(this).val();
-      queryData.query.query.match._all = encodeURIComponent(currentSearchTerm);
+      queryData.query.query.match._all = currentSearchTerm;
 
       // Make a query if the input is not empty
       if (currentSearchTerm !== '') {
-        $.getJSON(queryLocation + encodeURIComponent(currentSearchTerm), querySuccess);
-        //client.search(queryData).then(querySuccess);
+        $.post(queryLocation, queryData, querySuccess, 'json');
       } else {
         $results.slideUp('fast');
       }
