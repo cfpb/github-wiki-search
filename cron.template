@@ -1,0 +1,5 @@
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+HOME=/
+0 3 * * * %s >/dev/null 2>&1

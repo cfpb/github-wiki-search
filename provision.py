@@ -58,10 +58,14 @@ call('chkconfig elasticsearch on'.split())
 # install python dependencies
 call('pip install -r requirements.txt'.split())
 
+with open(join(DIR, 'cron.template'), 'r') as conf_file:
+    nginx_conf = conf_file.read() %  join(DIR, 'sync.py')
+
 # run sync script every morning at 3 am
-line = "0 3 * * * %s >/dev/null 2>&1\n" % join(DIR, 'sync.py')
-with open('/etc/crontab', 'r') as cron:
-    lines = cron.readlines()
-if line not in lines:
-    with open('/etc/crontab', 'a') as cron:
-        cron.write(line)
+tmp = join(DIR, 'cron.tmp')
+with open(tmp, 'w') as conf_file:
+    conf_file.write(nginx_conf)
+
+call(('cp %s /etc/cron.d/github_sync' % tmp).split())
+
+os.remove(tmp)
