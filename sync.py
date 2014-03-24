@@ -226,4 +226,4 @@ es = ES()
 if __name__ == "__main__":
     es.index_all_repos()
     with open(LOG, 'a') as log:
-        log.write('%s - synced' % datetime.utcnow().isoformat())
+        log.write('%s - synced\n' % datetime.utcnow().isoformat())
