@@ -1,12 +1,12 @@
 #! /usr/bin/python
 from universalclient import Client
 from bs4 import SoupStrainer, BeautifulSoup as BS
-import requests
 import settings
 from urlparse import urlparse
 import urllib
 import json
 import re
+from datetime import datetime
 import gevent
 from gevent import monkey
 from gevent.pool import Pool
@@ -17,11 +17,11 @@ pool = Pool(50)
 monkey.patch_all()
 
 import urllib2
-
 from os import path
 from os.path import join as path_join
+
 DIR = path.dirname(path.realpath(__file__))
-print DIR, path.join(DIR, 'bulk_data.txt')
+LOG = path_join(DIR, 'dist/log')
 
 es_client = Client(settings.ES_HOST)
 gh_client = Client(settings.GITHUB_HOST)
@@ -225,3 +225,5 @@ es = ES()
 
 if __name__ == "__main__":
     es.index_all_repos()
+    with open(LOG, 'a') as log:
+        log.write('%s - synced\n' % datetime.utcnow().isoformat())

@@ -42,7 +42,7 @@ We welcome your feedback and contributions.
 
 1. run the provisioning script
 
-    /vagrant/provision.py
+    sudo /vagrant/provision.py
 
 1. run the sync script
 
