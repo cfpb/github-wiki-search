@@ -6,6 +6,7 @@
 var currentSearchTerm = '';
 var queryLocation = '/search/wiki/page/_search';
 var queryResults = [];
+var busy = false;
 
 var filteredQuery = {
   "filtered": {
@@ -30,6 +31,7 @@ var allQuery = {
 
 var queryData = {
   "fields": ["url", "repo", "title"],
+  "from": 0,
   "query": {},
   "highlight": {
     "pre_tags" : [ "<mark>" ],
@@ -46,50 +48,68 @@ var queryData = {
 var $megaSearchBar_query = $('#mega-search-bar_query');
 var $results = $('#results');
 var $results_list = $('#results_list');
-var $results_searchAll_term = $('#results_search-all_term');
-
+var $more_btn = $('.results_search-more');
 
 // Kick things off
 $(function() {
-
   $megaSearchBar_query
     .keyup(function() {
-
-      var val = $(this).val();
-
-      // Make a query if the input is not empty or the same
-      if (val === '') {
-
-        currentSearchTerm = '';
-        $results.slideUp('fast');
-
-      } else if (val !== currentSearchTerm) {
-
-        currentSearchTerm = val;
-
-        // Update the query object
-        allQuery.match._all = currentSearchTerm;
-        queryData.query = allQuery;
-        $.ajax(queryLocation, {type: "POST", data: JSON.stringify(queryData), success: querySuccess, dataType: 'json', contentType: "application/json"});
-
+      var val = $megaSearchBar_query.val();
+      if (currentSearchTerm == val) {
+        return;
       }
+      currentSearchTerm = val;
+      query_from = 0;
+      query();
+    });
 
+  $more_btn
+    .click(function() {
+      if (busy) {
+        return false;
+      }
+      query_from += 10;
+      query();
+      return false;
     });
 
 });
 
+function query() {
+  // Make a query if the input is not empty or the same
+  if (currentSearchTerm === '') {
+    $results.slideUp('fast');
+  } else {
+    busy = true;
+    // Update the query object
+    allQuery.match._all = currentSearchTerm;
+    queryData.query = allQuery;
+    queryData.from = query_from;
+    $.ajax(queryLocation, {type: "POST", data: JSON.stringify(queryData), success: querySuccess, dataType: 'json', contentType: "application/json", searchTerm: currentSearchTerm, from: query_from});
+  }
 
-function querySuccess(data) {
-  var rawResults = data.hits.hits;
+}
 
-  var results = $.map(rawResults, cleanResult);
+function querySuccess(data, status, xhr) {
+  var from = this.from;
 
-  // Display the query results in the page
-  updateSearchResultsHTML($results_list, results);
+  // don't do anything if someone hit the more button and then changed the query before more came back
+  if (this.from && this.searchTerm != currentSearchTerm) {
+    busy=false;
+    return;
+  }
 
-  // Update the search all link
-  // $results_searchAll_term.text(currentSearchTerm);
+  var raw_results = data.hits.hits;
 
+  var results = $.map(raw_results, cleanResult);
+
+  if (!this.from) {
+    $results_list.html('');
+  }
+
+  $more_btn.toggle(this.from + 10 < data.hits.total);
+  appendSearchResultsHTML(results);
+  busy=false;
 }
 
 // cleans a single response item
@@ -126,17 +146,10 @@ function cleanResult(rawResult) {
 }
 
 
-function updateSearchResultsHTML(ul, items) {
-
-  // First clear the current results
-  ul.html('');
-
+function appendSearchResultsHTML(items) {
   // Then add the new ones
   if (items.length > 0) {
-
-    for (var i = 0; i < items.length; i++) {
-      makeSearchResultItem($results_list, items[i]);
-    }
+    $.each(items, makeSearchResultItem);
 
     $results.slideDown('fast');
 
@@ -149,7 +162,7 @@ function updateSearchResultsHTML(ul, items) {
 }
 
 
-function makeSearchResultItem(ul, item) {
+function makeSearchResultItem(index, item) {
 
   // Only include content if it is not empty.
   var content = '';
@@ -165,6 +178,6 @@ function makeSearchResultItem(ul, item) {
         '<span class="results_item_title">' + item.title + '</span> ' +
         content +
       '</a>')
-    .appendTo(ul);
+    .appendTo($results_list);
 
 }
