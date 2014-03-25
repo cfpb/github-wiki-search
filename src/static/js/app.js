@@ -92,21 +92,6 @@ function querySuccess(data) {
 
 }
 
-
-// Loops through all items in response and returns a cleaned version
-function cleanAllResponses(response) {
-
-  var cleanedResponse = [];
-
-  for (var i = 0; i < response.hits.hits.length; i++) {
-    cleanedResponse.push(cleanOneResponse(response.hits.hits[i]));
-  }
-
-  return cleanedResponse;
-
-}
-
-
 // cleans a single response item
 function cleanResult(rawResult) {
 
@@ -135,42 +120,7 @@ function cleanResult(rawResult) {
   if (highlight && highlight.content) {
     cleanedData.content = highlight.content[0];
   }
-  // if ( rawResult._source) {
 
-  //   if (rawResult._source.url) {
-  //     cleanedData.url = rawResult._source.url;
-  //   }
-
-  //   if (rawResult._source.repo) {
-  //     if (rawResult._source.repo.charAt(0) === '/') {
-  //       cleanedData.repo = rawResult._source.repo.substring(1);
-  //     } else {
-  //       cleanedData.repo = rawResult._source.repo;
-  //     }
-  //   }
-
-  //   if (rawResult._source.title) {
-  //     cleanedData.title = rawResult._source.title;
-  //   }
-
-  // }
-
-  // if (rawResult.highlight) {
-
-  //   if (rawResult.highlight.title && rawResult.highlight.title.length > 0) {
-  //     // Only take the first result in the array
-  //     cleanedData.highlight.title = rawResult.highlight.title[0].replace(/<(?:.|\n)*?>/gm, '');
-  //   }
-
-  //   if (rawResult.highlight.content && rawResult.highlight.content.length > 0) {
-  //     // Only take the first result in the array
-  //     cleanedData.highlight.content = rawResult.highlight.content[0].replace(/<(?:.|\n)*?>/gm, '');
-  //   }
-
-  // }
-
-  // console.log(rawResult);
-  // console.log(cleanedData);
   return cleanedData;
 
 }
