@@ -7,6 +7,7 @@ var currentSearchTerm = '';
 var queryLocation = '/search/wiki/page/_search';
 var queryResults = [];
 var busy = false;
+var query_from = 0;
 
 var filteredQuery = {
   "filtered": {
@@ -59,9 +60,17 @@ $(function() {
         return;
       }
       currentSearchTerm = val;
+      window.location.hash = encodeURIComponent(val);
       query_from = 0;
-      query();
+      sendQuery();
     });
+
+  $(window).hashchange( function(){
+    var query = decodeURIComponent(window.location.hash.substring(1));
+    if (query != currentSearchTerm) {
+      $megaSearchBar_query.val(query).keyup();
+    }
+  }).hashchange();
 
   $more_btn
     .click(function() {
@@ -69,13 +78,13 @@ $(function() {
         return false;
       }
       query_from += 10;
-      query();
+      sendQuery();
       return false;
     });
 
 });
 
-function query() {
+function sendQuery() {
   // Make a query if the input is not empty or the same
   if (currentSearchTerm === '') {
     $results.slideUp('fast');
