@@ -6,20 +6,39 @@
 var currentSearchTerm = '';
 var queryLocation = '/search/wiki/page/_search';
 var queryResults = [];
-var queryData = {
-  "query": {
+
+var filteredQuery = {
+  "filtered": {
+    "filter": {
+      "term": {
+        "repo": "[/<owner>[/<repo>]]"
+      }
+    },
     "query": {
       "match": {
-        "_all": ""
+        "_all": "<query>"
       }
     }
-  },
+  }
+};
+
+var allQuery = {
+      "match": {
+        "_all": "<query>"
+      }
+};
+
+var queryData = {
+  "fields": ["url", "repo", "title"],
+  "query": {},
   "highlight": {
     "pre_tags" : [ "<mark>" ],
     "post_tags" : [ "</mark>" ],
     "fields": {
       "content": {},
-      "title": {}
+      "title": {
+        "number_of_fragments": 0
+      }
     }
   }
 };
@@ -49,10 +68,9 @@ $(function() {
         currentSearchTerm = val;
 
         // Update the query object
-        queryData.query.query.match._all = currentSearchTerm;
-        console.log(queryData.query.query.match._all);
-
-        $.post(queryLocation, queryData, querySuccess, 'json');
+        allQuery.match._all = currentSearchTerm;
+        queryData.query = allQuery;
+        $.ajax(queryLocation, {type: "POST", data: JSON.stringify(queryData), success: querySuccess, dataType: 'json', contentType: "application/json"});
 
       }
 
@@ -62,15 +80,15 @@ $(function() {
 
 
 function querySuccess(data) {
+  var rawResults = data.hits.hits;
 
-  // clean the query results and save them
-  queryResults = cleanAllResponses(data);
+  var results = $.map(rawResults, cleanResult);
 
   // Display the query results in the page
-  updateSearchResultsHTML($results_list, queryResults);
+  updateSearchResultsHTML($results_list, results);
 
   // Update the search all link
-  $results_searchAll_term.text(currentSearchTerm);
+  // $results_searchAll_term.text(currentSearchTerm);
 
 }
 
@@ -90,53 +108,68 @@ function cleanAllResponses(response) {
 
 
 // cleans a single response item
-function cleanOneResponse(sourceData) {
+function cleanResult(rawResult) {
+
 
   var cleanedData = {
     url: '',
     repo: '',
     title: '',
-    highlight: {
-      title: '',
-      content: ''
-    }
+    content: '',
   };
 
-  if ( sourceData._source) {
 
-    if (sourceData._source.url) {
-      cleanedData.url = sourceData._source.url;
-    }
-
-    if (sourceData._source.repo) {
-      if (sourceData._source.repo.charAt(0) === '/') {
-        cleanedData.repo = sourceData._source.repo.substring(1);
-      } else {
-        cleanedData.repo = sourceData._source.repo;
-      }
-    }
-
-    if (sourceData._source.title) {
-      cleanedData.title = sourceData._source.title;
-    }
-
+  var fields = rawResult.fields;
+  if (fields) {
+    $.extend(cleanedData, {
+      url: fields.url[0],
+      repo: fields.repo[0],
+      title: fields.title[0]
+    });
   }
 
-  if (sourceData.highlight) {
-
-    if (sourceData.highlight.title && sourceData.highlight.title.length > 0) {
-      // Only take the first result in the array
-      cleanedData.highlight.title = sourceData.highlight.title[0].replace(/<(?:.|\n)*?>/gm, '');
-    }
-
-    if (sourceData.highlight.content && sourceData.highlight.content.length > 0) {
-      // Only take the first result in the array
-      cleanedData.highlight.content = sourceData.highlight.content[0].replace(/<(?:.|\n)*?>/gm, '');
-    }
-
+  var highlight = rawResult.highlight;
+  if (highlight && highlight.title) {
+    cleanedData.title = highlight.title[0];
   }
+  if (highlight && highlight.content) {
+    cleanedData.content = highlight.content[0];
+  }
+  // if ( rawResult._source) {
 
-  // console.log(sourceData);
+  //   if (rawResult._source.url) {
+  //     cleanedData.url = rawResult._source.url;
+  //   }
+
+  //   if (rawResult._source.repo) {
+  //     if (rawResult._source.repo.charAt(0) === '/') {
+  //       cleanedData.repo = rawResult._source.repo.substring(1);
+  //     } else {
+  //       cleanedData.repo = rawResult._source.repo;
+  //     }
+  //   }
+
+  //   if (rawResult._source.title) {
+  //     cleanedData.title = rawResult._source.title;
+  //   }
+
+  // }
+
+  // if (rawResult.highlight) {
+
+  //   if (rawResult.highlight.title && rawResult.highlight.title.length > 0) {
+  //     // Only take the first result in the array
+  //     cleanedData.highlight.title = rawResult.highlight.title[0].replace(/<(?:.|\n)*?>/gm, '');
+  //   }
+
+  //   if (rawResult.highlight.content && rawResult.highlight.content.length > 0) {
+  //     // Only take the first result in the array
+  //     cleanedData.highlight.content = rawResult.highlight.content[0].replace(/<(?:.|\n)*?>/gm, '');
+  //   }
+
+  // }
+
+  // console.log(rawResult);
   // console.log(cleanedData);
   return cleanedData;
 
@@ -168,10 +201,10 @@ function updateSearchResultsHTML(ul, items) {
 
 function makeSearchResultItem(ul, item) {
 
-  // Only include highlight.content if it is not empty.
-  var highlight = '';
-  if (item.highlight.content !== '') {
-    highlight = '<span class="results_item_highlight">' + item.highlight.content + '</span>';
+  // Only include content if it is not empty.
+  var content = '';
+  if (item.content !== '') {
+    content = '<span class="results_item_highlight">' + item.content + '</span>';
   }
 
   return $('<li>')
@@ -180,7 +213,7 @@ function makeSearchResultItem(ul, item) {
         '<i class="icon-book results_item_icon"></i> ' +
         '<span class="results_item_repo">' + item.repo + '</span>' +
         '<span class="results_item_title">' + item.title + '</span> ' +
-        highlight +
+        content +
       '</a>')
     .appendTo(ul);
 
