@@ -3001,15 +3001,11 @@ body {
   font-style: italic;
   font-weight: normal;
 }
-.results_search-all {
+.results_search-more {
   font-size: 1em;
   font-family: "Avenir Next Medium", Arial, sans-serif;
   font-style: normal;
   font-weight: 500;
   display: block;
   padding: 1em 0;
-}
-.results_search-all_term:before,
-.results_search-all_term:after {
-  content: "'";
 }
