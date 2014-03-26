@@ -28,8 +28,9 @@
     "font-awesome": "~3.2.1",
     "html5shiv": "latest",
     "jquery": "~1.9",
+    "jquery-hashchange": "*",
     "normalize-css": "~2.1.2",
-    "jquery-hashchange": "*"
+    "typeahead.js": "~0.10.0"
   },
   "exportsOverride": {
     "cf-grid": {
