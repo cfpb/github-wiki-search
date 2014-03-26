@@ -28,7 +28,8 @@
     "font-awesome": "~3.2.1",
     "html5shiv": "latest",
     "jquery": "~1.9",
-    "normalize-css": "~2.1.2"
+    "normalize-css": "~2.1.2",
+    "jquery-hashchange": "*"
   },
   "exportsOverride": {
     "cf-grid": {
