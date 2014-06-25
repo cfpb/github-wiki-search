@@ -47,6 +47,11 @@ call(('cp %s /etc/nginx/nginx.conf' % tmp).split())
 
 os.remove(tmp)
 
+# ensure nginx user has permission to access web files                                                                                                                                
+call(('chown -R nginx %s' % os.path.join(DIR, 'dist')).split())
+call(('chmod a+x %s' % DIR).split())
+call(('chmod a+x %s' % os.path.join(DIR, '..')).split())
+
 # start nginx/elasticsearch
 call('service nginx start'.split())
 call('service elasticsearch start'.split())
