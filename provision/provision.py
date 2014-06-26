@@ -50,7 +50,7 @@ call(('cp %s /etc/nginx/nginx.conf' % tmp).split())
 
 os.remove(tmp)
 
-# ensure nginx user has permission to access web files                                                                                                                                
+# ensure nginx user has permission to access web files
 call(('chown -R nginx %s' % os.path.join(REPO_DIR, 'client', 'dist')).split())
 call(('chmod a+x %s/client' % REPO_DIR).split())
 call(('chmod a+x %s' % REPO_DIR).split())
