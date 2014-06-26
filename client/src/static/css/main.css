@@ -5136,7 +5136,7 @@ body {
 .mega-search-bar_label {
   display: none;
 }
-.mega-search-bar_query {
+.mega-search-bar_query[type="text"] {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
@@ -5148,24 +5148,24 @@ body {
   font-weight: normal;
   font-size: 2em;
 }
-.mega-search-bar_query em,
-.mega-search-bar_query i {
+.mega-search-bar_query[type="text"] em,
+.mega-search-bar_query[type="text"] i {
   font-family: "AvenirNextLTW01-Italic", Arial, sans-serif;
   font-style: italic;
   font-weight: normal;
 }
-.lt-ie9 .mega-search-bar_query em,
-.lt-ie9 .mega-search-bar_query i {
+.lt-ie9 .mega-search-bar_query[type="text"] em,
+.lt-ie9 .mega-search-bar_query[type="text"] i {
   font-style: normal !important;
 }
-.mega-search-bar_query strong,
-.mega-search-bar_query b {
+.mega-search-bar_query[type="text"] strong,
+.mega-search-bar_query[type="text"] b {
   font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
   font-style: normal;
   font-weight: bold;
 }
-.lt-ie9 .mega-search-bar_query strong,
-.lt-ie9 .mega-search-bar_query b {
+.lt-ie9 .mega-search-bar_query[type="text"] strong,
+.lt-ie9 .mega-search-bar_query[type="text"] b {
   font-weight: normal !important;
 }
 .mega-search-bar_icon {
