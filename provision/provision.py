@@ -4,8 +4,11 @@ from os.path import join
 from os import path
 from subprocess import call
 
-DIR = path.dirname(path.realpath(__file__))
 
+PROVISION_DIR = path.dirname(path.realpath(__file__))
+REPO_DIR = path.dirname(PROVISION_DIR)
+TEMPLATE_DIR = path.join(PROVISION_DIR, 'templates')
+SCHEMA_DIR = path.join(PROVISION_DIR, 'schema')
 
 call('yum update -y'.split())
 #install java
@@ -19,7 +22,7 @@ call('yum install -y nginx'.split())
 
 # install elasticsearch key and repo
 call('rpm --import http://packages.elasticsearch.org/GPG-KEY-elasticsearch'.split())
-call(['sudo', 'cp', join(DIR, 'elasticsearch.repo'), '/etc/yum.repos.d/elasticsearch.repo'])
+call(['sudo', 'cp', join(TEMPLATE_DIR, 'elasticsearch.repo'), '/etc/yum.repos.d/elasticsearch.repo'])
 #install elastic search
 call('yum install -y elasticsearch.noarch'.split())
 
@@ -36,10 +39,10 @@ call('yum install -y elasticsearch.noarch'.split())
 # call('apt-get install nginx'.split())
 
 # copy over nginx config file
-with open(join(DIR, 'nginx.conf.template'), 'r') as conf_file:
-    nginx_conf = conf_file.read() % DIR
+with open(join(TEMPLATE_DIR, 'nginx.conf.template'), 'r') as conf_file:
+    nginx_conf = conf_file.read() % REPO_DIR
 
-tmp = join(DIR, 'nginx.conf.tmp')
+tmp = join(REPO_DIR, 'nginx.conf.tmp')
 with open(tmp, 'w') as conf_file:
     conf_file.write(nginx_conf)
 
@@ -48,9 +51,10 @@ call(('cp %s /etc/nginx/nginx.conf' % tmp).split())
 os.remove(tmp)
 
 # ensure nginx user has permission to access web files                                                                                                                                
-call(('chown -R nginx %s' % os.path.join(DIR, 'dist')).split())
-call(('chmod a+x %s' % DIR).split())
-call(('chmod a+x %s' % os.path.join(DIR, '..')).split())
+call(('chown -R nginx %s' % os.path.join(REPO_DIR, 'client', 'dist')).split())
+call(('chmod a+x %s/client' % REPO_DIR).split())
+call(('chmod a+x %s' % REPO_DIR).split())
+call(('chmod a+x %s' % os.path.join(REPO_DIR, '..')).split())
 
 # start nginx/elasticsearch
 call('service nginx start'.split())
@@ -61,13 +65,13 @@ call('chkconfig nginx on'.split())
 call('chkconfig elasticsearch on'.split())
 
 # install python dependencies
-call('pip install -r requirements.txt'.split())
+call(('pip install -r %s' % path.join(REPO_DIR, 'server', 'requirements.txt')).split())
 
-with open(join(DIR, 'cron.template'), 'r') as conf_file:
-    nginx_conf = conf_file.read() %  join(DIR, 'sync.py')
+with open(join(TEMPLATE_DIR, 'cron.template'), 'r') as conf_file:
+    nginx_conf = conf_file.read() %  join(REPO_DIR, 'server', 'sync.py')
 
 # run sync script every morning at 3 am
-tmp = join(DIR, 'cron.tmp')
+tmp = join(REPO_DIR, 'cron.tmp')
 with open(tmp, 'w') as conf_file:
     conf_file.write(nginx_conf)
 

@@ -21,7 +21,7 @@ from os import path
 from os.path import join as path_join
 
 DIR = path.dirname(path.realpath(__file__))
-LOG = path_join(DIR, 'dist/log')
+LOG = path_join(DIR, '..', 'client', 'dist', 'log')
 
 es_client = Client(settings.ES_HOST)
 gh_client = Client(settings.GITHUB_HOST)
@@ -110,6 +110,7 @@ def _repo_pages():
         last_repo_id = repos[-1]['id'] if repos else None
         if last_repo_id:
             yield repos
+
 
 class ES(object):
     github = GitEvents()
@@ -213,9 +214,9 @@ class ES(object):
         # reset index
         es_client.wiki.delete()
         es_client.autocomplete.delete()
-        with open(path_join(DIR, 'schema_page.json'), 'r') as schema_page:
+        with open(path_join(DIR, 'schema', 'page.json'), 'r') as schema_page:
             es_client.wiki.post(data=schema_page.read())
-        with open(path_join(DIR, 'schema_autocomplete.json'), 'r') as schema_auto:
+        with open(path_join(DIR, 'schema', 'autocomplete.json'), 'r') as schema_auto:
             es_client.autocomplete.post(data=schema_auto.read())
         resp = es_client._bulk.post(data=bulk_data)
         es_client._refresh.post()
