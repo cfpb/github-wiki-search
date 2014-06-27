@@ -1,0 +1,49 @@
+{
+  "took": 47,
+  "timed_out": false,
+  "_shards": {
+    "total": 5,
+    "successful": 5,
+    "failed": 0
+  },
+  "hits": {
+    "total": 2,
+    "max_score": 0.10060016,
+    "hits": [
+      {
+        "_index": "wiki",
+        "_type": "page",
+        "_id": "%2Fmbates%2FDesign-DevRegroup%2Fwiki",
+        "_score": 0.10060016,
+        "_source": {
+          "url": "https://ghe.url.com/mbates/Design-DevRegroup/wiki",
+          "content": "<div id=\"wiki-content\">\n<div class=\"wrap\">\n<div class=\"gollum-markdown-content instapaper_body\" id=\"wiki-body\">\n<div class=\"markdown-body\">\n<p><a href=\"https://ghe.url.com/mbates/Design-DevRegroup/wiki/2014-Regroups\">February 2014 Regroup Schedule</a><br/><a href=\"https://ghe.url.com/mbates/Design-DevRegroup/wiki/Lightning-Talks-Feb14\">February 2014 Lightning Talk Signup</a><br/><a href=\"https://ghe.url.com/mbates/Design-DevRegroup/wiki/Founding-Farmers-Dinner-2.24.14\">February 2014 Dinner Signup</a><br/><a href=\"https://ghe.url.com/mbates/Design-DevRegroup/wiki/10-Hour-Ideas\">February 2014 10-Hour Ideas</a><br/><a href=\"https://ghe.url.com/mbates/Design-DevRegroup/wiki/February-2014-Guacapalooza-Signup\">February 2014 Guacapalooza Signup</a></p>\n</div>\n</div>\n</div>\n</div>",
+          "repo": "/mbates/Design-DevRegroup",
+          "title": "Home"
+        },
+        "highlight": {
+          "content": [
+            "-DevRegroup/wiki/2014-<mark>Regroups</mark>\">February 2014 Regroup Schedule</a><br/><a href=\"https://ghe.url.com/mbates"
+          ]
+        }
+      },
+      {
+        "_index": "wiki",
+        "_type": "page",
+        "_id": "%2Fmbates%2FDesign-DevRegroup%2Fwiki%2F2014-Regroups",
+        "_score": 0.07113506,
+        "_source": {
+          "url": "https://ghe.url.com/mbates/Design-DevRegroup/wiki/2014-Regroups",
+          "content": "<div id=\"wiki-content\">\n<div class=\"wrap\">\n<div class=\"gollum-markdown-content instapaper_body\" id=\"wiki-body\">\n<div class=\"markdown-body\">\n<h2>\n<a class=\"anchor\" href=\"#february-24-28-schedule\" name=\"february-24-28-schedule\"><span class=\"octicon octicon-link\"></span></a>February 24-28 Schedule</h2>\n<h3>\n<a class=\"anchor\" href=\"#monday\" name=\"monday\"><span class=\"octicon octicon-link\"></span></a>Monday</h3>\n<ul>\n<li>12:30 pm Welcome from Audrey, Bill and Ashwin<br/><em>Basement Training Room</em><br/>\n</li>\n<li>1:00 work time<br/><em>Basement Training Room</em><br/>\n</li>\n<li>4:00 Labs WG working session (optional)</li>\n<li>5:00 <a href=\"Lightning%20Talks%20Feb14\">Lightning talks</a><br/><em>Amphitheater</em><br/>\n</li>\n<li>6:30 Optional dinner at Founding Farmers <a href=\"Founding%20Farmers%20Dinner%202.24.14\">sign up</a>\n</li>\n</ul><h3>\n<a class=\"anchor\" href=\"#tuesday-adebimpe-appreciation-day\" name=\"tuesday-adebimpe-appreciation-day\"><span class=\"octicon octicon-link\"></span></a>Tuesday (Adebimpe Appreciation Day)</h3>\n<ul>\n<li>9:30 Fellows Program Next Steps<br/><em>Amphitheater</em><br/>\n</li>\n<li>10:30 Working Group Readouts<br/><em>Amphitheater</em><br/>\n</li>\n<li>12:30 Work time <em>[this time is, in fact, lunch. -- jy]</em><br/><em>5105, 5001, 5000 and Amphitheater open for groups to <del>work</del> eat in</em><br/>\n</li>\n<li>12:30 <a href=\"https://ghe.url.com/CFPB/ProductTeamWorkingGroups/wiki/February-Book-Club%E2%80%94Understanding-Comics-by-Scott-McCloud\">February book club discussion</a> over lunch (optional)</li>\n<li>2:00 Guacapalooza!<br/><em>Amphitheater</em><br/>\n</li>\n<li>2:30 work time<br/>\n</li>\n<li>4:30 <a href=\"Lightning%20Talks%20Feb14\">Lightning talks</a><br/><em>Amphitheater</em><br/>\n</li>\n</ul><h3>\n<a class=\"anchor\" href=\"#wednesday\" name=\"wednesday\"><span class=\"octicon octicon-link\"></span></a>Wednesday</h3>\n<ul>\n<li>9:00 Work time<br/><em>5105\n_(Working Group working sessions scheduled throughout the day)</em><br/>\n</li>\n<li>12:30 T&amp;I Mystery Lunch\n<em>Optional. Meet at 6th floor west elevator bank to get matched for lunch.</em><br/>\n</li>\n<li>2:00 optional Transparency &amp; Communication WG working session\n<em>Room 5064</em><br/>\n</li>\n<li>3:00 optional Product Quality &amp; Standards WG working session<br/><em>Room ?</em>\n</li>\n<li>4:00 optional Open Source WG working session\n<em>Room 5001</em>\n</li>\n<li>5:00 <a href=\"Lightning%20Talks%20Feb14\">Lightning talks</a><br/><em>Amphitheater</em><br/>\n</li>\n<li>6:00 optional <a href=\"http://dc.aiga.org/event/dotgov-designers-2/\">AIGA DC DotGov Design Event</a>\n</li>\n</ul><h3>\n<a class=\"anchor\" href=\"#thursday\" name=\"thursday\"><span class=\"octicon octicon-link\"></span></a>Thursday</h3>\n<ul>\n<li>9:00 Travel Q&amp;A<br/><em>Amphitheater</em><br/>\n</li>\n<li>9:30 <a href=\"Lightning%20Talks%20Feb14\">Lightning talks</a>\n</li>\n<li>10:30 Work time<br/><em>5105, 5001, 5000 open for groups to work in</em><br/>\n</li>\n<li>1:00 Guiding Principles Discussion (optional)<br/><em>Basement Training Room</em><br/>\n</li>\n<li>2:00 10-Hour Idea Demos<br/><em>Amphitheater</em><br/>\n</li>\n<li>4:00 T&amp;I All Hands<br/><em>Amphitheater</em><br/>\n</li>\n<li>5:00 T&amp;I Happy Hour<br/><em>The Exchange</em><br/>\n</li>\n</ul><p>WebEx for all sessions:<br/>\n877-512-3558x39250076<br/><a href=\"http://www.mymeetings.com/nc/join.php?i=442740049&amp;p=&amp;t=c\">http://www.mymeetings.com/nc/join.php?i=442740049&amp;p=&amp;t=c</a></p>\n</div>\n</div>\n</div>\n</div>",
+          "repo": "/mbates/Design-DevRegroup",
+          "title": "2014 Regroups"
+        },
+        "highlight": {
+          "title": [
+            "2014 <mark>Regroups</mark>"
+          ]
+        }
+      }
+    ]
+  }
+}

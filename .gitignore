@@ -1,14 +1,13 @@
-elasticsearch-1.0.0*
 .vagrant
 settings.py
 *_data.txt
 
 *.pyc
-node_modules
-src/vendor
-src/static/fonts
-src/static/js/*.min.js
-src/static/css/*.min.css
-src/data.json
-dist/data.json
-dist/log
+client/node_modules
+client/src/vendor
+client/src/static/fonts
+client/src/static/js/*.min.js
+client/src/static/css/*.min.css
+client/src/data.json
+client/dist/data.json
+client/dist/log
