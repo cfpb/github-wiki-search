@@ -148,28 +148,31 @@ module.exports = function(grunt) {
             expand: true,
             cwd: 'src/',
             src: [
-
-              // Bring over everything in src/
-              '**',
-
-              // Except...
-
-              // Don't bring over everything in static/
-              '!static/**',
+              'index.html',
               // Only include minified assets in css/ and js/
               'static/css/*.min.css',
               'static/js/html5shiv-printshiv.js',
               'static/js/*.min.js',
               'static/fonts/**',
-              'static/img/**',
-
-              // Exclude all vendor files because a lot will get concatenated
-              '!vendor/**',
+              'static/img/**'
+            ],
+            dest: 'dist/'
+          }
+        ]
+      },
+      vendor: {
+        files:
+        [
+          {
+            expand: true,
+            cwd: 'src/',
+            src: [
               // Only include vendor files that we use independently
               'vendor/html5shiv/html5shiv-printshiv.min.js',
               'vendor/box-sizing-polyfill/boxsizing.htc'
             ],
-            dest: 'dist/'
+            // Place them in static/
+            dest: 'dist/static/'
           }
         ]
       }
@@ -282,7 +285,7 @@ module.exports = function(grunt) {
   grunt.registerTask('vendor', ['clean:bowerDir', 'bower:install', 'concat:cf-less']);
   grunt.registerTask('default', ['less', 'autoprefixer', 'cssmin', 'uglify']);
   grunt.registerTask('compile', ['less', 'autoprefixer', 'cssmin', 'uglify']);
-  grunt.registerTask('dist', ['clean:dist', 'copy:dist']);
+  grunt.registerTask('dist', ['clean:dist', 'copy:dist', 'copy:vendor']);
 
   /**
    * Start a connect server and watch for changes
