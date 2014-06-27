@@ -166,8 +166,8 @@ module.exports = function(grunt) {
               // Exclude all vendor files because a lot will get concatenated
               '!vendor/**',
               // Only include vendor files that we use independently
-              'vendor/html5shiv/html5shiv-printshiv.js'
-
+              'vendor/html5shiv/html5shiv-printshiv.min.js',
+              'vendor/box-sizing-polyfill/boxsizing.htc'
             ],
             dest: 'dist/'
           }
