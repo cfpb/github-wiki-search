@@ -140,10 +140,6 @@ body {
         outline: none;
         background: @gray-5;
     }
-
-    mark {
-        background: @gold-80;
-    }
 }
 
 .results_item_icon {
@@ -164,6 +160,11 @@ body {
 .results_item_highlight {
     font-size: unit( 14px / @base-font-size-px, em );
     color: @gray;
+
+    mark {
+        padding: 0 unit(2px / 14px, em);
+        background: @gold-50;
+    }
 }
 
 .results_item_title {

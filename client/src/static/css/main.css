@@ -3771,9 +3771,6 @@ body {
   outline: none;
   background: #f8f8f8;
 }
-.results_item mark {
-  background: #ffb149;
-}
 .results_item_icon {
   position: absolute;
   padding: 0.25em;
@@ -3795,6 +3792,11 @@ body {
 .results_item_highlight {
   font-size: 0.875em;
   color: #75787b;
+}
+.results_item_title mark,
+.results_item_highlight mark {
+  padding: 0 0.14285714285714285em;
+  background: #ffce8d;
 }
 .results_item_title {
   margin-top: 0.25em;
