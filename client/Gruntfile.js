@@ -68,67 +68,6 @@ module.exports = function(grunt) {
     },
 
     /**
-     * String Replace: https://github.com/erickrdch/grunt-string-replace
-     * 
-     * Rewrite CSS asset paths.
-     */
-    'string-replace': {
-      vendor: {
-        files: {
-          'src/static/css/': ['src/static/css/main.css']
-        },
-        options: {
-          replacements: [{
-            pattern: /url\((.*?)\)/ig,
-            replacement: function (match, p1, offset, string) {
-              var path, pathParts, pathLength, filename, newPath;
-              path = p1.replace(/["']/g,''); // Removes quotation marks if there are any
-              pathParts = path.split('/'); // Splits the path so we can find the filename
-              pathLength = pathParts.length;
-              filename = pathParts[pathLength-1]; // The filename is the last item in pathParts
-
-              grunt.verbose.writeln('');
-              grunt.verbose.writeln('--------------');
-              grunt.verbose.writeln('Original path:');
-              grunt.verbose.writeln(match);
-              grunt.verbose.writeln('--------------');
-
-              // Rewrite the path based on the file type
-              // Note that .svg can be a font or a graphic, not sure what to do about this.
-              if (filename.indexOf('.eot') !== -1 ||
-                  filename.indexOf('.woff') !== -1 ||
-                  filename.indexOf('.ttf') !== -1 ||
-                  filename.indexOf('.svg') !== -1)
-              {
-                newPath = 'url("../fonts/'+filename+'")';
-                grunt.verbose.writeln('New path:');
-                grunt.verbose.writeln(newPath);
-                grunt.verbose.writeln('--------------');
-                return newPath;
-              } else if (filename.indexOf('.png') !== -1 ||
-                  filename.indexOf('.gif') !== -1 ||
-                  filename.indexOf('.jpg') !== -1)
-              {
-                newPath = 'url("../img/'+filename+'")';
-                grunt.verbose.writeln('New path:');
-                grunt.verbose.writeln(newPath);
-                grunt.verbose.writeln('--------------');
-                return newPath;
-              } else {
-                grunt.verbose.writeln('No new path.');
-                grunt.verbose.writeln('--------------');
-                return match;
-              }
-
-              grunt.verbose.writeln('--------------');
-              return match;
-            }
-          }]
-        }
-      }
-    },
-
-    /**
      * Autoprefixer: https://github.com/nDmitry/grunt-autoprefixer
      * 
      * Parse CSS and add vendor-prefixed CSS properties using the Can I Use database.
@@ -209,28 +148,32 @@ module.exports = function(grunt) {
             expand: true,
             cwd: 'src/',
             src: [
-
-              // Bring over everything in src/
-              '**',
-
-              // Except...
-
-              // Don't bring over everything in static/
-              '!static/**',
+              'index.html',
+              'static-test.html',
               // Only include minified assets in css/ and js/
               'static/css/*.min.css',
               'static/js/html5shiv-printshiv.js',
               'static/js/*.min.js',
               'static/fonts/**',
-              'static/img/**',
-
-              // Exclude all vendor files because a lot will get concatenated
-              '!vendor/**',
-              // Only include vendor files that we use independently
-              'vendor/html5shiv/html5shiv-printshiv.js'
-
+              'static/img/**'
             ],
             dest: 'dist/'
+          }
+        ]
+      },
+      vendor: {
+        files:
+        [
+          {
+            expand: true,
+            cwd: 'src/',
+            src: [
+              // Only include vendor files that we use independently
+              'vendor/html5shiv/html5shiv-printshiv.min.js',
+              'vendor/box-sizing-polyfill/boxsizing.htc'
+            ],
+            // Place them in static/
+            dest: 'dist/static/'
           }
         ]
       }
@@ -336,15 +279,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-gh-pages');
   grunt.loadNpmTasks('grunt-shell');
-  grunt.loadNpmTasks('grunt-string-replace');
 
   /**
    * Create custom task aliases and combinations
    */
   grunt.registerTask('vendor', ['clean:bowerDir', 'bower:install', 'concat:cf-less']);
-  grunt.registerTask('default', ['less', 'string-replace:vendor', 'autoprefixer', 'cssmin', 'uglify']);
-  grunt.registerTask('compile', ['less', 'string-replace:vendor', 'autoprefixer', 'cssmin', 'uglify']);
-  grunt.registerTask('dist', ['clean:dist', 'copy:dist']);
+  grunt.registerTask('default', ['less', 'autoprefixer', 'cssmin', 'uglify']);
+  grunt.registerTask('compile', ['less', 'autoprefixer', 'cssmin', 'uglify']);
+  grunt.registerTask('dist', ['clean:dist', 'copy:dist', 'copy:vendor']);
 
   /**
    * Start a connect server and watch for changes
