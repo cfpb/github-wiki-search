@@ -100,7 +100,8 @@ module.exports = function(grunt) {
       bodyScripts: {
         src: [
           'src/vendor/jquery/jquery.js',
-          'src/static/js/jquery-hashchange.js',
+          'src/vendor/jquery-hashchange/jquery.ba-hashchange.js',
+          //'src/vendor/typeahead.js/typeahead.bundle.js',
           'src/vendor/cf-*/*.js',
           'src/static/js/app.js'
         ],
