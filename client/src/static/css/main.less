@@ -18,6 +18,10 @@
     display: block !important;
 }
 
+.tt-hint {
+    background-color: transparent !important;
+}
+
 .tt-dropdown-menu {
     box-sizing: border-box;
     position: relative !important;
@@ -127,19 +131,23 @@ body {
     box-sizing: border-box;
     display: block;
     width: 100%;
-    padding-right: 1.5em;
+    padding: unit( 8px / 26px, em );
+    padding-left: unit( 36px / 26px, em );
+    background-color: transparent;
+    font-size: unit( 26px / @base-font-size-px, em );
     .webfont-regular();
-    font-size: unit( 32px / @base-font-size-px, em );
+    line-height: @base-line-height;
 }
 
 .mega-search-bar_icon {
     display: block;
-    padding: unit( 5 / @base-font-size-px, em );
+    padding: unit( 8 / 26px, em );
     position: absolute;
     top: 0;
-    right: 0;
-    font-size: unit( 32px / @base-font-size-px, em );
-    color: @gray-20;
+    left: 0;
+    font-size: unit( 26px / @base-font-size-px, em );
+    line-height: @base-line-height;
+    color: @green;
 }
 
 

@@ -3614,6 +3614,9 @@ blockquote {
 .twitter-typeahead {
   display: block !important;
 }
+.tt-hint {
+  background-color: transparent !important;
+}
 .tt-dropdown-menu {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
@@ -3763,11 +3766,14 @@ body {
           box-sizing: border-box;
   display: block;
   width: 100%;
-  padding-right: 1.5em;
+  padding: 0.3076923076923077em;
+  padding-left: 1.3846153846153846em;
+  background-color: transparent;
+  font-size: 1.625em;
   font-family: "AvenirNextLTW01-Regular", Arial, sans-serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 2em;
+  line-height: 1.375;
 }
 .mega-search-bar_query[type="text"] em,
 .mega-search-bar_query[type="text"] i {
@@ -3791,12 +3797,13 @@ body {
 }
 .mega-search-bar_icon {
   display: block;
-  padding: 0.3125em;
+  padding: 0.3076923076923077em;
   position: absolute;
   top: 0;
-  right: 0;
-  font-size: 2em;
-  color: #e3e4e5;
+  left: 0;
+  font-size: 1.625em;
+  line-height: 1.375;
+  color: #2cb34a;
 }
 /* Results
    ========================================================================== */
