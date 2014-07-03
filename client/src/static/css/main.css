@@ -3877,3 +3877,28 @@ body {
 .lt-ie9 .results_item_highlight {
   font-style: normal !important;
 }
+.results_search-more {
+  font-family: "AvenirNextLTW01-Regular", Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+.results_search-more em,
+.results_search-more i {
+  font-family: "AvenirNextLTW01-Italic", Arial, sans-serif;
+  font-style: italic;
+  font-weight: normal;
+}
+.lt-ie9 .results_search-more em,
+.lt-ie9 .results_search-more i {
+  font-style: normal !important;
+}
+.results_search-more strong,
+.results_search-more b {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+.lt-ie9 .results_search-more strong,
+.lt-ie9 .results_search-more b {
+  font-weight: normal !important;
+}
