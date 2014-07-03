@@ -3826,14 +3826,7 @@ body {
   padding: 1em 0.5em;
   border: 0;
   position: relative;
-  font-size: 1em;
-  font-family: "AvenirNextLTW01-Medium", Arial, sans-serif;
-  font-style: normal;
-  font-weight: 500;
   list-style-type: none;
-}
-.lt-ie9 .results_item {
-  font-weight: normal !important;
 }
 .results_item:focus,
 .results_item:hover {
@@ -3841,43 +3834,28 @@ body {
   outline: none;
   background: #f8f8f8;
 }
-.results_item_repo {
-  display: block;
-  color: #43484e;
+.results_item_title {
+  margin-top: 0;
+  margin-bottom: 0.2777777777777778em;
+  font-size: 1.125em;
   font-family: "AvenirNextLTW01-Medium", Arial, sans-serif;
   font-style: normal;
   font-weight: 500;
+  line-height: 1.2222222222222223;
+  display: block;
+  color: #43484e;
 }
-.lt-ie9 .results_item_repo {
+.lt-ie9 .results_item_title {
   font-weight: normal !important;
 }
-.results_item_title,
 .results_item_highlight {
-  font-size: 0.875em;
+  display: block;
   color: #75787b;
 }
 .results_item_title mark,
 .results_item_highlight mark {
   padding: 0 0.14285714285714285em;
   background: #ffce8d;
-}
-.results_item_title {
-  margin-top: 0.25em;
-  margin-right: 0.25em;
-  font-family: "AvenirNextLTW01-Medium", Arial, sans-serif;
-  font-style: normal;
-  font-weight: 500;
-}
-.lt-ie9 .results_item_title {
-  font-weight: normal !important;
-}
-.results_item_highlight {
-  font-family: "AvenirNextLTW01-Italic", Arial, sans-serif;
-  font-style: italic;
-  font-weight: normal;
-}
-.lt-ie9 .results_item_highlight {
-  font-style: normal !important;
 }
 .results_search-more {
   font-family: "AvenirNextLTW01-Regular", Arial, sans-serif;

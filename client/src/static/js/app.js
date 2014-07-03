@@ -300,8 +300,11 @@ function makeSearchResultItem(index, item) {
   return $('<li>')
     .append('' +
       '<a class="results_item" href="' + item.url + '">' +
-        '<span class="results_item_repo">' + item.repo + '</span>' +
-        '<span class="results_item_title">' + item.title + '</span> ' +
+        '<span class="results_item_title">' +
+            item.repo +
+            '/' +
+            item.title +
+        '</span>' +
         content +
       '</a>')
     .appendTo($results_list);

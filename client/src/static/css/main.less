@@ -181,7 +181,6 @@ body {
     padding: 1em unit( 8px / 16px, em );
     border: 0;
     position: relative;
-    .results-text();
     list-style-type: none;
 
     &:focus,
@@ -192,31 +191,23 @@ body {
     }
 }
 
-.results_item_repo {
+.results_item_title {
+    .h4();
     display: block;
     color: @darkgray;
-    .webfont-medium();
+}
+
+.results_item_highlight {
+    display: block;
+    color: @gray;
 }
 
 .results_item_title,
 .results_item_highlight {
-    font-size: unit( 14px / @base-font-size-px, em );
-    color: @gray;
-
     mark {
         padding: 0 unit(2px / 14px, em);
         background: @gold-50;
     }
-}
-
-.results_item_title {
-    margin-top: unit( 4px / @base-font-size-px, em );
-    margin-right: unit( 4px / @base-font-size-px, em );
-    .webfont-medium();
-}
-
-.results_item_highlight {
-    .webfont-italic();
 }
 
 .results_search-more {
