@@ -3823,7 +3823,7 @@ body {
 .results_item {
   display: block;
   margin: 0;
-  padding: 1em 0 1em 3.125em;
+  padding: 1em 0.5em;
   border: 0;
   position: relative;
   font-size: 1em;
@@ -3840,13 +3840,6 @@ body {
   border: 0;
   outline: none;
   background: #f8f8f8;
-}
-.results_item_icon {
-  position: absolute;
-  padding: 0.25em;
-  left: 0;
-  font-size: 1.875em;
-  color: #e3e4e5;
 }
 .results_item_repo {
   display: block;
@@ -3870,6 +3863,7 @@ body {
 }
 .results_item_title {
   margin-top: 0.25em;
+  margin-right: 0.25em;
   font-family: "AvenirNextLTW01-Medium", Arial, sans-serif;
   font-style: normal;
   font-weight: 500;

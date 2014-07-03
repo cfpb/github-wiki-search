@@ -178,7 +178,7 @@ body {
 .results_item {
     display: block;
     margin: 0;
-    padding: 1em 0 1em unit( 50px / @base-font-size-px, em );
+    padding: 1em unit( 8px / 16px, em );
     border: 0;
     position: relative;
     .results-text();
@@ -190,14 +190,6 @@ body {
         outline: none;
         background: @gray-5;
     }
-}
-
-.results_item_icon {
-    position: absolute;
-    padding: unit( 4px / @base-font-size-px, em );
-    left: 0;
-    font-size: unit( 30px / @base-font-size-px, em );
-    color: @gray-20;
 }
 
 .results_item_repo {
@@ -219,6 +211,7 @@ body {
 
 .results_item_title {
     margin-top: unit( 4px / @base-font-size-px, em );
+    margin-right: unit( 4px / @base-font-size-px, em );
     .webfont-medium();
 }
 
