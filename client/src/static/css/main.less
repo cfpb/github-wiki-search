@@ -11,6 +11,46 @@
 @grid_box-sizing-polyfill-path: "/static/vendor/box-sizing-polyfill";
 
 
+/* typeahead.js customizations
+   ========================================================================== */
+
+.twitter-typeahead {
+    display: block !important;
+}
+
+.tt-dropdown-menu {
+    box-sizing: border-box;
+    position: relative !important;
+    width: 100%;
+    margin-top: -1px;
+    padding: unit( 8px / @base-font-size-px, em );
+    border: 1px solid @pacific;
+    border-top: none;;
+    outline:1px solid @pacific;
+    background: @white;
+}
+
+.tt-suggestion {
+    display: block;
+    margin: 0;
+    padding: 0;
+    font-size: unit( 16px / @base-font-size-px, em );
+    .webfont-regular();
+
+    & + & {
+        margin-top: unit( 4px / @base-font-size-px, em );
+    }
+
+    p {
+        margin: 0;
+    }
+
+    strong {
+        .webfont-demi();
+    }
+}
+
+
 /* Base styles
    ========================================================================== */
 
@@ -76,6 +116,7 @@ body {
 
 .mega-search-bar {
     position: relative;
+    background: @white;
 }
 
 .mega-search-bar_label {
@@ -177,8 +218,7 @@ body {
 }
 
 .results_search-more {
-    .results-text();
     display: block;
-    padding: 1em 0;
+    margin: 1em 0;
 }
 

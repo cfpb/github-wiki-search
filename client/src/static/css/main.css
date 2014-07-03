@@ -3609,6 +3609,67 @@ blockquote {
   name: EOF
   eof: true
 */
+/* typeahead.js customizations
+   ========================================================================== */
+.twitter-typeahead {
+  display: block !important;
+}
+.tt-dropdown-menu {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative !important;
+  width: 100%;
+  margin-top: -1px;
+  padding: 0.5em;
+  border: 1px solid #0072ce;
+  border-top: none;
+  outline: 1px solid #0072ce;
+  background: #ffffff;
+}
+.tt-suggestion {
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+  font-family: "AvenirNextLTW01-Regular", Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+.tt-suggestion em,
+.tt-suggestion i {
+  font-family: "AvenirNextLTW01-Italic", Arial, sans-serif;
+  font-style: italic;
+  font-weight: normal;
+}
+.lt-ie9 .tt-suggestion em,
+.lt-ie9 .tt-suggestion i {
+  font-style: normal !important;
+}
+.tt-suggestion strong,
+.tt-suggestion b {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+.lt-ie9 .tt-suggestion strong,
+.lt-ie9 .tt-suggestion b {
+  font-weight: normal !important;
+}
+.tt-suggestion + .tt-suggestion {
+  margin-top: 0.25em;
+}
+.tt-suggestion p {
+  margin: 0;
+}
+.tt-suggestion strong {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+.lt-ie9 .tt-suggestion strong {
+  font-weight: normal !important;
+}
 /* Base styles
    ========================================================================== */
 body {
@@ -3691,6 +3752,7 @@ body {
    ========================================================================== */
 .mega-search-bar {
   position: relative;
+  background: #ffffff;
 }
 .mega-search-bar_label {
   display: none;
@@ -3816,13 +3878,6 @@ body {
   font-style: normal !important;
 }
 .results_search-more {
-  font-size: 1em;
-  font-family: "AvenirNextLTW01-Medium", Arial, sans-serif;
-  font-style: normal;
-  font-weight: 500;
   display: block;
-  padding: 1em 0;
-}
-.lt-ie9 .results_search-more {
-  font-weight: normal !important;
+  margin: 1em 0;
 }

@@ -114,8 +114,8 @@ $(function() {
       currentRepoTerm = repoTerm;
       currentOwnerOwnly = ownerOwnly;
       if (repoTerm.length < 3) { return cb([]); }
-      return getSuggestions(repoTerm, ownerOwnly, cb);
-//      return cb(ac_test_data.hits.hits);
+        // return getSuggestions(repoTerm, ownerOwnly, cb);
+        return cb(ac_test_data.hits.hits);
     } else {
       sendQuery();
       return cb([]);
