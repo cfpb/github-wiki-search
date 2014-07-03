@@ -3687,6 +3687,7 @@ body {
   margin: 0 auto;
   position: relative;
   clear: both;
+  max-width: 48em;
 }
 /* Page Header
    ========================================================================== */
