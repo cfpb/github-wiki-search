@@ -18,6 +18,10 @@
     display: block !important;
 }
 
+.tt-hint {
+    background-color: transparent !important;
+}
+
 .tt-dropdown-menu {
     box-sizing: border-box;
     position: relative !important;
@@ -65,6 +69,7 @@ body {
 
 .page-wrapper {
     .grid_wrapper();
+    max-width: unit( 768px / @base-font-size-px, em );
 }
 
 
@@ -127,19 +132,23 @@ body {
     box-sizing: border-box;
     display: block;
     width: 100%;
-    padding-right: 1.5em;
+    padding: unit( 8px / 26px, em );
+    padding-left: unit( 36px / 26px, em );
+    background-color: transparent;
+    font-size: unit( 26px / @base-font-size-px, em );
     .webfont-regular();
-    font-size: unit( 32px / @base-font-size-px, em );
+    line-height: @base-line-height;
 }
 
 .mega-search-bar_icon {
     display: block;
-    padding: unit( 5 / @base-font-size-px, em );
+    padding: unit( 8 / 26px, em );
     position: absolute;
     top: 0;
-    right: 0;
-    font-size: unit( 32px / @base-font-size-px, em );
-    color: @gray-20;
+    left: 0;
+    font-size: unit( 26px / @base-font-size-px, em );
+    line-height: @base-line-height;
+    color: @green;
 }
 
 
@@ -169,10 +178,9 @@ body {
 .results_item {
     display: block;
     margin: 0;
-    padding: 1em 0 1em unit( 50px / @base-font-size-px, em );
+    padding: 1em unit( 8px / 16px, em );
     border: 0;
     position: relative;
-    .results-text();
     list-style-type: none;
 
     &:focus,
@@ -183,36 +191,25 @@ body {
     }
 }
 
-.results_item_icon {
-    position: absolute;
-    padding: unit( 4px / @base-font-size-px, em );
-    left: 0;
-    font-size: unit( 30px / @base-font-size-px, em );
-    color: @gray-20;
-}
-
-.results_item_repo {
+.results_item_title {
+    .h4();
     display: block;
     color: @darkgray;
-    .webfont-medium();
+}
+
+.results_item_highlight {
+    display: block;
+    color: @gray;
 }
 
 .results_item_title,
 .results_item_highlight {
-    font-size: unit( 14px / @base-font-size-px, em );
-    color: @gray;
-
     mark {
         padding: 0 unit(2px / 14px, em);
         background: @gold-50;
     }
 }
 
-.results_item_title {
-    margin-top: unit( 4px / @base-font-size-px, em );
-    .webfont-medium();
-}
-
-.results_item_highlight {
-    .webfont-italic();
+.results_search-more {
+    .webfont-regular();
 }
