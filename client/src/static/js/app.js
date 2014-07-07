@@ -145,7 +145,7 @@ $(function() {
     $.ajax(suggestLocation, {type: "POST", data: JSON.stringify(suggestQuery), success: function(data) {cb(data.hits.hits);}, dataType: 'json', contentType: "application/json"});
 
   }
-  $("#typeaheadField").on('focus', $("#typeaheadField").typeahead.bind($("#typeaheadField"), 'lookup'));
+
   $megaSearchBar_query.typeahead(
     {
       minLength: 0,
@@ -173,7 +173,7 @@ $(function() {
 
   $(window).hashchange( function(){
     var query = decodeURIComponent(window.location.hash.substring(1));
-    if (query != currentSearchTerm) {
+    if (query != $megaSearchBar_query.typeahead('val')) {
       $megaSearchBar_query.eq(0).val(query).trigger('input');
     }
   }).hashchange();
