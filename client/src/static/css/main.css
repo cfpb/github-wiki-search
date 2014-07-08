@@ -3625,6 +3625,7 @@ blockquote {
   width: 100%;
   margin-top: -1px;
   padding: 0.5em;
+  padding-left: 2.25em;
   border: 1px solid #0072ce;
   border-top: none;
   outline: 1px solid #0072ce;
