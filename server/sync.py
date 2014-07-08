@@ -1,8 +1,9 @@
 #! /usr/bin/python
 from universalclient import Client
+import bs4
 from bs4 import SoupStrainer, BeautifulSoup as BS
 import settings
-from urlparse import urlparse
+from urlparse import urlparse, urljoin
 import urllib
 import json
 from datetime import datetime
@@ -22,6 +23,7 @@ from os.path import join as path_join
 
 DIR = path.dirname(path.realpath(__file__))
 LOG = path_join(DIR, '..', 'client', 'dist', 'log')
+CACHE = path.join(DIR, 'cache')
 
 es_client = Client(settings.ES_HOST)
 gh_client = Client(settings.GITHUB_HOST)
@@ -33,8 +35,8 @@ def index_all_repos():
     """
     start_time = datetime.now()
     repo_names = (repo['full_name'] for page in _get_paginated_repos() for repo in page)
-
-    jobs = [pool.spawn(index_repo, repo_name) for repo_name in repo_names]
+    indexing = {'tot': 0, 'cur':set()}
+    jobs = [pool.spawn(index_repo, repo_name, indexing) for repo_name in repo_names]
     gevent.joinall(jobs)
     repo_data = [job.value for job in jobs]
     bulk_rows = (row for item in repo_data for row in item['bulk_rows'])
@@ -46,10 +48,10 @@ def index_all_repos():
         f.write(bulk_data)
 
     # reset index
-    es_client.wiki.delete()
+    es_client.docs.delete()
     es_client.autocomplete.delete()
-    with open(path_join(DIR, 'schema', 'page.json'), 'r') as schema_page:
-        es_client.wiki.post(data=schema_page.read())
+    with open(path_join(DIR, 'schema', 'docs.json'), 'r') as schema_page:
+        es_client.docs.post(data=schema_page.read())
     with open(path_join(DIR, 'schema', 'autocomplete.json'), 'r') as schema_auto:
         es_client.autocomplete.post(data=schema_auto.read())
     resp = es_client._bulk.post(data=bulk_data)
@@ -71,16 +73,29 @@ def _get_paginated_repos():
         if last_repo_id:
             yield repos
 
-def index_repo(repo_name):
+def index_repo(repo_name, indexing):
     """ 
     return a dict of {'user', 'page_count', 'bulk_rows'}
     for the given repo_name
     """
-    bulk_rows = index_wiki(repo_name)
+    user, repo = repo_name.split('/')
+    cache_path = path.join(CACHE, user, repo)
+    try:
+        chache_file = open(cache_path + '.version', 'r')
+    except:
+        versions = '\n\n'
+    else:
+        versions = cache_file.read()
+        cache_file.close()
 
+
+
+    indexing['cur'].add(repo_name)
+    print 'start', repo_name, indexing
+    bulk_rows = index_wiki(repo_name)
+    bulk_rows += index_gh_pages(repo_name)
     # add autocomplete data for repo
     page_count = len(bulk_rows)/2
-    user, repo = repo_name.split('/')
     repo_id = urllib.quote(repo_name, '')
 
     bulk_rows += [{ 
@@ -93,10 +108,16 @@ def index_repo(repo_name):
         'count': page_count
     }]
 
+    indexing['cur'].remove(repo_name)
+    indexing['tot'] += 1
+
+
+    print 'finish', repo_name, indexing
+
     return {'user': user, 'page_count':page_count, 'bulk_rows': bulk_rows}
 
 def index_wiki(repo_name):
-    """ return bulk update rows for wiki for repo_name repo """
+    """ return bulk rows for wiki for repo_name repo """
     # get and parse a list of all wiki page urls
     url_template = '%s/%s/wiki/_pages'
     url = url_template % (settings.GITHUB_HOST, repo_name)
@@ -115,6 +136,7 @@ def index_wiki(repo_name):
     return [row for job in jobs for row in job.value]
 
 def index_wiki_page(repo_name, page_url):
+    """ return bulk rows for wiki page at page_url for repo_name repo """
     html = urllib2.urlopen(page_url).read()
     strainer = SoupStrainer(id='wiki-wrapper')
     soup = BS(html, 'lxml', parse_only=strainer)
@@ -122,7 +144,7 @@ def index_wiki_page(repo_name, page_url):
     page_id = urllib.quote(path, '')  # remove initial slash
     return ({ 
         "index": {
-            "_index": "wiki", "_type": "page", "_id": page_id
+            "_index": "docs", "_type": "wiki_page", "_id": page_id
     }},
     {
         'url': page_url,
@@ -130,6 +152,84 @@ def index_wiki_page(repo_name, page_url):
         'content': ' '.join(soup.find(id='wiki-content').findAll(text=True)),
         'repo': '/' + repo_name
     },)
+
+def index_readme(repo_name):
+    url_template = '%s/%s/'
+    url = url_template % (settings.GITHUB_HOST, repo_name)
+    html = urllib2.urlopen(url).read()
+    strainer = SoupStrainer(id='readme')
+    soup = BS(html, 'lxml', parse_only=strainer)
+    path = urlparse(url).path[1:]  # remove initial slash
+    page_id = urllib.quote(path, '')
+    return ({ 
+        "index": {
+            "_index": "docs", "_type": "readme", "_id": page_id
+    }},
+    {
+        'url': url,
+        'title': ' '.join(soup.find(class_='name').findAll(text=True)),
+        'content': ' '.join(soup.find('article').findAll(text=True)),
+        'repo': '/' + repo_name
+    },)
+
+
+def index_gh_pages(repo_name):
+    """ return bulk rows for github pages for repo_name repo """
+    url_template = '%s/pages/%s/'
+    url = url_template % (settings.GITHUB_HOST, repo_name)
+    bulk_rows = index_gh_page(url, repo_name, url, set())
+    return bulk_rows
+def index_gh_page(page_url, repo_name, base_url, already_visited):
+    """
+    return bulk rows for github page and all linked github pages
+    that haven't already been visited
+    """
+    def gen_url(link):
+        url = urljoin(page_url, link.get('href'))
+        # normalize url by removing index.*
+        split_url = url.rsplit('/', 1)
+        if len(split_url) > 1 and split_url[-1].startswith('index.'):
+            url = split_url[0]
+        return url
+
+    def valid_url(url):
+        # only index pages that have not already been indexed and that are in a gh_pages subfolder
+        if not url or url in already_visited or not url.startswith(base_url):
+            return False
+        already_visited.add(url)
+        return True
+
+    try:
+        resp = urllib2.urlopen(page_url)
+    except:
+        return []
+    if resp.headers.get('content-type') != 'text/html':
+        return []
+    html = resp.read()
+    try:
+        soup = BS(html, 'lxml')
+    except:
+        return []
+    links = soup.find_all('a')
+    child_urls = (gen_url(link) for link in links)
+    child_urls = [url for url in child_urls if valid_url(url)]
+    jobs = [pool.spawn(index_gh_page, child_url, repo_name, base_url, already_visited) for child_url in child_urls]
+    gevent.joinall(jobs)
+    bulk_rows = [row for job in jobs for row in job.value]
+    page_id = urllib.quote(urlparse(page_url).path[1:], '')
+    title = soup.find('title')
+    title = title.text if title else page_url
+    bulk_rows += [{
+            "index": {
+                "_index": "docs", "_type": "gh_page", "_id": page_id
+        }},
+        {
+            'url': page_url,
+            'title': title,
+            'content': _get_visible_text(soup),
+            'repo': '/' + repo_name
+    }]
+    return bulk_rows
 
 def index_all_users(repo_data):
     """ 
@@ -152,6 +252,18 @@ def index_all_users(repo_data):
                 'count': page_count
             })
     return bulk_rows
+
+def _get_visible_text(soup):
+    texts = soup.findAll(text=True)
+
+    def visible(element):
+        if element.parent.name in ['style', 'script', '[document]', 'head', 'title']:
+            return False
+        elif isinstance(element, bs4.element.Comment):
+            return False
+        return True
+
+    return ' '.join(filter(visible, texts))
 
 if __name__ == "__main__":
     index_all_repos()

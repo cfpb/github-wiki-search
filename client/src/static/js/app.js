@@ -10,7 +10,7 @@ var ownerIdent = '@';
 var currentRepoTerm = null;
 var currentOwnerOwnly = null;
 
-var queryLocation = '/search/wiki/page/_search';
+var queryLocation = '/search/docs/_search';
 var suggestRepoLocation = '/search/autocomplete/repo/_search';
 var suggestOwnerLocation = '/search/autocomplete/user/_search';
 var suggestionOwnerRepoLocation = '/search/autocomplete/_search';
