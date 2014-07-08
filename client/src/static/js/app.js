@@ -7,7 +7,6 @@ ac_test_data = {"took":3,"timed_out":false,"_shards":{"total":5,"successful":5,"
 var repoIdent = '/';
 var ownerIdent = '@';
 
-var currentSearchTerm = '';
 var currentRepoTerm = null;
 var currentOwnerOwnly = null;
 
@@ -98,8 +97,6 @@ var $more_btn = $('.results_search-more');
 
 // Kick things off
 $(function() {
-  $("#mega-search-bar_query").focus();
-
   function autocomplete(query, cb) {
     // manage autocomplete for owners and repos
     var terms = extractRepoOwner(query);
@@ -143,11 +140,11 @@ $(function() {
       suggestQuery.filter.bool.must[0].term.owner = repoTerm[0];
       suggestQuery.filter.bool.must[1].term.repo = repoTerm[1];
     }
-    console.log(JSON.stringify(suggestQuery));
+    console.log('SUGGEST: ', JSON.stringify(suggestQuery));
     $.ajax(suggestLocation, {type: "POST", data: JSON.stringify(suggestQuery), success: function(data) {cb(data.hits.hits);}, dataType: 'json', contentType: "application/json"});
 
   }
-  $("#typeaheadField").on('focus', $("#typeaheadField").typeahead.bind($("#typeaheadField"), 'lookup'));
+
   $megaSearchBar_query.typeahead(
     {
       minLength: 0,
@@ -166,12 +163,16 @@ $(function() {
         },
     }
   ).on('typeahead:autocompleted', function() {
+    console.log("AUTOCOMPLETE");
+    sendQuery();
+  }).on('typeahead:selected', function() {
+    console.log("SELECTED");
     sendQuery();
   });
 
   $(window).hashchange( function(){
     var query = decodeURIComponent(window.location.hash.substring(1));
-    if (query != currentSearchTerm) {
+    if (query != $megaSearchBar_query.typeahead('val')) {
       $megaSearchBar_query.eq(0).val(query).trigger('input');
     }
   }).hashchange();
@@ -211,8 +212,8 @@ function sendQuery() {
       queryData.query = allQuery;
     }
     queryData.from = query_from;
-    console.log(JSON.stringify(queryData));
-    $.ajax(queryLocation, {type: "POST", data: JSON.stringify(queryData), success: querySuccess, dataType: 'json', contentType: "application/json", searchTerm: currentSearchTerm, from: query_from});
+    console.log('QUERY:', JSON.stringify(queryData));
+    $.ajax(queryLocation, {type: "POST", data: JSON.stringify(queryData), success: querySuccess, dataType: 'json', contentType: "application/json", searchTerm: $megaSearchBar_query.typeahead('val'), from: query_from});
   }
 
 }
@@ -221,7 +222,7 @@ function querySuccess(data, status, xhr) {
   var from = this.from;
 
   // don't do anything if someone hit the more button and then changed the query before more came back
-  if (this.from && this.searchTerm != currentSearchTerm) {
+  if (this.from && this.searchTerm != $megaSearchBar_query.typeahead('val')) {
     busy=false;
     return;
   }
