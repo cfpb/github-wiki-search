@@ -9,6 +9,7 @@ from datetime import datetime
 import gevent
 from gevent import monkey
 from gevent.pool import Pool
+import itertools
 
 pool = Pool(50)
 
@@ -26,20 +27,36 @@ es_client = Client(settings.ES_HOST)
 gh_client = Client(settings.GITHUB_HOST)
 gh_api_client = gh_client.api.v3
 
-
-def _get_soup(url, id):
+def index_all_repos():
     """
-    return generator that given a url, gets the content, parses it and
-    returns a tuple of the urle, the repo name,  and the soup of the tag
-    with the given id
+    index all repos, reset elasticsearch, rebuild elasticsearchindices
     """
-    html = urllib2.urlopen(url).read()
-    strainer = SoupStrainer(id=id)
-    soup = BS(html, 'lxml', parse_only=strainer)
-    path = urlparse(url).path[1:]
-    repo_name = '/' + '/'.join(path.split('/')[:2])
+    start_time = datetime.now()
+    repo_names = (repo['full_name'] for page in _get_paginated_repos() for repo in page)
 
-    return (url, repo_name, path, soup)
+    jobs = [pool.spawn(index_repo, repo_name) for repo_name in repo_names]
+    gevent.joinall(jobs)
+    repo_data = [job.value for job in jobs]
+    bulk_rows = (row for item in repo_data for row in item['bulk_rows'])
+    bulk_rows = itertools.chain(bulk_rows, index_all_users(repo_data))
+    bulk_data = '\n'.join([json.dumps(row) for row in bulk_rows]) + '\n'
+
+    print "writing bulk data"
+    with open(path_join(DIR, 'bulk_data.txt'), 'w') as f:
+        f.write(bulk_data)
+
+    # reset index
+    es_client.wiki.delete()
+    es_client.autocomplete.delete()
+    with open(path_join(DIR, 'schema', 'page.json'), 'r') as schema_page:
+        es_client.wiki.post(data=schema_page.read())
+    with open(path_join(DIR, 'schema', 'autocomplete.json'), 'r') as schema_auto:
+        es_client.autocomplete.post(data=schema_auto.read())
+    resp = es_client._bulk.post(data=bulk_data)
+    es_client._refresh.post()
+    print 'total time:', datetime.now() - start_time
+    return resp
+
 
 def _get_paginated_repos():
     """
@@ -54,110 +71,89 @@ def _get_paginated_repos():
         if last_repo_id:
             yield repos
 
+def index_repo(repo_name):
+    """ 
+    return a dict of {'user', 'page_count', 'bulk_rows'}
+    for the given repo_name
+    """
+    bulk_rows = index_wiki(repo_name)
 
-class ES(object):
+    # add autocomplete data for repo
+    page_count = len(bulk_rows)/2
+    user, repo = repo_name.split('/')
+    repo_id = urllib.quote(repo_name, '')
 
-    def _create_bulk_data(self, urls):
-        """
-        given a list of urls, get the index data and return
-        in the bulk upload format
-        """
-        print "generating bulk data for urls"
-        bulk_data_obj = []
+    bulk_rows += [{ 
+        "index": {
+            "_index": "autocomplete", "_type": "repo", "_id": repo_id
+    }},
+    {
+        'owner': user,
+        'repo': repo,
+        'count': page_count
+    }]
 
-        jobs = [pool.spawn(_get_soup, url, 'wiki-wrapper') for url in urls]
-        gevent.joinall(jobs)
-        soups = (job.value for job in jobs)
+    return {'user': user, 'page_count':page_count, 'bulk_rows': bulk_rows}
 
-        for url, repo_name, path, soup in soups:
-            page_id = urllib.quote(path, '')  # remove initial slash
-            bulk_data_obj.append({ 
-                "index": {
-                    "_index": "wiki", "_type": "page", "_id": page_id
-            }})
-            bulk_data_obj.append({
-                'url': url,
-                'title': ' '.join(soup.find(id='head').h1.findAll(text=True)),
-                'content': ' '.join(soup.find(id='wiki-content').findAll(text=True)),
-                'repo': repo_name
-            })
-        bulk_data = '\n'.join([json.dumps(row) for row in bulk_data_obj]) + '\n'
+def index_wiki(repo_name):
+    """ return bulk update rows for wiki for repo_name repo """
+    # get and parse a list of all wiki page urls
+    url_template = '%s/%s/wiki/_pages'
+    url = url_template % (settings.GITHUB_HOST, repo_name)
+    html = urllib2.urlopen(url).read()
+    strainer = SoupStrainer(id='wiki-content')
+    soup = BS(html, 'lxml', parse_only=strainer)
+    if not soup.ul:
+        return []
+    page_links = soup.ul.find_all('a')
+    page_urls = (settings.GITHUB_HOST + link.get('href') for link in page_links)
 
-        return bulk_data
+    # index each page
+    jobs = [pool.spawn(index_wiki_page, repo_name, page_url) for page_url in page_urls]
+    gevent.joinall(jobs)
 
-    def _create_wiki_bulk_data(self, repo_tuples):
-        page_links = (link for tpl in repo_tuples for link in tpl[3])
-        page_urls = (settings.GITHUB_HOST + link.get('href') for link in page_links)
-        bulk_data = self._create_bulk_data(page_urls)
-        return bulk_data
+    return [row for job in jobs for row in job.value]
 
-    def _create_autocomplete_bulk_data(self, repo_tuples):
-        users = {}
-        repos = {}
-        for url, repo_name, path, links in repo_tuples:
-            page_count = len(links)
-            user = repo_name.split('/')[1]
-            users.setdefault(user, 0)
-            users[user] += page_count
-            repos[repo_name] = page_count
+def index_wiki_page(repo_name, page_url):
+    html = urllib2.urlopen(page_url).read()
+    strainer = SoupStrainer(id='wiki-wrapper')
+    soup = BS(html, 'lxml', parse_only=strainer)
+    path = urlparse(page_url).path[1:]
+    page_id = urllib.quote(path, '')  # remove initial slash
+    return ({ 
+        "index": {
+            "_index": "wiki", "_type": "page", "_id": page_id
+    }},
+    {
+        'url': page_url,
+        'title': ' '.join(soup.find(id='head').h1.findAll(text=True)),
+        'content': ' '.join(soup.find(id='wiki-content').findAll(text=True)),
+        'repo': '/' + repo_name
+    },)
 
-        bulk_data_obj = []
-        for user, page_count in users.items():
-            bulk_data_obj.append({ 
+def index_all_users(repo_data):
+    """ 
+    given a lst of repo_data containing page_count and user for each repo
+    retur bulk_rows for user autocomplete
+    """
+    users = {}
+    for item in repo_data:
+        users.setdefault(item['user'], 0)
+        users[item['user']] += item['page_count']
+
+    bulk_rows = []
+    for user, page_count in users.items():
+            bulk_rows.append({ 
                 "index": {
                     "_index": "autocomplete", "_type": "user", "_id": user
             }})
-            bulk_data_obj.append({
+            bulk_rows.append({
                 'owner': user,
                 'count': page_count
             })
-        for repo, page_count in repos.items():
-            repo_id = urllib.quote(repo[1:], '')  # remove initial slash
-            bulk_data_obj.append({ 
-                "index": {
-                    "_index": "autocomplete", "_type": "repo", "_id": repo_id
-            }})
-            bulk_data_obj.append({
-                'owner': repo.split('/')[1],
-                'repo': repo.split('/')[2],
-                'count': page_count
-            })
-        bulk_data = '\n'.join([json.dumps(row) for row in bulk_data_obj]) + '\n'
-        return bulk_data
-
-    def index_all_repos(self):
-        """
-        sync all repositories in github enterprise
-        """
-        repo_names = (repo['full_name'] for page in _get_paginated_repos() for repo in page)
-        url_template = '%s/%s/wiki/_pages'
-        repo_urls = [url_template % (settings.GITHUB_HOST, repo) for repo in repo_names]
-        jobs = [pool.spawn(_get_soup, url, 'wiki-content') for url in repo_urls]
-        gevent.joinall(jobs)
-        repo_soups = (job.value for job in jobs)
-        repo_tuples = [(url, repo_name, path, soup.ul.find_all('a'),) for url, repo_name, path, soup in repo_soups if soup.ul]
-
-        bulk_data = self._create_wiki_bulk_data(repo_tuples)
-        bulk_data += self._create_autocomplete_bulk_data(repo_tuples)
-
-        print "writing bulk data"
-        with open(path_join(DIR, 'bulk_data.txt'), 'w') as f:
-            f.write(bulk_data)
-
-        # reset index
-        es_client.wiki.delete()
-        es_client.autocomplete.delete()
-        with open(path_join(DIR, 'schema', 'page.json'), 'r') as schema_page:
-            es_client.wiki.post(data=schema_page.read())
-        with open(path_join(DIR, 'schema', 'autocomplete.json'), 'r') as schema_auto:
-            es_client.autocomplete.post(data=schema_auto.read())
-        resp = es_client._bulk.post(data=bulk_data)
-        es_client._refresh.post()
-        return resp
-
-es = ES()
+    return bulk_rows
 
 if __name__ == "__main__":
-    es.index_all_repos()
+    index_all_repos()
     with open(LOG, 'a') as log:
         log.write('%s - synced\n' % datetime.utcnow().isoformat())
