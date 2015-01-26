@@ -1,0 +1,5106 @@
+@import url(//fast.fonts.net/t/1.css?apiType=css&projectid=44e8c964-4684-44c6-a6e3-3f3da8787b50);
+/* ==========================================================================
+   Capital Framework
+   Advanced Typography
+   ========================================================================== */
+/* topdoc
+  name: Theme variables
+  family: cf-typography
+  notes:
+    - "The following color and sizing variables are exposed, allowing you to
+       easily override them before compiling."
+  patterns:
+  - name: Colors
+    codenotes:
+      - |
+        @pull-quote_body
+        @pull-quote_citation
+        @micro-copy-text
+        @date-text
+        @category-slug-text
+        @category-slug-hover
+        @header-slug-thin-border
+        @header-slug-thick-border
+        @padded-header-text
+        @padded-header-bg
+        @padded-header-border
+        @fancy-slug-text
+        @fancy-slug-bg
+        @fancy-slug-border
+        @meta-header-border
+        @jump-link__bg
+        @jump-link__bg-border
+        @list__branded-bullet
+  - name: Sizing
+    codenotes:
+      - |
+        @...
+  tags:
+  - cf-typography
+  - less
+*/
+/* topdoc
+ name: Pull quote
+ family: cf-typography
+ patterns:
+   - name: Default pull quote
+     markup: |
+       <aside class="pull-quote">
+           <div class="pull-quote_body">
+               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+               Cum corrupti tempora nam nihil qui mollitia consectetur
+               corporis nemo culpa dolorum!
+           </div>
+           <footer>
+               <cite class="pull-quote_citation">
+                   - Author Name
+               </cite>
+           <footer>
+       </aside>
+     notes:
+       - "Use a pull quote to highlight excerpts from the current work.
+         This is not to be confused with blockquote which quotes from an
+         external work."
+       - "Since a pull quote is an excerpt and repeats content from the
+         article it's contained within you should use the aside element."
+   - name: Large pull quote
+     markup: |
+       <aside class="pull-quote pull-quote__large">
+           <div class="pull-quote_body">
+               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+               Cum corrupti tempora nam nihil qui mollitia consectetur
+               corporis nemo culpa dolorum!
+           </div>
+           <footer>
+               <cite class="pull-quote_citation">
+                   - Author Name
+               </cite>
+           <footer>
+       </aside>
+ tags:
+   - cf-typography
+*/
+.pull-quote_body {
+  font-family: "AvenirNextLTW01-Regular", Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  margin-top: 0;
+  margin-bottom: 0.95454545em;
+  font-size: 1.375em;
+  line-height: 1.27272727;
+  margin-bottom: 0.54545455em;
+  color: #895983;
+}
+.pull-quote_body em,
+.pull-quote_body i {
+  font-family: "AvenirNextLTW01-Italic", Arial, sans-serif;
+  font-style: italic;
+  font-weight: normal;
+}
+.lt-ie9 .pull-quote_body em,
+.lt-ie9 .pull-quote_body i {
+  font-style: normal !important;
+}
+.pull-quote_body strong,
+.pull-quote_body b {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+.lt-ie9 .pull-quote_body strong,
+.lt-ie9 .pull-quote_body b {
+  font-weight: normal !important;
+}
+@media only all and (max-width: 37.4375em) {
+  .pull-quote_body {
+    margin-top: 0;
+    margin-bottom: 1.16666667em;
+    font-size: 1.125em;
+    font-family: "AvenirNextLTW01-Medium", Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.22222222;
+  }
+  .lt-ie9 .pull-quote_body {
+    font-weight: normal !important;
+  }
+}
+.pull-quote_citation {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 0.35714286em;
+  font-size: 0.875em;
+  line-height: 1.57142857;
+  color: #ad81a8;
+}
+.lt-ie9 .pull-quote_citation {
+  font-weight: normal !important;
+}
+.pull-quote__large .pull-quote_body {
+  font-family: "AvenirNextLTW01-Regular", Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  margin-top: 0;
+  margin-bottom: 0.73076923em;
+  font-size: 1.625em;
+  line-height: 1.26923077;
+  margin-bottom: 0.69230769em;
+}
+.pull-quote__large .pull-quote_body em,
+.pull-quote__large .pull-quote_body i {
+  font-family: "AvenirNextLTW01-Italic", Arial, sans-serif;
+  font-style: italic;
+  font-weight: normal;
+}
+.lt-ie9 .pull-quote__large .pull-quote_body em,
+.lt-ie9 .pull-quote__large .pull-quote_body i {
+  font-style: normal !important;
+}
+.pull-quote__large .pull-quote_body strong,
+.pull-quote__large .pull-quote_body b {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+.lt-ie9 .pull-quote__large .pull-quote_body strong,
+.lt-ie9 .pull-quote__large .pull-quote_body b {
+  font-weight: normal !important;
+}
+@media only all and (max-width: 37.4375em) {
+  .pull-quote__large .pull-quote_body {
+    font-family: "AvenirNextLTW01-Regular", Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 0.95454545em;
+    font-size: 1.375em;
+    line-height: 1.27272727;
+  }
+  .pull-quote__large .pull-quote_body em,
+  .pull-quote__large .pull-quote_body i {
+    font-family: "AvenirNextLTW01-Italic", Arial, sans-serif;
+    font-style: italic;
+    font-weight: normal;
+  }
+  .lt-ie9 .pull-quote__large .pull-quote_body em,
+  .lt-ie9 .pull-quote__large .pull-quote_body i {
+    font-style: normal !important;
+  }
+  .pull-quote__large .pull-quote_body strong,
+  .pull-quote__large .pull-quote_body b {
+    font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+  }
+  .lt-ie9 .pull-quote__large .pull-quote_body strong,
+  .lt-ie9 .pull-quote__large .pull-quote_body b {
+    font-weight: normal !important;
+  }
+}
+@media only all and (max-width: 37.4375em) and only all and (max-width: 37.4375em) {
+  .pull-quote__large .pull-quote_body {
+    margin-top: 0;
+    margin-bottom: 1.16666667em;
+    font-size: 1.125em;
+    font-family: "AvenirNextLTW01-Medium", Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.22222222;
+  }
+  .lt-ie9 .pull-quote__large .pull-quote_body {
+    font-weight: normal !important;
+  }
+}
+/* topdoc
+  name: Micro copy
+  family: cf-typography
+  patterns:
+    - name: Standard micro copy
+      markup: |
+        <p class="micro-copy">
+            Lorem ipsum dolor sit amet
+        </p>
+      codenotes:
+        - .micro-copy
+    - name: Large micro copy
+      markup: |
+        <p class="micro-copy micro-copy__large">
+            Lorem ipsum dolor sit amet
+        </p>
+      codenotes:
+        - .micro-copy
+  tags:
+    - cf-typography
+*/
+.micro-copy {
+  color: #ad81a8;
+  font-size: 0.875em;
+  font-family: "AvenirNextLTW01-Regular", Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+.micro-copy em,
+.micro-copy i {
+  font-family: "AvenirNextLTW01-Italic", Arial, sans-serif;
+  font-style: italic;
+  font-weight: normal;
+}
+.lt-ie9 .micro-copy em,
+.lt-ie9 .micro-copy i {
+  font-style: normal !important;
+}
+.micro-copy strong,
+.micro-copy b {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+.lt-ie9 .micro-copy strong,
+.lt-ie9 .micro-copy b {
+  font-weight: normal !important;
+}
+.micro-copy__large {
+  font-size: 1em;
+}
+/* topdoc
+  name: Short description
+  family: cf-typography
+  patterns:
+    - name: .short-desc
+      markup: |
+        <p class="short-desc">I am short description.</p>
+      codenotes:
+        - .short-desc
+    - name: .short-desc__large (modifier)
+      markup: |
+        <p class="short-desc short-desc__large">I am large short description.</p>
+      codenotes:
+        - .short-desc__large
+  tags:
+    - cf-typography
+*/
+.short-desc {
+  font-family: "AvenirNextLTW01-Regular", Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+.short-desc em,
+.short-desc i {
+  font-family: "AvenirNextLTW01-Italic", Arial, sans-serif;
+  font-style: italic;
+  font-weight: normal;
+}
+.lt-ie9 .short-desc em,
+.lt-ie9 .short-desc i {
+  font-style: normal !important;
+}
+.short-desc strong,
+.short-desc b {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+.lt-ie9 .short-desc strong,
+.lt-ie9 .short-desc b {
+  font-weight: normal !important;
+}
+.short-desc__large {
+  font-size: 1.125em;
+}
+/* topdoc
+  name: Date
+  family: cf-typography
+  patterns:
+    - name: Default date
+      markup: |
+        <span class="date">
+            Nov 4, 2013
+        </span>
+  tags:
+    - cf-typography
+*/
+.date {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 0.35714286em;
+  font-size: 0.875em;
+  line-height: 1.57142857;
+  color: #ad81a8;
+  white-space: nowrap;
+}
+.lt-ie9 .date {
+  font-weight: normal !important;
+}
+/* topdoc
+  name: Category slug
+  family: cf-typography
+  patterns:
+    - name: Default category slug
+      markup: |
+        <a href="#" class="category-slug">
+            <span class="category-slug_icon cf-icon cf-icon-dialogue"></span>
+            <span class="u-visually-hidden">Category:</span>
+            Consumer finance
+        </a>
+      codenotes:
+        - |
+          Structural cheat sheet:
+          -----------------------
+          .category-slug
+            .category-slug_icon
+            .u-visually-hidden
+      notes:
+        - "We suggest using a .u-visually-hidden element to add more context for
+          screen readers."
+  tags:
+    - cf-typography
+*/
+.category-slug {
+  margin-top: 0;
+  margin-bottom: 1.16666667em;
+  font-size: 1.125em;
+  font-family: "AvenirNextLTW01-Medium", Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.22222222;
+  display: inline-block;
+  margin-bottom: 0.44444444em;
+  color: #5b3b57;
+}
+.lt-ie9 .category-slug {
+  font-weight: normal !important;
+}
+a.category-slug {
+  color: #5b3b57;
+  border-color: #5b3b57;
+}
+a.category-slug:visited,
+a.category-slug.visited {
+  border-color: #5b3b57;
+  color: #5b3b57;
+}
+a.category-slug:hover,
+a.category-slug.hover {
+  border-color: #c7336e;
+  color: #c7336e;
+}
+a.category-slug:focus,
+a.category-slug.focus {
+  border-color: #c7336e;
+  color: #c7336e;
+}
+a.category-slug:active,
+a.category-slug.active {
+  border-color: #5b3b57;
+  color: #5b3b57;
+}
+.category-slug_icon {
+  margin-right: 0.11111111em;
+}
+/* topdoc
+  name: Header slug
+  family: cf-typography
+  patterns:
+    - name: Default header slug
+      markup: |
+        <h2 class="header-slug">
+            <span class="header-slug_inner">
+                Blog summary
+            </span>
+        </h2>
+      codenotes:
+        - |
+          Structural cheat sheet:
+          -----------------------
+          .header-slug
+            .header-slug_inner
+  tags:
+    - cf-typography
+*/
+.header-slug {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 0.35714286em;
+  font-size: 0.875em;
+  line-height: 1.57142857;
+  margin-bottom: 1.21428571em;
+  border-top: 1px solid #c7336e;
+}
+.lt-ie9 .header-slug {
+  font-weight: normal !important;
+}
+.header-slug_inner {
+  display: inline-block;
+  padding-top: 0.28571429em;
+  margin-top: -3px;
+  border-top: 5px solid #3a8899;
+}
+/* topdoc
+  name: Padded header
+  family: cf-typography
+  patterns:
+    - name: Default padded header
+      markup: |
+        <h2 class="padded-header">
+            Header
+        </h2>
+      codenotes:
+        - .padded-header
+  tags:
+    - cf-typography
+*/
+.padded-header {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 0.35714286em;
+  font-size: 0.875em;
+  line-height: 1.57142857;
+  padding: 0.57142857em 0.71428571em;
+  margin-bottom: 0;
+  border-bottom: 1px solid #5b3b57;
+  background: #eee4ed;
+  color: #5b3b57;
+}
+.lt-ie9 .padded-header {
+  font-weight: normal !important;
+}
+/* topdoc
+  name: Fancy slug
+  family: cf-typography
+  patterns:
+    - name: Default fancy slug
+      markup: |
+        <h2 class="fancy-slug">
+            <span class="fancy-slug_text">
+                <span class="fancy-slug_ribbon-left"></span>
+                Watchroom
+                <span class="fancy-slug_ribbon-right"></span>
+            </span>
+        </h2>
+      codenotes:
+        - |
+          Structural cheat sheet:
+          -----------------------
+          .fancy-slug
+            .fancy-slug_text
+                .fancy-slug_ribbon-left
+                .fancy-slug_ribbon-right
+  tags:
+    - cf-typography
+*/
+.fancy-slug {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 0.35714286em;
+  font-size: 0.875em;
+  line-height: 1.57142857;
+  position: relative;
+  height: 1.14285714em;
+  padding: 0 1.21428571em;
+  margin-top: 1.14285714em;
+  margin-bottom: 0.57142857em;
+  border-top: 1px solid #905c8a;
+  line-height: 1;
+  text-align: center;
+}
+.lt-ie9 .fancy-slug {
+  font-weight: normal !important;
+}
+.fancy-slug_text {
+  display: inline-block;
+  position: relative;
+  top: -1.14285714em;
+  padding: 0.57142857em 1.42857143em;
+  border: 1px solid #905c8a;
+  background: #eee4ed;
+}
+.fancy-slug_ribbon-left,
+.fancy-slug_ribbon-right {
+  display: block;
+  position: absolute;
+  top: -1px;
+  width: 1.21428571em;
+  height: 100%;
+  border-top: 1px solid #905c8a;
+  border-bottom: 1px solid #905c8a;
+}
+.lt-ie9 .fancy-slug_ribbon-left,
+.lt-ie9 .fancy-slug_ribbon-right {
+  display: none;
+}
+.fancy-slug_ribbon-left:before,
+.fancy-slug_ribbon-right:before,
+.fancy-slug_ribbon-left:after,
+.fancy-slug_ribbon-right:after {
+  display: block;
+  content: "";
+  position: absolute;
+  z-index: 3;
+  width: 1.21428571em;
+  height: 50%;
+  background: #eee4ed;
+  border: 0 solid #905c8a;
+}
+.fancy-slug_ribbon-left {
+  left: -1.21428571em;
+}
+.fancy-slug_ribbon-left:before {
+  top: 0;
+  border-left-width: 1px;
+  -webkit-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: skewX(33deg);
+  -ms-transform: skewX(33deg);
+  transform: skewX(33deg);
+}
+.fancy-slug_ribbon-left:after {
+  bottom: 0;
+  border-left-width: 1px;
+  -webkit-transform-origin: 0 100%;
+  -ms-transform-origin: 0 100%;
+  transform-origin: 0 100%;
+  -webkit-transform: skewX(-33deg);
+  -ms-transform: skewX(-33deg);
+  transform: skewX(-33deg);
+}
+.fancy-slug_ribbon-right {
+  right: -1.21428571em;
+}
+.fancy-slug_ribbon-right:before {
+  top: 0;
+  right: 0;
+  border-right-width: 1px;
+  -webkit-transform-origin: 100% 0;
+  -ms-transform-origin: 100% 0;
+  transform-origin: 100% 0;
+  -webkit-transform: skewX(-33deg);
+  -ms-transform: skewX(-33deg);
+  transform: skewX(-33deg);
+}
+.fancy-slug_ribbon-right:after {
+  right: 0;
+  bottom: 0;
+  border-right-width: 1px;
+  -webkit-transform-origin: 100% 100%;
+  -ms-transform-origin: 100% 100%;
+  transform-origin: 100% 100%;
+  -webkit-transform: skewX(33deg);
+  -ms-transform: skewX(33deg);
+  transform: skewX(33deg);
+}
+/* topdoc
+  name: Meta header
+  family: cf-typography
+  patterns:
+    - name: Default meta header
+      markup: |
+        <div class="meta-header">
+            <span class="meta-header_right date">
+                Nov 4, 2013
+            </span>
+            <a href="#" class="meta-header_left category-slug">
+                <span class="cf-icon cf-icon-credit-card"></span>
+                Consumer finance
+            </a>
+        </div>
+      codenotes:
+        - |
+          Structural cheat sheet:
+          -----------------------
+          .meta-header
+            .meta-header_right
+            .meta-header_left
+      notes:
+        - ".meta-header_right should come first in the markup so that when it
+          floats to the right it will appear on the same line as .meta-header_left."
+        - "Note that the example shows .meta-header_left using the
+          .category-slug pattern and .meta-header_right using the .date pattern
+          but you could use other patterns in place of them. Or you can even
+          swap them so that date is attached to .meta-header_left and
+          .category-slug is attacked to .meta-header_right."
+    - name: Alternate meta header arrangements
+      markup: |
+        <div class="meta-header">
+            <a href="#" class="meta-header_right category-slug">
+                <span class="cf-icon cf-icon-credit-card"></span>
+            </a>
+            <span class="meta-header_left date">
+                Nov 4, 2013
+            </span>
+        </div>
+        <br>
+        <div class="meta-header">
+            <a href="#" class="meta-header_left category-slug">
+                <span class="cf-icon cf-icon-credit-card"></span>
+                Consumer finance
+            </a>
+        </div>
+      notes:
+        - "Just some random variations to show off what you could do."
+  tags:
+    - cf-typography
+*/
+.meta-header {
+  padding-bottom: 0.5em;
+  margin-bottom: 0.625em;
+  border-bottom: 1px solid #905c8a;
+}
+.meta-header_left {
+  margin-bottom: 0;
+}
+.meta-header_right {
+  display: block;
+  margin-bottom: 0;
+}
+@media only all and (min-width: 37.5em) {
+  .meta-header_right {
+    float: right;
+    display: inline-block;
+  }
+}
+/* topdoc
+  name: Links with icons
+  family: cf-typography
+  notes:
+    - "Styles to enable adding an icon to a link and preventing the link's
+       underline from extending under the icon."
+    - "For the underlined icon prevention to work, you must wrap the link text
+       with a `span.icon-link_text`. There can be no whitespace between the text
+       and the opening and closing span tags."
+  patterns:
+    - name: Default link with icon
+      markup: |
+        <p>
+            For more information, email
+            <a class="icon-link icon-link__mail" href="#">
+                <span class="icon-link_text">john.smith@cfpb.gov</span>
+            </a>.
+            Alternatively, you can
+            <a class="icon-link icon-link__download" href="#">
+                <span class="icon-link_text">download the info sheet</span>
+            </a>.
+            Oh, you might also want to visit this
+            <a class="icon-link icon-link__external-link" href="#">
+                <span class="icon-link_text">other organization's website</span>
+            </a> for further details.
+        </p>
+        <a class="icon-link icon-link__right" href="#">
+            Visit another section of our site
+        </a>
+      notes:
+        - "The modifier names match the cf-icon names of commonly-used icons."
+        - "Icons appear to the right of a link, by default."
+    - name: Links with icons on the left (modifier)
+      markup: |
+        <a class="icon-link icon-link__mail icon-link__before" href="#">
+            <span class="icon-link_text">john.smith@cfpb.gov</span>
+        </a><br>
+        <a class="icon-link icon-link__phone icon-link__before" href="#">
+            (123) 456-7890
+        </a>
+      notes:
+        - "Simply add the `.icon-link__before` modifier to place the icon before
+           the link text."
+        - "You can omit the `span.icon-link_text` wrapper if you do not need
+           an underline on a particular link."
+    - name: Non-wrapping icon links
+      markup: |
+        <p>
+            For more information, email
+            <a class="icon-link icon-link__mail icon-link__no-wrap" href="#">
+                <span class="icon-link_text">john.smith@cfpb.gov</span>
+            </a>.
+        </p>
+      notes:
+        - "Warning: Icons added to inline links can sometimes break onto the
+           next line. If you want to prevent this, you can add the `__no-wrap`
+           modifier to `.icon-link`."
+  tags:
+    - cf-typography
+*/
+.icon-link {
+  border-bottom-width: 0;
+  position: relative;
+}
+.icon-link_text {
+  border-bottom-width: 1px;
+  border-bottom-style: inherit;
+}
+.icon-link:before,
+.icon-link:after {
+  font-family: 'CFPB Minicons';
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  margin-right: 1px;
+  margin-left: 1px;
+}
+.icon-link__download:after,
+.icon-link__download.icon-link__before:before {
+  content: "\e406";
+}
+.icon-link__email:after,
+.icon-link__email.icon-link__before:before {
+  content: "\e302";
+}
+.icon-link__external-link:after,
+.icon-link__external-link.icon-link__before:before {
+  content: "\e610";
+}
+.icon-link__fax:after,
+.icon-link__fax.icon-link__before:before {
+  content: "\e310";
+}
+.icon-link__left:after,
+.icon-link__left.icon-link__before:before {
+  content: "\e000";
+}
+.icon-link__mail:after,
+.icon-link__mail.icon-link__before:before {
+  content: "\e304";
+}
+.icon-link__pdf:after,
+.icon-link__pdf.icon-link__before:before {
+  content: "\e402";
+}
+.icon-link__pdf:after,
+.icon-link__pdf.icon-link__before:before {
+  content: "\e402";
+}
+.icon-link__phone:after,
+.icon-link__phone.icon-link__before:before {
+  content: "\e306";
+}
+.icon-link__right:after,
+.icon-link__right.icon-link__before:before {
+  content: "\e002";
+}
+.icon-link__before:after {
+  content: '';
+}
+.icon-link__no-wrap {
+  white-space: nowrap;
+}
+/* topdoc
+  name: Styled link
+  family: cf-typography
+  patterns:
+    - name: .styled-link
+      markup: |
+        <a class="styled-link" href="#">
+            Default styled link
+        </a>
+      codenotes:
+        - .styled-link
+  tags:
+    - cf-typography
+*/
+.styled-link {
+  border-bottom-width: 1px;
+  font-family: "AvenirNextLTW01-Medium", Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1em;
+}
+.lt-ie9 .styled-link {
+  font-weight: normal !important;
+}
+/* topdoc
+  name: Jump link
+  family: cf-typography
+  patterns:
+    - name: .jump-link
+      markup: |
+        <a class="jump-link" href="#">
+            <span class="jump-link_text">Default jump link</span>
+        </a>
+      codenotes:
+        - .jump-link
+    - name: .jump-link__large (modifier)
+      markup: |
+        <a class="jump-link jump-link__large" href="#">
+            <span class="jump-link_text">Large jump link</span>
+        </a>
+      codenotes:
+        - .jump-link__large
+      notes:
+        - "18px font-size, compared to the default of 16px"
+    - name: .jump-link__<icon> (modifier)
+      markup: |
+        <a class="jump-link jump-link__right" href="#">
+            <span class="jump-link_text">Jump link using the right icon from cf-icons</span>
+        </a>
+      codenotes:
+        - .jump-link__<icon>
+      notes:
+        - ".jump-link extends .icon-link, so all that is needed to add an icon
+           to a jump link is to add a modifier with the icon's name."
+    - name: .jump-link__before (modifier)
+      markup: |
+        <a class="jump-link jump-link__left jump-link__before" href="#">
+            <span class="jump-link_text">Jump link with icon on left</span>
+        </a>
+      codenotes:
+        - .jump-link__<icon>.jump-link__before
+      notes:
+        - "Jump links can also have icons before the text, like icon links."
+    - name: .jump-link__bg (modifier)
+      markup: |
+        <a class="jump-link jump-link__bg" href="#">
+            <span class="jump-link_text">Jump link with grey background and
+                solid borders on small screens</span>
+        </a>
+      codenotes:
+        - .jump-link__bg
+  tags:
+    - cf-typography
+*/
+.jump-link {
+  font-family: "AvenirNextLTW01-Medium", Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1em;
+  border-bottom-width: 0;
+  position: relative;
+}
+.lt-ie9 .jump-link {
+  font-weight: normal !important;
+}
+.jump-link_text {
+  border-bottom-width: 1px;
+  border-bottom-style: inherit;
+}
+.jump-link:before,
+.jump-link:after {
+  font-family: 'CFPB Minicons';
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  margin-right: 1px;
+  margin-left: 1px;
+}
+.jump-link__download:after,
+.jump-link__download.jump-link__before:before {
+  content: "\e406";
+}
+.jump-link__email:after,
+.jump-link__email.jump-link__before:before {
+  content: "\e302";
+}
+.jump-link__external-link:after,
+.jump-link__external-link.jump-link__before:before {
+  content: "\e610";
+}
+.jump-link__fax:after,
+.jump-link__fax.jump-link__before:before {
+  content: "\e310";
+}
+.jump-link__left:after,
+.jump-link__left.jump-link__before:before {
+  content: "\e000";
+}
+.jump-link__mail:after,
+.jump-link__mail.jump-link__before:before {
+  content: "\e304";
+}
+.jump-link__pdf:after,
+.jump-link__pdf.jump-link__before:before {
+  content: "\e402";
+}
+.jump-link__pdf:after,
+.jump-link__pdf.jump-link__before:before {
+  content: "\e402";
+}
+.jump-link__phone:after,
+.jump-link__phone.jump-link__before:before {
+  content: "\e306";
+}
+.jump-link__right:after,
+.jump-link__right.jump-link__before:before {
+  content: "\e002";
+}
+.jump-link__before:after {
+  content: '';
+}
+.jump-link__no-wrap {
+  white-space: nowrap;
+}
+.jump-link__large {
+  font-size: 1.125em;
+}
+@media only all and (max-width: 37.4375em) {
+  .jump-link {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+    padding: 0.625em 1.25em 0.625em 0;
+    border: dotted #ffffff;
+    border-width: 1px 0;
+    margin-right: 0;
+    width: 100%;
+    text-align: left;
+  }
+  .jump-link:after {
+    position: absolute;
+    margin-bottom: -0.625em;
+    right: 0;
+    bottom: 50%;
+    text-align: right;
+  }
+  .jump-link__before {
+    padding-left: 1.25em;
+  }
+  .jump-link__before:before {
+    position: absolute;
+    margin-bottom: -0.625em;
+    bottom: 50%;
+    left: 0;
+  }
+  .jump-link_text {
+    border-bottom-width: 0;
+  }
+  .jump-link__bg {
+    background: #eee4ed;
+    border: solid #905c8a;
+    border-width: 1px 0;
+    padding: 0.625em 1.25em 0.625em 1em;
+  }
+  .jump-link__bg:after {
+    right: 1em;
+  }
+  .jump-link__bg:before {
+    left: 0.625em;
+  }
+}
+/* topdoc
+  name: Block link
+  family: cf-typography
+  patterns:
+    - name: .block-link
+      markup: |
+        <a class="block-link" href="#">
+            Default block link
+        </a>
+      codenotes:
+        - .block-link
+      notes:
+        - "Convert a standard inline link to a block-level element with padding,
+           background, and borders."
+        - "Primarily used within a max-width 599px media query (see .jump-link
+           and .list__links)."
+  tags:
+    - cf-typography
+*/
+.block-link {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: block;
+  padding: 0.625em 1.25em 0.625em 0;
+  border: dotted #ffffff;
+  border-width: 1px 0;
+  margin-right: 0;
+  width: 100%;
+  text-align: left;
+}
+/* topdoc
+  name: Unstyled list modifier
+  family: cf-typography
+  patterns:
+    - name: Default example
+      markup: |
+        <ul class="list list__unstyled">
+            <li class="list_item">
+                <a class="list_link">List item 1</a>
+            </li>
+            <li class="list_item">
+                <a class="list_link">List item 2</a>
+            </li>
+            <li class="list_item">
+                <a class="list_link">List item 3</a>
+            </li>
+        </ul>
+      codenotes:
+        - .list.list__unstyled
+  tags:
+    - cf-typography
+*/
+.list__unstyled {
+  padding-left: 0;
+  list-style-type: none;
+}
+.list__unstyled .list_item {
+  margin-left: 0;
+}
+/* topdoc
+  name: Spaced list modifier
+  family: cf-typography
+  patterns:
+    - name: Default example
+      markup: |
+        <ul class="list list__spaced">
+            <li class="list_item">
+                <a class="list_link">List item 1</a>
+            </li>
+            <li class="list_item">
+                <a class="list_link">List item 2</a>
+            </li>
+            <li class="list_item">
+                <a class="list_link">List item 3</a>
+            </li>
+        </ul>
+      codenotes:
+        - .list.list__spaced
+  tags:
+    - cf-typography
+*/
+.list__spaced .list_item + .list_item {
+  margin-top: 1.5em;
+}
+/* topdoc
+  name: Spaced list item modifier
+  family: cf-typography
+  patterns:
+    - name: Default example
+      markup: |
+        <ul class="list">
+            <li class="list_item">
+                <a class="list_link">List item 1</a>
+            </li>
+            <li class="list_item">
+                <a class="list_link">List item 2</a>
+            </li>
+            <li class="list_item list_item__spaced">
+                <a class="list_link">List item 3</a>
+            </li>
+            <li class="list_item">
+                <a class="list_link">List item 4</a>
+            </li>
+        </ul>
+  tags:
+    - cf-typography
+*/
+.list_item__spaced {
+  margin-top: 1.5em;
+}
+/* topdoc
+  name: Horizontal list modifier
+  family: cf-typography
+  patterns:
+    - name: Default example
+      markup: |
+        <ul class="list list__horizontal">
+            <li class="list_item">
+                <a class="list_link">List item 1</a>
+            </li>
+            <li class="list_item">
+                <a class="list_link">List item 2</a>
+            </li>
+            <li class="list_item">
+                <a class="list_link">List item 3</a>
+            </li>
+        </ul>
+  tags:
+    - cf-typography
+*/
+.list__horizontal {
+  padding-left: 0;
+}
+.list__horizontal .list_item {
+  display: inline-block;
+}
+.lt-ie8 .list__horizontal .list_item {
+  display: inline;
+}
+.list__horizontal .list_item {
+  margin-right: 0.25em;
+  margin-left: 0;
+}
+/* topdoc
+  name: Icon list modifier
+  family: cf-typography
+  notes:
+    - "Set up a list with icons on the left, in place of bullets."
+    - "Will need some more work to allow lines to wrap."
+  patterns:
+    - name: Default example
+      markup: |
+        <ul class="list list__icons">
+            <li class="list_item">
+                <span class="cf-icon cf-icon-email list_icon"></span>
+                List item 1
+            </li>
+            <li class="list_item">
+                <span class="cf-icon cf-icon-phone list_icon"></span>
+                List item 1
+            </li>
+            <li class="list_item">
+                <span class="cf-icon cf-icon-fax list_icon"></span>
+                List item 1
+            </li>
+        </ul>
+  tags:
+    - cf-typography
+*/
+.list__icons {
+  padding-left: 0;
+  list-style-type: none;
+}
+.list__icons .list_item {
+  margin-left: 0;
+}
+.list__icons .list_icon {
+  width: 1.5em;
+  text-align: center;
+}
+/* topdoc
+ name: Custom bullet mixin
+ family: cf-typography
+ patterns:
+   - name: Custom bullet
+     codenotes:
+       - ".custom-bullet(@text, @color, @offset, @size, @font, @type)"
+     notes:
+       - "Displays custom bullets to the left of specified elements as :before pseudo elements."
+       - "To use, pass this mixin values for the bullet to be displayed: text, color, font size,
+          and offset (distance away from the parent element the bullet should appear). 
+          Font family parameter is optional and defaults to inherited."
+       - "Bullets are absolutely positioned outside of their parent's flow,
+          so they will not receive certain properties applied to the parent 
+          (borders, text-decoration, etc)."
+       - "By default, custom bullets hang outside of their parent's content box 
+          (in the margin or padding if there is any). If you want the bullets to align 
+          with the left boundary of the parent's content box, give the parent a 
+          left margin value equal to the offset."
+ tags:
+   - cf-typography
+*/
+/* topdoc
+ name: Branded list modifier
+ family: cf-typography
+ patterns:
+   - name: Branded list
+     markup: |
+       <ul class="list__branded">
+           <li>First item</li>
+           <li>Second item</li>
+           <li>Third item</li>
+       </ul>
+     codenotes:
+       - ".list__branded"
+     notes:
+       - "Uses .custom-bullet mixin to generate custom main-brand-color square bullets."
+ tags:
+   - cf-typography
+*/
+.list__branded li,
+.list__branded .list_item {
+  font-family: "AvenirNextLTW01-Regular", Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  list-style-type: none;
+  position: relative;
+}
+.list__branded li em,
+.list__branded .list_item em,
+.list__branded li i,
+.list__branded .list_item i {
+  font-family: "AvenirNextLTW01-Italic", Arial, sans-serif;
+  font-style: italic;
+  font-weight: normal;
+}
+.lt-ie9 .list__branded li em,
+.lt-ie9 .list__branded .list_item em,
+.lt-ie9 .list__branded li i,
+.lt-ie9 .list__branded .list_item i {
+  font-style: normal !important;
+}
+.list__branded li strong,
+.list__branded .list_item strong,
+.list__branded li b,
+.list__branded .list_item b {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+.lt-ie9 .list__branded li strong,
+.lt-ie9 .list__branded .list_item strong,
+.lt-ie9 .list__branded li b,
+.lt-ie9 .list__branded .list_item b {
+  font-weight: normal !important;
+}
+.list__branded li:before,
+.list__branded .list_item:before {
+  content: "\25AA";
+  font-family: inherit;
+  font-size: 1.375em;
+  color: #3a8899;
+  line-height: 1;
+  position: absolute;
+  left: -0.86363636em;
+}
+/* topdoc
+  name: EOF
+  eof: true
+*/
+/* ==========================================================================
+   Capital Framework
+   Icons
+   ========================================================================== */
+/* topdoc
+  name: Less variables
+  family: cf-icons
+  notes:
+    - "These variables can be overriden in your project's Less file."
+  patterns:
+    - name: CSS prefix
+      codenotes:
+        - "@cf-icon-prefix: cf-icon;"
+    - name: Path to icon font files
+      codenotes:
+        - "@cf-icon-path: '../fonts';"
+    - name: Toggle IE7 support
+      codenotes:
+        - "@cf-icon-ie7-support: true;"
+      notes:
+        - "More on IE7 support can be found in the 'IE7 Support' section."
+  tags:
+    - cf-icons
+*/
+/* topdoc
+  name: IE7 Support
+  family: cf-icons
+  notes:
+    - "IE7 support is added by using dynamic properties (CSS expressions)."
+    - "To turn off IE7 support simply set @cf-icon-ie7-support to false."
+  tags:
+    - cf-icons
+*/
+/* topdoc
+  name: The basics
+  family: cf-icons
+  patterns:
+    - name: "@font-face declaration"
+    - name: Base icon class
+      notes:
+        - "The cf-icon-prefix class applies all shared icon styles including the
+          font family."
+        - "All icons must use two classes, one for this base class and another
+          to set the font character. For example:
+          <span class='cf-icon cf-icon-left'></span>."
+        - "Please use the span element instead of the i element. This avoids
+          font family cascading conflicts when using an italic webfont on i
+          elements and then another font for the icons. Note that this issue
+          only pops up in older versions of Internet Explorer."
+  tags:
+    - cf-icons
+*/
+@font-face {
+  font-family: 'CFPB Minicons';
+  src: url('../fonts/cf-icons.eot');
+  src: url('../fonts/cf-icons.eot?#iefix') format('embedded-opentype'), url('../fonts/cf-icons.woff') format('woff'), url('../fonts/cf-icons.ttf') format('truetype'), url('../fonts/cf-icons.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+.cf-icon,
+.cf-icon {
+  font-family: 'CFPB Minicons';
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+/* topdoc
+    name: Navigation icons
+    family: cf-icons
+    patterns:
+      - name: left
+        markup: |
+          <span class="cf-icon cf-icon-left"></span>
+          <span class="cf-icon cf-icon-left-round"></span>
+      - name: right
+        markup: |
+          <span class="cf-icon cf-icon-right"></span>
+          <span class="cf-icon cf-icon-right-round"></span>
+      - name: up
+        markup: |
+          <span class="cf-icon cf-icon-up"></span>
+          <span class="cf-icon cf-icon-up-round"></span>
+      - name: down
+        markup: |
+          <span class="cf-icon cf-icon-down"></span>
+          <span class="cf-icon cf-icon-down-round"></span>
+      - name: arrow-left
+        markup: |
+          <span class="cf-icon cf-icon-arrow-left"></span>
+          <span class="cf-icon cf-icon-arrow-left-round"></span>
+      - name: arrow-right
+        markup: |
+          <span class="cf-icon cf-icon-arrow-right"></span>
+          <span class="cf-icon cf-icon-arrow-right-round"></span>
+      - name: arrow-up
+        markup: |
+          <span class="cf-icon cf-icon-arrow-up"></span>
+          <span class="cf-icon cf-icon-arrow-up-round"></span>
+      - name: arrow-down
+        markup: |
+          <span class="cf-icon cf-icon-arrow-down"></span>
+          <span class="cf-icon cf-icon-arrow-down-round"></span>
+    tags:
+      - cf-icons
+*/
+.cf-icon-left:before {
+  content: "\e000";
+}
+.lt-ie8 .cf-icon-left {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e000');
+}
+.cf-icon-left-round:before {
+  content: "\e001";
+}
+.lt-ie8 .cf-icon-left-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e001');
+}
+.cf-icon-right:before {
+  content: "\e002";
+}
+.lt-ie8 .cf-icon-right {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e002');
+}
+.cf-icon-right-round:before {
+  content: "\e003";
+}
+.lt-ie8 .cf-icon-right-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e003');
+}
+.cf-icon-up:before {
+  content: "\e004";
+}
+.lt-ie8 .cf-icon-up {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e004');
+}
+.cf-icon-up-round:before {
+  content: "\e005";
+}
+.lt-ie8 .cf-icon-up-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e005');
+}
+.cf-icon-down:before {
+  content: "\e006";
+}
+.lt-ie8 .cf-icon-down {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e006');
+}
+.cf-icon-down-round:before {
+  content: "\e007";
+}
+.lt-ie8 .cf-icon-down-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e007');
+}
+.cf-icon-arrow-left:before {
+  content: "\e008";
+}
+.lt-ie8 .cf-icon-arrow-left {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e008');
+}
+.cf-icon-arrow-left-round:before {
+  content: "\e009";
+}
+.lt-ie8 .cf-icon-arrow-left-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e009');
+}
+.cf-icon-arrow-right:before {
+  content: "\e010";
+}
+.lt-ie8 .cf-icon-arrow-right {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e010');
+}
+.cf-icon-arrow-right-round:before {
+  content: "\e011";
+}
+.lt-ie8 .cf-icon-arrow-right-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e011');
+}
+.cf-icon-arrow-up:before {
+  content: "\e012";
+}
+.lt-ie8 .cf-icon-arrow-up {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e012');
+}
+.cf-icon-arrow-up-round:before {
+  content: "\e013";
+}
+.lt-ie8 .cf-icon-arrow-up-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e013');
+}
+.cf-icon-arrow-down:before {
+  content: "\e014";
+}
+.lt-ie8 .cf-icon-arrow-down {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e014');
+}
+.cf-icon-arrow-down-round:before {
+  content: "\e015";
+}
+.lt-ie8 .cf-icon-arrow-down-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e015');
+}
+/* topdoc
+    name: Status icons
+    family: cf-icons
+    patterns:
+      - name: approved
+        markup: |
+          <span class="cf-icon cf-icon-approved"></span>
+          <span class="cf-icon cf-icon-approved-round"></span>
+      - name: error
+        markup: |
+          <span class="cf-icon cf-icon-error"></span>
+          <span class="cf-icon cf-icon-error-round"></span>
+      - name: help
+        markup: |
+          <span class="cf-icon cf-icon-help"></span>
+          <span class="cf-icon cf-icon-help-round"></span>
+      - name: delete
+        markup: |
+          <span class="cf-icon cf-icon-delete"></span>
+          <span class="cf-icon cf-icon-delete-round"></span>
+      - name: plus
+        markup: |
+          <span class="cf-icon cf-icon-plus"></span>
+          <span class="cf-icon cf-icon-plus-round"></span>
+      - name: minus
+        markup: |
+          <span class="cf-icon cf-icon-minus"></span>
+          <span class="cf-icon cf-icon-minus-round"></span>
+      - name: update
+        markup: |
+          <span class="cf-icon cf-icon-update"></span>
+          <span class="cf-icon cf-icon-update-round"></span>
+    tags:
+      - cf-icons
+*/
+.cf-icon-approved:before {
+  content: "\e100";
+}
+.lt-ie8 .cf-icon-approved {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e100');
+}
+.cf-icon-approved-round:before {
+  content: "\e101";
+}
+.lt-ie8 .cf-icon-approved-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e101');
+}
+.cf-icon-error:before {
+  content: "\e102";
+}
+.lt-ie8 .cf-icon-error {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e102');
+}
+.cf-icon-error-round:before {
+  content: "\e103";
+}
+.lt-ie8 .cf-icon-error-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e103');
+}
+.cf-icon-help:before {
+  content: "\e104";
+}
+.lt-ie8 .cf-icon-help {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e104');
+}
+.cf-icon-help-round:before {
+  content: "\e105";
+}
+.lt-ie8 .cf-icon-help-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e105');
+}
+.cf-icon-delete:before {
+  content: "\e106";
+}
+.lt-ie8 .cf-icon-delete {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e106');
+}
+.cf-icon-delete-round:before {
+  content: "\e107";
+}
+.lt-ie8 .cf-icon-delete-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e107');
+}
+.cf-icon-plus:before {
+  content: "\e108";
+}
+.lt-ie8 .cf-icon-plus {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e108');
+}
+.cf-icon-plus-round:before {
+  content: "\e109";
+}
+.lt-ie8 .cf-icon-plus-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e109');
+}
+.cf-icon-minus:before {
+  content: "\e110";
+}
+.lt-ie8 .cf-icon-minus {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e110');
+}
+.cf-icon-minus-round:before {
+  content: "\e111";
+}
+.lt-ie8 .cf-icon-minus-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e111');
+}
+.cf-icon-update:before {
+  content: "\e112";
+}
+.lt-ie8 .cf-icon-update {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e112');
+}
+.cf-icon-update-round:before {
+  content: "\e113";
+}
+.lt-ie8 .cf-icon-update-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e113');
+}
+/* topdoc
+    name: Social icons
+    family: cf-icons
+    patterns:
+      - name: youtube
+        markup: |
+          <span class="cf-icon cf-icon-youtube"></span>
+          <span class="cf-icon cf-icon-youtube-square"></span>
+      - name: linkedin
+        markup: |
+          <span class="cf-icon cf-icon-linkedin"></span>
+          <span class="cf-icon cf-icon-linkedin-square"></span>
+      - name: facebook
+        markup: |
+          <span class="cf-icon cf-icon-facebook"></span>
+          <span class="cf-icon cf-icon-facebook-square"></span>
+      - name: flickr
+        markup: |
+          <span class="cf-icon cf-icon-flickr"></span>
+          <span class="cf-icon cf-icon-flickr-square"></span>
+      - name: plus
+        markup: |
+          <span class="cf-icon cf-icon-twitter"></span>
+          <span class="cf-icon cf-icon-twitter-square"></span>
+      - name: github
+        markup: |
+          <span class="cf-icon cf-icon-github"></span>
+          <span class="cf-icon cf-icon-github-square"></span>
+      - name: email-social
+        markup: |
+          <span class="cf-icon cf-icon-email-social"></span>
+          <span class="cf-icon cf-icon-email-social-square"></span>
+    tags:
+      - cf-icons
+*/
+.cf-icon-youtube:before {
+  content: "\e200";
+}
+.lt-ie8 .cf-icon-youtube {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e200');
+}
+.cf-icon-youtube-square:before {
+  content: "\e201";
+}
+.lt-ie8 .cf-icon-youtube-square {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e201');
+}
+.cf-icon-linkedin:before {
+  content: "\e202";
+}
+.lt-ie8 .cf-icon-linkedin {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e202');
+}
+.cf-icon-linkedin-square:before {
+  content: "\e203";
+}
+.lt-ie8 .cf-icon-linkedin-square {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e203');
+}
+.cf-icon-facebook:before {
+  content: "\e204";
+}
+.lt-ie8 .cf-icon-facebook {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e204');
+}
+.cf-icon-facebook-square:before {
+  content: "\e205";
+}
+.lt-ie8 .cf-icon-facebook-square {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e205');
+}
+.cf-icon-flickr:before {
+  content: "\e206";
+}
+.lt-ie8 .cf-icon-flickr {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e206');
+}
+.cf-icon-flickr-square:before {
+  content: "\e207";
+}
+.lt-ie8 .cf-icon-flickr-square {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e207');
+}
+.cf-icon-twitter:before {
+  content: "\e208";
+}
+.lt-ie8 .cf-icon-twitter {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e208');
+}
+.cf-icon-twitter-square:before {
+  content: "\e209";
+}
+.lt-ie8 .cf-icon-twitter-square {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e209');
+}
+.cf-icon-github:before {
+  content: "\e210";
+}
+.lt-ie8 .cf-icon-github {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e210');
+}
+.cf-icon-github-square:before {
+  content: "\e211";
+}
+.lt-ie8 .cf-icon-github-square {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e211');
+}
+.cf-icon-email-social:before {
+  content: "\e212";
+}
+.lt-ie8 .cf-icon-email-social {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e212');
+}
+.cf-icon-email-social-square:before {
+  content: "\e213";
+}
+.lt-ie8 .cf-icon-email-social-square {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e213');
+}
+/* topdoc
+    name: Communication icons
+    family: cf-icons
+    patterns:
+      - name: web
+        markup: |
+          <span class="cf-icon cf-icon-web"></span>
+          <span class="cf-icon cf-icon-web-round"></span>
+      - name: email
+        markup: |
+          <span class="cf-icon cf-icon-email"></span>
+          <span class="cf-icon cf-icon-email-round"></span>
+      - name: mail
+        markup: |
+          <span class="cf-icon cf-icon-mail"></span>
+          <span class="cf-icon cf-icon-mail-round"></span>
+      - name: phone
+        markup: |
+          <span class="cf-icon cf-icon-phone"></span>
+          <span class="cf-icon cf-icon-phone-round"></span>
+      - name: technology
+        markup: |
+          <span class="cf-icon cf-icon-technology"></span>
+          <span class="cf-icon cf-icon-technology-round"></span>
+      - name: fax
+        markup: |
+          <span class="cf-icon cf-icon-fax"></span>
+          <span class="cf-icon cf-icon-fax-round"></span>
+    tags:
+      - cf-icons
+*/
+.cf-icon-web:before {
+  content: "\e300";
+}
+.lt-ie8 .cf-icon-web {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e300');
+}
+.cf-icon-web-round:before {
+  content: "\e301";
+}
+.lt-ie8 .cf-icon-web-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e301');
+}
+.cf-icon-email:before {
+  content: "\e302";
+}
+.lt-ie8 .cf-icon-email {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e302');
+}
+.cf-icon-email-round:before {
+  content: "\e303";
+}
+.lt-ie8 .cf-icon-email-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e303');
+}
+.cf-icon-mail:before {
+  content: "\e304";
+}
+.lt-ie8 .cf-icon-mail {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e304');
+}
+.cf-icon-mail-round:before {
+  content: "\e305";
+}
+.lt-ie8 .cf-icon-mail-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e305');
+}
+.cf-icon-phone:before {
+  content: "\e306";
+}
+.lt-ie8 .cf-icon-phone {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e306');
+}
+.cf-icon-phone-round:before {
+  content: "\e307";
+}
+.lt-ie8 .cf-icon-phone-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e307');
+}
+.cf-icon-technology:before {
+  content: "\e308";
+}
+.lt-ie8 .cf-icon-technology {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e308');
+}
+.cf-icon-technology-round:before {
+  content: "\e309";
+}
+.lt-ie8 .cf-icon-technology-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e309');
+}
+.cf-icon-fax:before {
+  content: "\e310";
+}
+.lt-ie8 .cf-icon-fax {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e310');
+}
+.cf-icon-fax-round:before {
+  content: "\e311";
+}
+.lt-ie8 .cf-icon-fax-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e311');
+}
+/* topdoc
+    name: Document icons
+    family: cf-icons
+    patterns:
+      - name: document
+        markup: |
+          <span class="cf-icon cf-icon-document"></span>
+          <span class="cf-icon cf-icon-document-round"></span>
+      - name: pdf
+        markup: |
+          <span class="cf-icon cf-icon-pdf"></span>
+          <span class="cf-icon cf-icon-pdf-round"></span>
+      - name: upload
+        markup: |
+          <span class="cf-icon cf-icon-upload"></span>
+          <span class="cf-icon cf-icon-upload-round"></span>
+      - name: copy
+        markup: |
+          <span class="cf-icon cf-icon-copy"></span>
+          <span class="cf-icon cf-icon-copy-round"></span>
+      - name: edit
+        markup: |
+          <span class="cf-icon cf-icon-edit"></span>
+          <span class="cf-icon cf-icon-edit-round"></span>
+      - name: attach
+        markup: |
+          <span class="cf-icon cf-icon-attach"></span>
+          <span class="cf-icon cf-icon-attach-round"></span>
+      - name: print
+        markup: |
+          <span class="cf-icon cf-icon-print"></span>
+          <span class="cf-icon cf-icon-print-round"></span>
+      - name: save
+        markup: |
+          <span class="cf-icon cf-icon-save"></span>
+          <span class="cf-icon cf-icon-save-round"></span>
+      - name: appendix
+        markup: |
+          <span class="cf-icon cf-icon-appendix"></span>
+          <span class="cf-icon cf-icon-appendix-round"></span>
+      - name: supplement
+        markup: |
+          <span class="cf-icon cf-icon-supplement"></span>
+          <span class="cf-icon cf-icon-supplement-round"></span>
+      - name: rss
+        markup: |
+          <span class="cf-icon cf-icon-rss"></span>
+          <span class="cf-icon cf-icon-rss-round"></span>
+    tags:
+      - cf-icons
+*/
+.cf-icon-document:before {
+  content: "\e400";
+}
+.lt-ie8 .cf-icon-document {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e400');
+}
+.cf-icon-document-round:before {
+  content: "\e401";
+}
+.lt-ie8 .cf-icon-document-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e401');
+}
+.cf-icon-pdf:before {
+  content: "\e402";
+}
+.lt-ie8 .cf-icon-pdf {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e402');
+}
+.cf-icon-pdf-round:before {
+  content: "\e403";
+}
+.lt-ie8 .cf-icon-pdf-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e403');
+}
+.cf-icon-upload:before {
+  content: "\e404";
+}
+.lt-ie8 .cf-icon-upload {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e404');
+}
+.cf-icon-upload-round:before {
+  content: "\e405";
+}
+.lt-ie8 .cf-icon-upload-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e405');
+}
+.cf-icon-download:before {
+  content: "\e406";
+}
+.lt-ie8 .cf-icon-download {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e406');
+}
+.cf-icon-download-round:before {
+  content: "\e407";
+}
+.lt-ie8 .cf-icon-download-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e407');
+}
+.cf-icon-copy:before {
+  content: "\e408";
+}
+.lt-ie8 .cf-icon-copy {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e408');
+}
+.cf-icon-copy-round:before {
+  content: "\e409";
+}
+.lt-ie8 .cf-icon-copy-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e409');
+}
+.cf-icon-edit:before {
+  content: "\e410";
+}
+.lt-ie8 .cf-icon-edit {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e410');
+}
+.cf-icon-edit-round:before {
+  content: "\e411";
+}
+.lt-ie8 .cf-icon-edit-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e411');
+}
+.cf-icon-attach:before {
+  content: "\e412";
+}
+.lt-ie8 .cf-icon-attach {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e412');
+}
+.cf-icon-attach-round:before {
+  content: "\e413";
+}
+.lt-ie8 .cf-icon-attach-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e413');
+}
+.cf-icon-print:before {
+  content: "\e414";
+}
+.lt-ie8 .cf-icon-print {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e414');
+}
+.cf-icon-print-round:before {
+  content: "\e415";
+}
+.lt-ie8 .cf-icon-print-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e415');
+}
+.cf-icon-save:before {
+  content: "\e416";
+}
+.lt-ie8 .cf-icon-save {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e416');
+}
+.cf-icon-save-round:before {
+  content: "\e417";
+}
+.lt-ie8 .cf-icon-save-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e417');
+}
+.cf-icon-appendix:before {
+  content: "\e418";
+}
+.lt-ie8 .cf-icon-appendix {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e418');
+}
+.cf-icon-appendix-round:before {
+  content: "\e419";
+}
+.lt-ie8 .cf-icon-appendix-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e419');
+}
+.cf-icon-supplement:before {
+  content: "\e420";
+}
+.lt-ie8 .cf-icon-supplement {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e420');
+}
+.cf-icon-supplement-round:before {
+  content: "\e421";
+}
+.lt-ie8 .cf-icon-supplement-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e421');
+}
+.cf-icon-rss:before {
+  content: "\e422";
+}
+.lt-ie8 .cf-icon-rss {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e422');
+}
+.cf-icon-rss-round:before {
+  content: "\e423";
+}
+.lt-ie8 .cf-icon-rss-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e423');
+}
+/* topdoc
+    name: Financial product icons
+    family: cf-icons
+    patterns:
+      - name: bank-account
+        markup: |
+          <span class="cf-icon cf-icon-bank-account"></span>
+          <span class="cf-icon cf-icon-bank-account-round"></span>
+      - name: credit-card
+        markup: |
+          <span class="cf-icon cf-icon-credit-card"></span>
+          <span class="cf-icon cf-icon-credit-card-round"></span>
+      - name: loan
+        markup: |
+          <span class="cf-icon cf-icon-loan"></span>
+          <span class="cf-icon cf-icon-loan-round"></span>
+      - name: money-transfer
+        markup: |
+          <span class="cf-icon cf-icon-money-transfer"></span>
+          <span class="cf-icon cf-icon-money-transfer-round"></span>
+      - name: mortgage
+        markup: |
+          <span class="cf-icon cf-icon-mortgage"></span>
+          <span class="cf-icon cf-icon-mortgage-round"></span>
+      - name: debt-collection
+        markup: |
+          <span class="cf-icon cf-icon-debt-collection"></span>
+          <span class="cf-icon cf-icon-debt-collection-round"></span>
+      - name: credit-report
+        markup: |
+          <span class="cf-icon cf-icon-credit-report"></span>
+          <span class="cf-icon cf-icon-credit-report-round"></span>
+      - name: money
+        markup: |
+          <span class="cf-icon cf-icon-money"></span>
+          <span class="cf-icon cf-icon-money-round"></span>
+      - name: quick-cash
+        markup: |
+          <span class="cf-icon cf-icon-quick-cash"></span>
+          <span class="cf-icon cf-icon-quick-cash-round"></span>
+      - name: contract
+        markup: |
+          <span class="cf-icon cf-icon-contract"></span>
+          <span class="cf-icon cf-icon-contract-round"></span>
+      - name: complaint
+        markup: |
+          <span class="cf-icon cf-icon-complaint"></span>
+          <span class="cf-icon cf-icon-complaint-round"></span>
+      - name: getting-credit-card
+        markup: |
+          <span class="cf-icon cf-icon-getting-credit-card"></span>
+          <span class="cf-icon cf-icon-getting-credit-card-round"></span>
+      - name: buying-car
+        markup: |
+          <span class="cf-icon cf-icon-buying-car"></span>
+          <span class="cf-icon cf-icon-buying-car-round"></span>
+      - name: paying-college
+        markup: |
+          <span class="cf-icon cf-icon-paying-college"></span>
+          <span class="cf-icon cf-icon-paying-college-round"></span>
+      - name: owning-home
+        markup: |
+          <span class="cf-icon cf-icon-owning-home"></span>
+          <span class="cf-icon cf-icon-owning-home-round"></span>
+      - name: debt
+        markup: |
+          <span class="cf-icon cf-icon-debt"></span>
+          <span class="cf-icon cf-icon-debt-round"></span>
+      - name: building-credit
+        markup: |
+          <span class="cf-icon cf-icon-building-credit"></span>
+          <span class="cf-icon cf-icon-building-credit-round"></span>
+      - name: prepaid-cards
+        markup: |
+          <span class="cf-icon cf-icon-prepaid-cards"></span>
+          <span class="cf-icon cf-icon-prepaid-cards-round"></span>
+      - name: payday-loan
+        markup: |
+          <span class="cf-icon cf-icon-payday-loan"></span>
+          <span class="cf-icon cf-icon-payday-loan-round"></span>
+      - name: retirement
+        markup: |
+          <span class="cf-icon cf-icon-retirement"></span>
+          <span class="cf-icon cf-icon-retirement-round"></span>
+    tags:
+      - cf-icons
+*/
+.cf-icon-bank-account:before {
+  content: "\e500";
+}
+.lt-ie8 .cf-icon-bank-account {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e500');
+}
+.cf-icon-bank-account-round:before {
+  content: "\e501";
+}
+.lt-ie8 .cf-icon-bank-account-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e501');
+}
+.cf-icon-credit-card:before {
+  content: "\e502";
+}
+.lt-ie8 .cf-icon-credit-card {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e502');
+}
+.cf-icon-credit-card-round:before {
+  content: "\e503";
+}
+.lt-ie8 .cf-icon-credit-card-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e503');
+}
+.cf-icon-loan:before {
+  content: "\e504";
+}
+.lt-ie8 .cf-icon-loan {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e504');
+}
+.cf-icon-loan-round:before {
+  content: "\e505";
+}
+.lt-ie8 .cf-icon-loan-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e505');
+}
+.cf-icon-money-transfer:before {
+  content: "\e506";
+}
+.lt-ie8 .cf-icon-money-transfer {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e506');
+}
+.cf-icon-money-transfer-round:before {
+  content: "\e507";
+}
+.lt-ie8 .cf-icon-money-transfer-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e507');
+}
+.cf-icon-mortgage:before {
+  content: "\e508";
+}
+.lt-ie8 .cf-icon-mortgage {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e508');
+}
+.cf-icon-mortgage-round:before {
+  content: "\e509";
+}
+.lt-ie8 .cf-icon-mortgage-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e509');
+}
+.cf-icon-debt-collection:before {
+  content: "\e510";
+}
+.lt-ie8 .cf-icon-debt-collection {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e510');
+}
+.cf-icon-debt-collection-round:before {
+  content: "\e511";
+}
+.lt-ie8 .cf-icon-debt-collection-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e511');
+}
+.cf-icon-credit-report:before {
+  content: "\e512";
+}
+.lt-ie8 .cf-icon-credit-report {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e512');
+}
+.cf-icon-credit-report-round:before {
+  content: "\e513";
+}
+.lt-ie8 .cf-icon-credit-report-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e513');
+}
+.cf-icon-money:before {
+  content: "\e514";
+}
+.lt-ie8 .cf-icon-money {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e514');
+}
+.cf-icon-money-round:before {
+  content: "\e515";
+}
+.lt-ie8 .cf-icon-money-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e515');
+}
+.cf-icon-quick-cash:before {
+  content: "\e516";
+}
+.lt-ie8 .cf-icon-quick-cash {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e516');
+}
+.cf-icon-quick-cash-round:before {
+  content: "\e517";
+}
+.lt-ie8 .cf-icon-quick-cash-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e517');
+}
+.cf-icon-contract:before {
+  content: "\e518";
+}
+.lt-ie8 .cf-icon-contract {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e518');
+}
+.cf-icon-contract-round:before {
+  content: "\e519";
+}
+.lt-ie8 .cf-icon-contract-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e519');
+}
+.cf-icon-complaint:before {
+  content: "\e520";
+}
+.lt-ie8 .cf-icon-complaint {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e520');
+}
+.cf-icon-complaint-round:before {
+  content: "\e521";
+}
+.lt-ie8 .cf-icon-complaint-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e521');
+}
+.cf-icon-getting-credit-card:before {
+  content: "\e522";
+}
+.lt-ie8 .cf-icon-getting-credit-card {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e522');
+}
+.cf-icon-getting-credit-card-round:before {
+  content: "\e523";
+}
+.lt-ie8 .cf-icon-getting-credit-card-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e523');
+}
+.cf-icon-buying-car:before {
+  content: "\e524";
+}
+.lt-ie8 .cf-icon-buying-car {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e524');
+}
+.cf-icon-buying-car-round:before {
+  content: "\e525";
+}
+.lt-ie8 .cf-icon-buying-car-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e525');
+}
+.cf-icon-paying-college:before {
+  content: "\e526";
+}
+.lt-ie8 .cf-icon-paying-college {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e526');
+}
+.cf-icon-paying-college-round:before {
+  content: "\e527";
+}
+.lt-ie8 .cf-icon-paying-college-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e527');
+}
+.cf-icon-owning-home:before {
+  content: "\e528";
+}
+.lt-ie8 .cf-icon-owning-home {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e528');
+}
+.cf-icon-owning-home-round:before {
+  content: "\e529";
+}
+.lt-ie8 .cf-icon-owning-home-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e529');
+}
+.cf-icon-debt:before {
+  content: "\e530";
+}
+.lt-ie8 .cf-icon-debt {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e530');
+}
+.cf-icon-debt-round:before {
+  content: "\e531";
+}
+.lt-ie8 .cf-icon-debt-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e531');
+}
+.cf-icon-building-credit:before {
+  content: "\e532";
+}
+.lt-ie8 .cf-icon-building-credit {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e532');
+}
+.cf-icon-building-credit-round:before {
+  content: "\e533";
+}
+.lt-ie8 .cf-icon-building-credit-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e533');
+}
+.cf-icon-prepaid-cards:before {
+  content: "\e534";
+}
+.lt-ie8 .cf-icon-prepaid-cards {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e534');
+}
+.cf-icon-prepaid-cards-round:before {
+  content: "\e535";
+}
+.lt-ie8 .cf-icon-prepaid-cards-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e535');
+}
+.cf-icon-payday-loan:before {
+  content: "\e536";
+}
+.lt-ie8 .cf-icon-payday-loan {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e536');
+}
+.cf-icon-payday-loan-round:before {
+  content: "\e537";
+}
+.lt-ie8 .cf-icon-payday-loan-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e537');
+}
+.cf-icon-retirement:before {
+  content: "\e538";
+}
+.lt-ie8 .cf-icon-retirement {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e538');
+}
+.cf-icon-retirement-round:before {
+  content: "\e539";
+}
+.lt-ie8 .cf-icon-retirement-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e539');
+}
+/* topdoc
+    name: Web icons
+    family: cf-icons
+    patterns:
+      - name: user
+        markup: |
+          <span class="cf-icon cf-icon-user"></span>
+          <span class="cf-icon cf-icon-user-round"></span>
+      - name: wifi
+        markup: |
+          <span class="cf-icon cf-icon-wifi"></span>
+          <span class="cf-icon cf-icon-wifi-round"></span>
+      - name: search
+        markup: |
+          <span class="cf-icon cf-icon-search"></span>
+          <span class="cf-icon cf-icon-search-round"></span>
+      - name: share
+        markup: |
+          <span class="cf-icon cf-icon-share"></span>
+          <span class="cf-icon cf-icon-share-round"></span>
+      - name: link
+        markup: |
+          <span class="cf-icon cf-icon-link"></span>
+          <span class="cf-icon cf-icon-link-round"></span>
+      - name: external-link
+        markup: |
+          <span class="cf-icon cf-icon-external-link"></span>
+          <span class="cf-icon cf-icon-external-link-round"></span>
+      - name: audio-mute
+        markup: |
+          <span class="cf-icon cf-icon-audio-mute"></span>
+          <span class="cf-icon cf-icon-audio-mute-round"></span>
+      - name: audio-low
+        markup: |
+          <span class="cf-icon cf-icon-audio-low"></span>
+          <span class="cf-icon cf-icon-audio-low-round"></span>
+      - name: audio-medium
+        markup: |
+          <span class="cf-icon cf-icon-audio-medium"></span>
+          <span class="cf-icon cf-icon-audio-medium-round"></span>
+      - name: audio-max
+        markup: |
+          <span class="cf-icon cf-icon-audio-max"></span>
+          <span class="cf-icon cf-icon-audio-max-round"></span>
+      - name: favorite
+        markup: |
+          <span class="cf-icon cf-icon-favorite"></span>
+          <span class="cf-icon cf-icon-favorite-round"></span>
+      - name: unfavorite
+        markup: |
+          <span class="cf-icon cf-icon-unfavorite"></span>
+          <span class="cf-icon cf-icon-unfavorite-round"></span>
+      - name: bookmark
+        markup: |
+          <span class="cf-icon cf-icon-bookmark"></span>
+          <span class="cf-icon cf-icon-bookmark-round"></span>
+      - name: unbookmark
+        markup: |
+          <span class="cf-icon cf-icon-unbookmark"></span>
+          <span class="cf-icon cf-icon-unbookmark-round"></span>
+      - name: settings
+        markup: |
+          <span class="cf-icon cf-icon-settings"></span>
+          <span class="cf-icon cf-icon-settings-round"></span>
+      - name: menu
+        markup: |
+          <span class="cf-icon cf-icon-menu"></span>
+          <span class="cf-icon cf-icon-menu-round"></span>
+      - name: lock
+        markup: |
+          <span class="cf-icon cf-icon-lock"></span>
+          <span class="cf-icon cf-icon-lock-round"></span>
+      - name: unlock
+        markup: |
+          <span class="cf-icon cf-icon-unlock"></span>
+          <span class="cf-icon cf-icon-unlock-round"></span>
+      - name: clock
+        markup: |
+          <span class="cf-icon cf-icon-clock"></span>
+          <span class="cf-icon cf-icon-clock-round"></span>
+      - name: chart
+        markup: |
+          <span class="cf-icon cf-icon-chart"></span>
+          <span class="cf-icon cf-icon-chart-round"></span>
+      - name: play
+        markup: |
+          <span class="cf-icon cf-icon-play"></span>
+          <span class="cf-icon cf-icon-play-round"></span>
+      - name: newspaper
+        markup: |
+          <span class="cf-icon cf-icon-newspaper"></span>
+          <span class="cf-icon cf-icon-newspaper-round"></span>
+      - name: microphone
+        markup: |
+          <span class="cf-icon cf-icon-microphone"></span>
+          <span class="cf-icon cf-icon-microphone-round"></span>
+      - name: bullhorn
+        markup: |
+          <span class="cf-icon cf-icon-bullhorn"></span>
+          <span class="cf-icon cf-icon-bullhorn-round"></span>
+      - name: double-quote
+        markup: |
+          <span class="cf-icon cf-icon-double-quote"></span>
+          <span class="cf-icon cf-icon-double-quote-round"></span>
+      - name: speech-bubble
+        markup: |
+          <span class="cf-icon cf-icon-speech-bubble"></span>
+          <span class="cf-icon cf-icon-speech-bubble-round"></span>
+      - name: information
+        markup: |
+          <span class="cf-icon cf-icon-information"></span>
+          <span class="cf-icon cf-icon-information-round"></span>
+      - name: lightbulb
+        markup: |
+          <span class="cf-icon cf-icon-lightbulb"></span>
+          <span class="cf-icon cf-icon-lightbulb-round"></span>
+      - name: dialogue
+        markup: |
+          <span class="cf-icon cf-icon-dialogue"></span>
+          <span class="cf-icon cf-icon-dialogue-round"></span>
+      - name: date
+        markup: |
+          <span class="cf-icon cf-icon-date"></span>
+          <span class="cf-icon cf-icon-date-round"></span>
+    tags:
+      - cf-icons
+*/
+.cf-icon-user:before {
+  content: "\e600";
+}
+.lt-ie8 .cf-icon-user {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e600');
+}
+.cf-icon-user-round:before {
+  content: "\e601";
+}
+.lt-ie8 .cf-icon-user-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e601');
+}
+.cf-icon-wifi:before {
+  content: "\e602";
+}
+.lt-ie8 .cf-icon-wifi {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e602');
+}
+.cf-icon-wifi-round:before {
+  content: "\e603";
+}
+.lt-ie8 .cf-icon-wifi-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e603');
+}
+.cf-icon-search:before {
+  content: "\e604";
+}
+.lt-ie8 .cf-icon-search {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e604');
+}
+.cf-icon-search-round:before {
+  content: "\e605";
+}
+.lt-ie8 .cf-icon-search-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e605');
+}
+.cf-icon-share:before {
+  content: "\e606";
+}
+.lt-ie8 .cf-icon-share {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e606');
+}
+.cf-icon-share-round:before {
+  content: "\e607";
+}
+.lt-ie8 .cf-icon-share-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e607');
+}
+.cf-icon-link:before {
+  content: "\e608";
+}
+.lt-ie8 .cf-icon-link {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e608');
+}
+.cf-icon-link-round:before {
+  content: "\e609";
+}
+.lt-ie8 .cf-icon-link-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e609');
+}
+.cf-icon-external-link:before {
+  content: "\e610";
+}
+.lt-ie8 .cf-icon-external-link {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e610');
+}
+.cf-icon-external-link-round:before {
+  content: "\e611";
+}
+.lt-ie8 .cf-icon-external-link-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e611');
+}
+.cf-icon-audio-mute:before {
+  content: "\e612";
+}
+.lt-ie8 .cf-icon-audio-mute {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e612');
+}
+.cf-icon-audio-mute-round:before {
+  content: "\e616";
+}
+.lt-ie8 .cf-icon-audio-mute-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e616');
+}
+.cf-icon-audio-low:before {
+  content: "\e613";
+}
+.lt-ie8 .cf-icon-audio-low {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e613');
+}
+.cf-icon-audio-low-round:before {
+  content: "\e617";
+}
+.lt-ie8 .cf-icon-audio-low-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e617');
+}
+.cf-icon-audio-medium:before {
+  content: "\e614";
+}
+.lt-ie8 .cf-icon-audio-medium {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e614');
+}
+.cf-icon-audio-medium-round:before {
+  content: "\e618";
+}
+.lt-ie8 .cf-icon-audio-medium-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e618');
+}
+.cf-icon-audio-max:before {
+  content: "\e615";
+}
+.lt-ie8 .cf-icon-audio-max {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e615');
+}
+.cf-icon-audio-max-round:before {
+  content: "\e619";
+}
+.lt-ie8 .cf-icon-audio-max-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e619');
+}
+.cf-icon-favorite:before {
+  content: "\e620";
+}
+.lt-ie8 .cf-icon-favorite {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e620');
+}
+.cf-icon-favorite-round:before {
+  content: "\e621";
+}
+.lt-ie8 .cf-icon-favorite-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e621');
+}
+.cf-icon-unfavorite:before {
+  content: "\e622";
+}
+.lt-ie8 .cf-icon-unfavorite {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e622');
+}
+.cf-icon-unfavorite-round:before {
+  content: "\e623";
+}
+.lt-ie8 .cf-icon-unfavorite-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e623');
+}
+.cf-icon-bookmark:before {
+  content: "\e624";
+}
+.lt-ie8 .cf-icon-bookmark {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e624');
+}
+.cf-icon-bookmark-round:before {
+  content: "\e625";
+}
+.lt-ie8 .cf-icon-bookmark-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e625');
+}
+.cf-icon-unbookmark:before {
+  content: "\e626";
+}
+.lt-ie8 .cf-icon-unbookmark {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e626');
+}
+.cf-icon-unbookmark-round:before {
+  content: "\e627";
+}
+.lt-ie8 .cf-icon-unbookmark-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e627');
+}
+.cf-icon-settings:before {
+  content: "\e628";
+}
+.lt-ie8 .cf-icon-settings {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e628');
+}
+.cf-icon-settings-round:before {
+  content: "\e629";
+}
+.lt-ie8 .cf-icon-settings-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e629');
+}
+.cf-icon-menu:before {
+  content: "\e630";
+}
+.lt-ie8 .cf-icon-menu {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e630');
+}
+.cf-icon-menu-round:before {
+  content: "\e631";
+}
+.lt-ie8 .cf-icon-menu-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e631');
+}
+.cf-icon-lock:before {
+  content: "\e632";
+}
+.lt-ie8 .cf-icon-lock {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e632');
+}
+.cf-icon-lock-round:before {
+  content: "\e633";
+}
+.lt-ie8 .cf-icon-lock-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e633');
+}
+.cf-icon-unlock:before {
+  content: "\e634";
+}
+.lt-ie8 .cf-icon-unlock {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e634');
+}
+.cf-icon-unlock-round:before {
+  content: "\e635";
+}
+.lt-ie8 .cf-icon-unlock-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e635');
+}
+.cf-icon-clock:before {
+  content: "\e636";
+}
+.lt-ie8 .cf-icon-clock {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e636');
+}
+.cf-icon-clock-round:before {
+  content: "\e637";
+}
+.lt-ie8 .cf-icon-clock-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e637');
+}
+.cf-icon-chart:before {
+  content: "\e638";
+}
+.lt-ie8 .cf-icon-chart {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e638');
+}
+.cf-icon-chart-round:before {
+  content: "\e639";
+}
+.lt-ie8 .cf-icon-chart-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e639');
+}
+.cf-icon-play:before {
+  content: "\e640";
+}
+.lt-ie8 .cf-icon-play {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e640');
+}
+.cf-icon-play-round:before {
+  content: "\e641";
+}
+.lt-ie8 .cf-icon-play-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e641');
+}
+.cf-icon-newspaper:before {
+  content: "\e700";
+}
+.lt-ie8 .cf-icon-newspaper {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e700');
+}
+.cf-icon-newspaper-round:before {
+  content: "\e701";
+}
+.lt-ie8 .cf-icon-newspaper-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e701');
+}
+.cf-icon-microphone:before {
+  content: "\e702";
+}
+.lt-ie8 .cf-icon-microphone {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e702');
+}
+.cf-icon-microphone-round:before {
+  content: "\e703";
+}
+.lt-ie8 .cf-icon-microphone-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e703');
+}
+.cf-icon-bullhorn:before {
+  content: "\e704";
+}
+.lt-ie8 .cf-icon-bullhorn {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e704');
+}
+.cf-icon-bullhorn-round:before {
+  content: "\e705";
+}
+.lt-ie8 .cf-icon-bullhorn-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e705');
+}
+.cf-icon-double-quote:before {
+  content: "\e708";
+}
+.lt-ie8 .cf-icon-double-quote {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e708');
+}
+.cf-icon-double-quote-round:before {
+  content: "\e709";
+}
+.lt-ie8 .cf-icon-double-quote-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e709');
+}
+.cf-icon-speech-bubble:before {
+  content: "\e710";
+}
+.lt-ie8 .cf-icon-speech-bubble {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e710');
+}
+.cf-icon-speech-bubble-round:before {
+  content: "\e711";
+}
+.lt-ie8 .cf-icon-speech-bubble-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e711');
+}
+.cf-icon-information:before {
+  content: "\e712";
+}
+.lt-ie8 .cf-icon-information {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e712');
+}
+.cf-icon-information-round:before {
+  content: "\e713";
+}
+.lt-ie8 .cf-icon-information-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e713');
+}
+.cf-icon-lightbulb:before {
+  content: "\e714";
+}
+.lt-ie8 .cf-icon-lightbulb {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e714');
+}
+.cf-icon-lightbulb-round:before {
+  content: "\e715";
+}
+.lt-ie8 .cf-icon-lightbulb-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e715');
+}
+.cf-icon-dialogue:before {
+  content: "\e716";
+}
+.lt-ie8 .cf-icon-dialogue {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e716');
+}
+.cf-icon-dialogue-round:before {
+  content: "\e717";
+}
+.lt-ie8 .cf-icon-dialogue-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e717');
+}
+.cf-icon-date:before {
+  content: "\e718";
+}
+.lt-ie8 .cf-icon-date {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e718');
+}
+.cf-icon-date-round:before {
+  content: "\e719";
+}
+.lt-ie8 .cf-icon-date-round {
+  *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '\e719');
+}
+/* topdoc
+  name: EOF
+  eof: true
+*/
+/* ==========================================================================
+   Capital Framework
+   Core Less file
+   ========================================================================== */
+/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+/**
+ * 1. Set default font family to sans-serif.
+ * 2. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+html {
+  font-family: sans-serif;
+  /* 1 */
+  -ms-text-size-adjust: 100%;
+  /* 2 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
+}
+/**
+ * Remove default margin.
+ */
+body {
+  margin: 0;
+}
+/* HTML5 display definitions
+   ========================================================================== */
+/**
+ * Correct `block` display not defined for any HTML5 element in IE 8/9.
+ * Correct `block` display not defined for `details` or `summary` in IE 10/11
+ * and Firefox.
+ * Correct `block` display not defined for `main` in IE 11.
+ */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+/**
+ * 1. Correct `inline-block` display not defined in IE 8/9.
+ * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
+ */
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+  /* 1 */
+  vertical-align: baseline;
+  /* 2 */
+}
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+/**
+ * Address `[hidden]` styling not present in IE 8/9/10.
+ * Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
+ */
+[hidden],
+template {
+  display: none;
+}
+/* Links
+   ========================================================================== */
+/**
+ * Remove the gray background color from active links in IE 10.
+ */
+a {
+  background-color: transparent;
+}
+/**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */
+a:active,
+a:hover {
+  outline: 0;
+}
+/* Text-level semantics
+   ========================================================================== */
+/**
+ * Address styling not present in IE 8/9/10/11, Safari, and Chrome.
+ */
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+/**
+ * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
+ */
+b,
+strong {
+  font-weight: bold;
+}
+/**
+ * Address styling not present in Safari and Chrome.
+ */
+dfn {
+  font-style: italic;
+}
+/**
+ * Address variable `h1` font-size and margin within `section` and `article`
+ * contexts in Firefox 4+, Safari, and Chrome.
+ */
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+/**
+ * Address styling not present in IE 8/9.
+ */
+mark {
+  background: #ff0;
+  color: #000;
+}
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+small {
+  font-size: 80%;
+}
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
+/* Embedded content
+   ========================================================================== */
+/**
+ * Remove border when inside `a` element in IE 8/9/10.
+ */
+img {
+  border: 0;
+}
+/**
+ * Correct overflow not hidden in IE 9/10/11.
+ */
+svg:not(:root) {
+  overflow: hidden;
+}
+/* Grouping content
+   ========================================================================== */
+/**
+ * Address margin not present in IE 8/9 and Safari.
+ */
+figure {
+  margin: 1em 40px;
+}
+/**
+ * Address differences between Firefox and other browsers.
+ */
+hr {
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+/**
+ * Contain overflow in all browsers.
+ */
+pre {
+  overflow: auto;
+}
+/**
+ * Address odd `em`-unit font size rendering in all browsers.
+ */
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+/* Forms
+   ========================================================================== */
+/**
+ * Known limitation: by default, Chrome and Safari on OS X allow very limited
+ * styling of `select`, unless a `border` property is set.
+ */
+/**
+ * 1. Correct color not being inherited.
+ *    Known issue: affects color of disabled elements.
+ * 2. Correct font properties not being inherited.
+ * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
+ */
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit;
+  /* 1 */
+  font: inherit;
+  /* 2 */
+  margin: 0;
+  /* 3 */
+}
+/**
+ * Address `overflow` set to `hidden` in IE 8/9/10/11.
+ */
+button {
+  overflow: visible;
+}
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
+ * Correct `select` style inheritance in Firefox.
+ */
+button,
+select {
+  text-transform: none;
+}
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ */
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button;
+  /* 2 */
+  cursor: pointer;
+  /* 3 */
+}
+/**
+ * Re-set default cursor for disabled elements.
+ */
+button[disabled],
+html input[disabled] {
+  cursor: default;
+}
+/**
+ * Remove inner padding and border in Firefox 4+.
+ */
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+/**
+ * Address Firefox 4+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+input {
+  line-height: normal;
+}
+/**
+ * It's recommended that you don't attempt to style these elements.
+ * Firefox's implementation doesn't respect box-sizing, padding, or width.
+ *
+ * 1. Address box sizing set to `content-box` in IE 8/9/10.
+ * 2. Remove excess padding in IE 8/9/10.
+ */
+input[type="checkbox"],
+input[type="radio"] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  /* 1 */
+  padding: 0;
+  /* 2 */
+}
+/**
+ * Fix the cursor style for Chrome's increment/decrement buttons. For certain
+ * `font-size` values of the `input`, it causes the cursor style of the
+ * decrement button to change from `default` to `text`.
+ */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari and Chrome
+ *    (include `-moz` to future-proof).
+ */
+input[type="search"] {
+  -webkit-appearance: textfield;
+  /* 1 */
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  /* 2 */
+  box-sizing: content-box;
+}
+/**
+ * Remove inner padding and search cancel button in Safari and Chrome on OS X.
+ * Safari (but not Chrome) clips the cancel button when the search input has
+ * padding (and `textfield` appearance).
+ */
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+/**
+ * Define consistent border, margin, and padding.
+ */
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+/**
+ * 1. Correct `color` not being inherited in IE 8/9/10/11.
+ * 2. Remove padding so people aren't caught out if they zero out fieldsets.
+ */
+legend {
+  border: 0;
+  /* 1 */
+  padding: 0;
+  /* 2 */
+}
+/**
+ * Remove default vertical scrollbar in IE 8/9/10/11.
+ */
+textarea {
+  overflow: auto;
+}
+/**
+ * Don't inherit the `font-weight` (applied by a rule above).
+ * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
+ */
+optgroup {
+  font-weight: bold;
+}
+/* Tables
+   ========================================================================== */
+/**
+ * Remove most spacing between table cells.
+ */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+td,
+th {
+  padding: 0;
+}
+/*! normalize-legacy-addon | MIT License | https://github.com/cfpb/normalize-legacy-addon */
+/* ==========================================================================
+   HTML5 display definitions
+   ========================================================================== */
+/*
+ * Corrects `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.
+ */
+audio,
+canvas,
+video {
+  *display: inline;
+  *zoom: 1;
+}
+/* ==========================================================================
+   Base
+   ========================================================================== */
+/* 
+ * Corrects text resizing oddly in IE 6/7 when body `font-size` is set using
+ * `em` units.
+*/
+html {
+  font-size: 100%;
+}
+/*
+ * Addresses `font-family` inconsistency between `textarea` and other form
+ * elements.
+ */
+html,
+button,
+input,
+select,
+textarea {
+  font-family: sans-serif;
+}
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+/*
+ * Addresses font sizes and margins set differently in IE 6/7.
+ * Addresses font sizes within `section` and `article` in Firefox 4+, Safari 5,
+ * and Chrome.
+ */
+h1 {
+  margin: 0.67em 0;
+}
+h2 {
+  font-size: 1.5em;
+  margin: 0.83em 0;
+}
+h3 {
+  font-size: 1.17em;
+  margin: 1em 0;
+}
+h4 {
+  font-size: 1em;
+  margin: 1.33em 0;
+}
+h5 {
+  font-size: 0.83em;
+  margin: 1.67em 0;
+}
+h6 {
+  font-size: 0.75em;
+  margin: 2.33em 0;
+}
+blockquote {
+  margin: 1em 40px;
+}
+/*
+ * Addresses margins set differently in IE 6/7.
+ */
+p,
+pre {
+  margin: 1em 0;
+}
+/*
+ * Corrects font family set oddly in IE 6, Safari 4/5, and Chrome.
+ */
+code,
+kbd,
+pre,
+samp {
+  _font-family: 'courier new', monospace;
+}
+/**
+ * Improve readability of pre-formatted text in all browsers.
+ */
+pre {
+  white-space: pre;
+  word-wrap: break-word;
+}
+/*
+ * Addresses CSS quotes not supported in IE 6/7.
+ */
+q {
+  quotes: none;
+}
+/*
+ * Addresses `quotes` property not supported in Safari 4.
+ */
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+/* ==========================================================================
+   Lists
+   ========================================================================== */
+/*
+ * Addresses margins set differently in IE 6/7.
+ */
+dl,
+menu,
+ol,
+ul {
+  margin: 1em 0;
+}
+dd {
+  margin: 0 0 0 40px;
+}
+/*
+ * Addresses paddings set differently in IE 6/7.
+ */
+menu,
+ol,
+ul {
+  padding: 0 0 0 40px;
+}
+/*
+ * Corrects list images handled incorrectly in IE 7.
+ */
+nav ul,
+nav ol {
+  list-style: none;
+  list-style-image: none;
+}
+/* ==========================================================================
+   Embedded content
+   ========================================================================== */
+/*
+ * Improves image quality when scaled in IE 7.
+ */
+img {
+  -ms-interpolation-mode: bicubic;
+}
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+/*
+ * Corrects margin displayed oddly in IE 6/7.
+ */
+form {
+  margin: 0;
+}
+/*
+ * 1. Corrects color not being inherited in IE 6/7/8/9.
+ * 2. Corrects text not wrapping in Firefox 3.
+ * 3. Corrects alignment displayed oddly in IE 6/7.
+ */
+legend {
+  border: 0;
+  /* 1 */
+  white-space: normal;
+  /* 2 */
+  *margin-left: -7px;
+  /* 3 */
+}
+/*
+ * Improves appearance and consistency in all browsers.
+ */
+button,
+input,
+select,
+textarea {
+  vertical-align: baseline;
+  *vertical-align: middle;
+}
+/*
+ * Removes inner spacing in IE 7 without affecting normal text inputs.
+ * Known issue: inner spacing remains in IE 6.
+ */
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  *overflow: visible;
+}
+/*
+ * Removes excess padding in IE 7.
+ * Known issue: excess padding remains in IE 6.
+ */
+input[type="checkbox"],
+input[type="radio"] {
+  *height: 13px;
+  *width: 13px;
+}
+/* ==========================================================================
+   Capital Framework
+   Less variables
+   ========================================================================== */
+/* topdoc
+  name: Theme variables
+  family: cf-core
+  notes:
+    - "The following color and sizing variables are exposed, allowing you to
+       easily override them before compiling."
+  patterns:
+    - name: Sizing
+      codenotes:
+        - |
+          @base-font-size-px
+          @base-line-height-px
+          @base-line-height
+          @mobile-max
+          @tablet-min
+    - name: Colors
+      codenotes:
+        - |
+          @text
+          @link-text
+          @link-underline
+          @link-text-visited
+          @link-underline-visited
+          @link-text-hover
+          @link-underline-hover
+          @link-text-active
+          @link-underline-active
+          @thead-text
+          @thead-bg
+          @td-bg
+          @td-bg-alt
+          @input-bg
+          @input-border
+          @input-border-focus
+          @input-placeholder
+          @figure__bordered
+  tags:
+    - cf-core
+*/
+/* topdoc
+  name: EOF
+  eof: true
+*/
+/* ==========================================================================
+   Capital Framework
+   Media queries
+   ========================================================================== */
+/* topdoc
+  name: Media query mixins
+  family: cf-core
+  notes:
+    - "These mixins allow us to write consistent media queries using pixel
+      values, which are easier to remember. The mixins handle converting the
+      pixels into em's."
+  patterns:
+    - name: "min-width/max-width media queries"
+      codenotes:
+        - ".respond-to-min(@bp, @rules)"
+        - ".respond-to-max(@bp, @rules)"
+      notes:
+        - "@bp: the breakpoint size in pixels. It will get converted into em's."
+        - "@rules: a CSS or Less ruleset. Note that it can contain the full set
+          of Less features."
+    - name: "min-width/max-width media query usage"
+      codenotes:
+        - |
+            .respond-to-min(768px, {
+                .title {
+                    font-size: 2em;
+                }
+            });
+
+            Compiles to:
+
+            @media only all and (min-width: 48em) {
+                .title {
+                    font-size: 2em;
+                }
+            }
+    - name: "min-width/max-width media query range"
+      codenotes:
+        - ".respond-to-range(@bp1, @bp2, @rules)"
+      notes:
+        - "@bp1: the min-width breakpoint size in pixels.
+          It will get converted into em's."
+        - "@bp2: the max-width breakpoint size in pixels.
+          It will get converted into em's."
+        - "@rules: a CSS or Less ruleset. Note that it can contain the full set
+          of Less features."
+    - name: "min-width/max-width media query range usage"
+      codenotes:
+        - |
+            .respond-to-range(320px, 768px, {
+                .title {
+                    font-size: 2em;
+                }
+            });
+
+            Compiles to:
+
+            @media only all and (min-width: 20em) and (max-width: 48em) {
+                .title {
+                    font-size: 2em;
+                }
+            }
+  tags:
+    - cf-core
+*/
+/* topdoc
+  name: EOF
+  eof: true
+*/
+/* ==========================================================================
+   Capital Framework
+   Utilities
+   ========================================================================== */
+/* topdoc
+  name: JS-only
+  family: cf-core
+  patterns:
+    - name: Setup
+      codenotes:
+        - <html class="no-js">
+        - |
+            <script>
+                // Confirm availability of JS and remove no-js class from html
+                var docElement = document.documentElement;
+                docElement.className = docElement.className.replace(/(^|\s)no-js(\s|$)/, '$1$2');
+            </script>
+      notes:
+        - "First add the .no-js class to the HTML element."
+        - "Then add the script to your HEAD which removes the .no-js class when
+           JS is available."
+    - name: Utility class
+      codenotes:
+        - .u-js-only;
+      notes:
+        - "Hide stuff when JavaScript isn't available. Depends on having a small
+           script in the HEAD of your HTML document that removes a .no-js class."
+  tags:
+    - cf-core
+*/
+.no-js .u-js-only {
+  display: none !important;
+}
+/* topdoc
+  name: Clearfix
+  family: cf-core
+  patterns:
+    - name: Utility class
+      markup: |
+        <div class="u-clearfix">
+            <div style="float:left; width:100%; height:60px; background:black;"></div>
+        </div>
+      codenotes:
+        - .u-clearfix;
+      notes:
+        - "Use this class to clear floats. For example, without .u-clearfix the
+           black box would spill into the markup section."
+        - "More information: http://css-tricks.com/snippets/css/clear-fix/"
+  tags:
+    - cf-core
+*/
+.u-clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.lt-ie8 .u-clearfix {
+  zoom: 1;
+}
+/* topdoc
+  name: Visually hidden
+  family: cf-core
+  patterns:
+    - name: Utility class
+      markup: |
+        <h1>
+            <a href="#">
+                <span class="cf-icon cf-icon-twitter-square"></span>
+                <span class="u-visually-hidden">Share on Twitter</span>
+            </a>
+        </h1>
+      codenotes:
+        - .u-visually-hidden;
+      notes:
+        - "Use this class to hide something from view while keeping it
+          accessible to screen readers."
+  tags:
+    - cf-core
+*/
+.u-visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}
+/* topdoc
+  name: Inline block
+  family: cf-core
+  patterns:
+    - name: Utility class
+      codenotes:
+        - .u-inline-block;
+      notes:
+        - "Also adds a .lt-ie8 class to hack inline-block for IE 7 and below."
+  tags:
+    - cf-core
+*/
+.u-inline-block {
+  display: inline-block;
+}
+.lt-ie8 .u-inline-block {
+  display: inline;
+}
+/* topdoc
+  name: Floating right
+  family: cf-core
+  patterns:
+    - name: Utility class
+      codenotes:
+        - .u-right;
+      notes:
+        - "IE7 float: right drop bug fixes:"
+        - "1. If the float: right follows an element in the html structure that
+          should be to its left (and not above it), then that preceding
+          element(s) must be float: left.
+          http://stackoverflow.com/questions/10981767/clean-css-fix-of-ie7s-float-right-drop-bug#answer-11437688"
+        - "2. Simply change the markup order so that the element floating right
+          comes before the element to its left."
+  tags:
+    - cf-core
+*/
+.u-right {
+  float: right;
+}
+/* topdoc
+  name: Break word
+  family: cf-core
+  patterns:
+    - name: Utility class
+      markup: |
+        <div style="width: 100px;">
+            This link should break:
+            <br>
+            <a class="u-break-word" href="#">
+                something@something.com
+            </a>
+            <br>
+            <br>
+            This link should not:
+            <br>
+            <a href="#">
+                something@something.com
+            </a>
+        </div>
+      codenotes:
+        - .u-break-word
+      notes:
+        - "Use this on elements where you need the words to break when confined
+           to small containers."
+        - "This only works in IE8 when the element with the .u-break-word class
+           has layout. See <http://stackoverflow.com/questions/3997223/word-wrapbreak-word-not-working-in-ie8>
+           for more information."
+  tags:
+    - cf-core
+*/
+.u-break-word {
+  word-break: break-all;
+}
+/* topdoc
+  name: Align with button
+  family: cf-core
+  patterns:
+    - name: Utility class
+      codenotes:
+        - ".u-align-with-btn(@font-size: @base-font-size-px);"
+      notes:
+        - "Adds top padding (among other things) to help alignment with buttons."
+        - "If you pass no arguments then the padding will be calculated using
+          @base-font-size-px."
+        - "Pass one argument to use a custom font size to calculate the top
+          padding."
+  tags:
+    - cf-core
+*/
+/* topdoc
+  name: Flexible proportional containers
+  family: cf-core
+  notes:
+    - "Utilizes intrinsic ratios to create a flexible container that retains its
+      aspect ratio. When image tags scale they retain their aspect ratio, but if
+      you need a flexible video you will need to use this mixin."
+    - "You can read more about intrinsic rations here:
+      http://alistapart.com/article/creating-intrinsic-ratios-for-video"
+  patterns:
+    - name: Default example
+      markup: |
+        <div class="u-flexible-container">
+            <video
+              class="u-flexible-container_inner"
+              style="background:#75787B;"
+              controls>
+            </video>
+        </div>
+      notes:
+        - "Defaults to a 16:19 ratio."
+        - "Original mixin credit: https://gist.github.com/craigmdennis/6655047"
+        - "Note that inline style usage is being used for demo purposes only.
+          Please do not use inline styles."
+      codenotes:
+        - |
+          Structural sheat sheet:
+          -----------------------
+          .u-flexible-container
+            .u-flexible-container_inner
+    - name: Background image examples
+      markup: |
+        <div class="u-flexible-container"
+             style="
+               background-image:url(http://placekitten.com/700/394);
+               background-position: center center;
+             ">
+        </div>
+        <div class="u-flexible-container"
+             style="
+               background-image:url(http://placekitten.com/700/394);
+               background-position: center center;
+               background-size: cover;
+             ">
+        </div>
+      codenotes:
+        - |
+          Structural sheat sheet:
+          -----------------------
+          .u-flexible-container
+      notes:
+        - "If you're not using the video or object elements and all you need is
+          a proportionally cropped or scaling background image with a fluid
+          container then you can leave out u-flexible-container_inner."
+        - "Note that inline style usage is being used for demo purposes only.
+          Please do not use inline styles."
+    - name: 4-3 modifier
+      markup: |
+        <div class="u-flexible-container u-flexible-container__4-3">
+            <video
+              class="u-flexible-container_inner"
+              style="background:#75787B;"
+              controls>
+            </video>
+        </div>
+      codenotes:
+        - |
+          Structural sheat sheet:
+          -----------------------
+          .u-flexible-container.u-flexible-container__4-3
+            .u-flexible-container_inner
+      notes:
+        - "Create your own aspect ratios by using this modifier as an example."
+        - "Note that inline style usage is being used for demo purposes only.
+          Please do not use inline styles."
+  tags:
+    - cf-core
+*/
+.u-flexible-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+}
+.u-flexible-container_inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.u-flexible-container__4-3 {
+  position: relative;
+  padding-bottom: 75%;
+  height: 0;
+}
+/* topdoc
+  name: Link mixins
+  family: cf-core
+  patterns:
+    - codenotes:
+        - .u-link__colors();
+      notes:
+        - "Pass this mixin no arguments to color your link states with the
+          following defaults: :link (default state) pacific, :hover pacific-50,
+          :focus: pacific, :visited teal, :active navy."
+    - codenotes:
+        - .u-link__colors(@c);
+      notes:
+        - "Pass this mixin one color to be used on all of the following
+          states of your link; :link (default state), :visited, :hover, :focus,
+          :active."
+    - codenotes:
+        - .u-link__colors(@c, @h);
+      notes:
+        - "Pass this mixin two colors to use the first color for the :link,
+          :visited, and :active states, and the second color for the :hover and
+          :focus states."
+    - codenotes:
+        - .u-link__colors(@c, @v, @h, @f, @a);
+      notes:
+        - "Pass this mixin five colors in 'love/hate' mnemonic order to color
+          :link, :visited, :hover, :focus, and :active states respectively."
+        - "Even though this mixin is basically the same as
+          .u-link__colors-base(@c, @v, @h, @f, @a); we encourage you to use
+          .u-link__colors(@c, @v, @h, @f, @a) to promote consistency."
+    - codenotes:
+        - .u-link__colors(@c, @v, @h, @f, @a, @bc, @bv, @bh, @bf, @ba);
+      notes:
+        - "Allows you to color text and the borders separately."
+        - "The first five colors in 'love/hate' mnemonic order will color text
+          for the :link, :visited, :hover, :focus, and :active states
+          respectively. The last five colors in 'love/hate' mnemonic order will
+          color the borders for the :link, :visited, :hover, :focus, and :active
+          states respectively."
+        - "Even though this mixin is basically the same as
+          .u-link__colors-base(@c, @v, @h, @f, @a, @bc, @bv, @bh, @bf, @ba); we
+          encourage you to use .u-link__colors(@c, @v, @h, @f, @a, @bc, @bv, @bh, @bf, @ba)
+          to promote consistency."
+    - codenotes:
+        - .u-link__colors-base(@c, @v, @h, @f, @a);
+      notes:
+        - "This is the base mixin that all .u-link__colors() mixins use. Please
+          refrain from using this mixin directly in order to promote a
+          consistent use of mixin names for coloring links throughout this
+          project. Remember that if you need to set colors for all states of a
+          link you should use .u-link__colors(@c, @v, @h, @f, @a)."
+    - codenotes:
+        - .u-link__border();
+      notes:
+        - "Forces the default bottom border on the :link and :hover states."
+    - codenotes:
+        - .u-link__no-border();
+      notes:
+        - "Turn off the default bottom border on the :link and :hover states."
+    - codenotes:
+        - .u-link__hover-border();
+      notes:
+        - "Turn off the default bottom border on the :link state and force a
+          bottom border on the :hover state."
+    - codenotes:
+        - .u-link-child__hover();
+      notes:
+        - "When a link has child elements you may want only certain children to
+          change color when the parent link is hovered.
+          Pass no arguments to this mixin to color the child element pacific
+          when the parent link is hovered."
+    - codenotes:
+        - .u-link-child__hover(@c);
+      notes:
+        - "Pass this mixin one color to color the child element when the parent
+          link is hovered."
+  tags:
+    - cf-core
+*/
+/* topdoc
+  name: Margin utilities
+  family: cf-core
+  patterns:
+    - name: Utility classes
+      codenotes:
+        - .u-m<p><#>;
+      notes:
+        - "Replace <p> with the first letter of the position ('t' for top or 'b'
+           for bottom) and <#> with the pixel value of the margin you want."
+        - "Available values: 0, 5, 10, 15, 20, 30, 45, 60."
+  tags:
+    - cf-core
+*/
+.u-mt0 {
+  margin-top: 0 !important;
+}
+.u-mb0 {
+  margin-bottom: 0 !important;
+}
+.u-mt5 {
+  margin-top: 5px !important;
+}
+.u-mb5 {
+  margin-bottom: 5px !important;
+}
+.u-mt10 {
+  margin-top: 10px !important;
+}
+.u-mb10 {
+  margin-bottom: 10px !important;
+}
+.u-mt15 {
+  margin-top: 15px !important;
+}
+.u-mb15 {
+  margin-bottom: 15px !important;
+}
+.u-mt20 {
+  margin-top: 20px !important;
+}
+.u-mb20 {
+  margin-bottom: 20px !important;
+}
+.u-mt30 {
+  margin-top: 30px !important;
+}
+.u-mb30 {
+  margin-bottom: 30px !important;
+}
+.u-mt45 {
+  margin-top: 45px !important;
+}
+.u-mb45 {
+  margin-bottom: 45px !important;
+}
+.u-mt60 {
+  margin-top: 60px !important;
+}
+.u-mb60 {
+  margin-bottom: 60px !important;
+}
+/* topdoc
+  name: Width utilities
+  family: cf-core
+  patterns:
+    - name: Percent-based
+      markup: |
+        <div class="u-w100pct" style="background: #f4edf3; margin-bottom: 1px;">
+            <code>.u-w100pct</code>
+        </div>
+        <div class="u-w90pct" style="background: #f4edf3; margin-bottom: 1px;">
+            <code>.u-w90pct</code>
+        </div>
+        <div class="u-w80pct" style="background: #f4edf3; margin-bottom: 1px;">
+            <code>.u-w80pct</code>
+        </div>
+        <div class="u-w70pct" style="background: #f4edf3; margin-bottom: 1px;">
+            <code>.u-w70pct</code>
+        </div>
+        <div class="u-w60pct" style="background: #f4edf3; margin-bottom: 1px;">
+            <code>.u-w60pct</code>
+        </div>
+        <div class="u-w50pct" style="background: #f4edf3; margin-bottom: 1px;">
+            <code>.u-w50pct</code>
+        </div>
+        <div class="u-w40pct" style="background: #f4edf3; margin-bottom: 1px;">
+            <code>.u-w40pct</code>
+        </div>
+        <div class="u-w30pct" style="background: #f4edf3; margin-bottom: 1px;">
+            <code>.u-w30pct</code>
+        </div>
+        <div class="u-w20pct" style="background: #f4edf3; margin-bottom: 1px;">
+            <code>.u-w20pct</code>
+        </div>
+        <div class="u-w10pct" style="background: #f4edf3; margin-bottom: 1px;">
+            <code>.u-w10pct</code>
+        </div>
+        <div class="u-w75pct" style="background: #f4edf3; margin-bottom: 1px;">
+            <code>.u-w75pct</code>
+        </div>
+        <div class="u-w25pct" style="background: #f4edf3; margin-bottom: 1px;">
+            <code>.u-w25pct</code>
+        </div>
+        <div class="u-w66pct" style="background: #f4edf3; margin-bottom: 1px;">
+            <code>.u-w66pct</code>
+        </div>
+        <div class="u-w33pct" style="background: #f4edf3; margin-bottom: 1px;">
+            <code>.u-w33pct</code>
+        </div>
+      notes:
+        - "Inline styles are for demonstration purposes only, please don't use
+           them."
+  tags:
+    - cf-core
+*/
+.u-w100pct {
+  width: 100%;
+}
+.u-w90pct {
+  width: 90%;
+}
+.u-w80pct {
+  width: 80%;
+}
+.u-w70pct {
+  width: 70%;
+}
+.u-w60pct {
+  width: 60%;
+}
+.u-w50pct {
+  width: 50%;
+}
+.u-w40pct {
+  width: 40%;
+}
+.u-w30pct {
+  width: 30%;
+}
+.u-w20pct {
+  width: 20%;
+}
+.u-w10pct {
+  width: 10%;
+}
+.u-w75pct {
+  width: 75%;
+}
+.u-w25pct {
+  width: 25%;
+}
+.u-w66pct {
+  width: 66.66666667%;
+}
+.u-w33pct {
+  width: 33.33333333%;
+}
+/* topdoc
+  name: Width-specific display
+  family: cf-core
+  patterns:
+    - name: Show on mobile
+      markup: |
+        <section>
+            <p>The the text in the box below is visible only at widths less than 600px</p>
+            <div style="border: 1px solid black; height: 22px; padding: 5px;">
+                <p class="u-show-on-mobile">Visible on mobile</p>
+            </div>
+        </section>
+      codenotes:
+        - ".u-show-on-mobile"
+        - "Uses 'display:block' to toggle display. Would need to be extended
+          for inline use cases."
+      notes:
+        - "Displays an element only at mobile widths."
+    - name: Hide on mobile
+      markup: |
+        <section>
+            <p>The text in the box below is hidden at widths less than 600px</p>
+            <div style="border: 1px solid black; height: 22px; padding: 5px;">
+                <p class="u-hide-on-mobile">Hidden on mobile</p>
+            </div>
+        </section>
+      codenotes:
+        - ".u-hide-on-mobile"
+      notes:
+        - "Hides an element at mobile widths"
+  tags:
+    - cf-core
+*/
+@media only all and (max-width: 37.4375em) {
+  .u-hide-on-mobile {
+    display: none;
+  }
+}
+.u-show-on-mobile {
+  display: none;
+}
+@media only all and (max-width: 37.4375em) {
+  .u-show-on-mobile {
+    display: block;
+  }
+}
+/* topdoc
+  name: Small text utility
+  family: cf-core
+  patterns:
+    - name: .u-small-text (utility class)
+      markup: |
+        Lorem ipsum<br>
+        <span class="u-small-text">dolor sit amet</span>
+      codenotes:
+        - ".u-small-text"
+      notes:
+        - "14px text."
+        - "The utility class should only be used when the default text size is
+           16px. For example you wouldn't want to use the class inside of an
+           `h1` because the `font-size` in the `h1` will make `.u-small-text`
+           bigger than it should be. See the docs for the `.u-small-text()`
+           mixin."
+    - name: .u-small-text() (Less mixin)
+      codenotes:
+        - ".u-small-text(@context)"
+        - |
+          // Mixin usage:
+          .example {
+            font-size: unit(20px / @base-font-size-px, em);
+            small {
+              .u-small-text(20px);
+            }
+          }
+          // Compiles to:
+          .example {
+            font-size: 1.25em;
+          }
+          .example small {
+            font-size: 0.7em;
+          }
+      notes:
+        - "This mixin enables you to easily create consistent small text by
+           passing the context `font-size`."
+  tags:
+    - cf-core
+*/
+.u-small-text {
+  font-size: 0.875em;
+}
+small {
+  font-size: 0.875em;
+}
+/* topdoc
+    name: EOF
+    eof: true
+*/
+/* ==========================================================================
+   Capital Framework
+   Base styles
+   ========================================================================== */
+/*
+ * Source: http://fast.fonts.net/cssapi/44e8c964-4684-44c6-a6e3-3f3da8787b50.css
+ * This file has been edited to use absolute URLS so we can concatenate it with
+ * all of our other styles.
+ */
+@font-face {
+  font-family: "AvenirNextLTW01-Regular";
+  src: url("//fast.fonts.net/dv2/2/e9167238-3b3f-4813-a04a-a384394eed42.eot?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50") format("eot");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "AvenirNextLTW01-Regular";
+  src: url("//fast.fonts.net/dv2/2/e9167238-3b3f-4813-a04a-a384394eed42.eot?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50");
+  src: url("//fast.fonts.net/dv2/3/1e9892c0-6927-4412-9874-1b82801ba47a.woff?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50") format("woff"), url("//fast.fonts.net/dv2/1/46cf1067-688d-4aab-b0f7-bd942af6efd8.ttf?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50") format("truetype"), url("//fast.fonts.net/dv2/11/52a192b1-bea5-4b48-879f-107f009b666f.svg?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50#52a192b1-bea5-4b48-879f-107f009b666f") format("svg");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "AvenirNextLTW01-Italic";
+  src: url("//fast.fonts.net/dv2/2/d1fddef1-d940-4904-8f6c-17e809462301.eot?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50") format("eot");
+  font-style: italic;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "AvenirNextLTW01-Italic";
+  src: url("//fast.fonts.net/dv2/2/d1fddef1-d940-4904-8f6c-17e809462301.eot?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50");
+  src: url("//fast.fonts.net/dv2/3/92b66dbd-4201-4ac2-a605-4d4ffc8705cc.woff?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50") format("woff"), url("//fast.fonts.net/dv2/1/18839597-afa8-4f0b-9abb-4a30262d0da8.ttf?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50") format("truetype"), url("//fast.fonts.net/dv2/11/1de7e6f4-9d4d-47e7-ab23-7d5cf10ab585.svg?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50#1de7e6f4-9d4d-47e7-ab23-7d5cf10ab585") format("svg");
+  font-style: italic;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "AvenirNextLTW01-Medium";
+  src: url("//fast.fonts.net/dv2/2/1a7c9181-cd24-4943-a9d9-d033189524e0.eot?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50") format("eot");
+  font-style: normal;
+  font-weight: 500;
+}
+@font-face {
+  font-family: "AvenirNextLTW01-Medium";
+  src: url("//fast.fonts.net/dv2/2/1a7c9181-cd24-4943-a9d9-d033189524e0.eot?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50");
+  src: url("//fast.fonts.net/dv2/3/f26faddb-86cc-4477-a253-1e1287684336.woff?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50") format("woff"), url("//fast.fonts.net/dv2/1/63a74598-733c-4d0c-bd91-b01bffcd6e69.ttf?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50") format("truetype"), url("//fast.fonts.net/dv2/11/a89d6ad1-a04f-4a8f-b140-e55478dbea80.svg?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50#a89d6ad1-a04f-4a8f-b140-e55478dbea80") format("svg");
+  font-style: normal;
+  font-weight: 500;
+}
+@font-face {
+  font-family: "AvenirNextLTW01-Demi";
+  src: url("//fast.fonts.net/dv2/2/12d643f2-3899-49d5-a85b-ff430f5fad15.eot?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50") format("eot");
+  font-style: normal;
+  font-weight: 700;
+}
+@font-face {
+  font-family: "AvenirNextLTW01-Demi";
+  src: url("//fast.fonts.net/dv2/2/12d643f2-3899-49d5-a85b-ff430f5fad15.eot?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50");
+  src: url("//fast.fonts.net/dv2/3/91b50bbb-9aa1-4d54-9159-ec6f19d14a7c.woff?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50") format("woff"), url("//fast.fonts.net/dv2/1/a0f4c2f9-8a42-4786-ad00-fce42b57b148.ttf?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50") format("truetype"), url("//fast.fonts.net/dv2/11/99affa9a-a5e9-4559-bd07-20cf0071852d.svg?d44f19a684109620e4841679af90e818b934c450213fb296d217dd76fbd8133e8104ffce1b8d7381e92baf075aac747ded01b441045f936c159eb0f46c11e1f99e958a3e0d6904164b21814766132f7cb38b46df85fb387875d6907338f619856e049c29c288424547a2ca329b1d0251faf8c505bae9c3ec3d5a1e4327f5fdf46ffb088d97582c65a45857e1e0662c2d545166a03c7b024ca17ac3839d703086c5f9fd694b6f5493360c3bcd9d5d427b599ea7651d27005ca2f4c1d0312515f51a323f79b7f5cf1afa2ab67a3ddbfee1&projectId=44e8c964-4684-44c6-a6e3-3f3da8787b50#99affa9a-a5e9-4559-bd07-20cf0071852d") format("svg");
+  font-style: normal;
+  font-weight: 700;
+}
+/* topdoc
+  name: Webfonts
+  family: cf-core
+  patterns:
+    - name: Licensed webfonts
+      notes:
+        - "Avenir Next is included via the licensed-fonts.css file.
+          This file contains absolute links to our paid font service.
+          Fonts included this way will only work on CFPB-registered domains."
+        - "Note that when using Avenir Regular we automatically fix faux italic
+          and bold issues by overriding i, em, b, and strong tags to use the
+          appropriate fonts."
+    - name: Webfont mixins
+      codenotes:
+        - ".webfont-regular()"
+        - ".webfont-italic()"
+        - ".webfont-medium()"
+        - ".webfont-demi()"
+      notes:
+        - "Use these mixins to easily add the Avenir Next font family to your
+          elements."
+        - "To avoid faux bold and italics in Avenir Next, you must use the font
+          family name for that particular style. So when defining an italic or
+          bold style in Avenir Next you need to use the Avenir Next Italic font
+          family. Use the mixins when setting bold or italic text as they also
+          set the appropriate font-weight and font-style."
+        - "These mixins also add the appropriate .lt-ie9 overrides.
+          .lt-ie9 overrides are necessary to override font-style and font-weight
+          each time the webfont is used. These overrides are built into the webfont
+          mixins so you get them automatically. Note that this requires you to
+          use conditional classes on the <html> element:
+          https://github.com/h5bp/html5-boilerplate/blob/v4.3.0/doc/html.md#conditional-html-classes."
+  tags:
+    - cf-core
+*/
+/* topdoc
+  name: Type hierarchy
+  family: cf-core
+  patterns:
+    - name: Default body type
+      markup: |
+        <p>Lorem ipsum dolor sit amet, <em>consectetur adipisicing elit</em>, sed do eiusmod <strong>tempor incididunt</strong> ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    - name: Heading level 1
+      markup: |
+        <h1>Example heading element</h1>
+        <p class="h1">A non-heading element</p>
+      notes:
+        - Responsive header. At mobile sizes, displays as h2.
+    - name: Heading level 2
+      markup: |
+        <h2>Example heading element</h2>
+        <p class="h2">A non-heading element</p>
+      notes:
+        - Responsive header. At mobile sizes, displays as h3.
+    - name: Heading level 3
+      markup: |
+        <h3>Example heading element</h3>
+        <p class="h3">A non-heading element</p>
+      notes:
+        - Responsive header. At mobile sizes, displays as h4.
+    - name: Heading level 4
+      markup: |
+        <h4>Example heading element</h4>
+        <p class="h4">A non-heading element</p>
+    - name: Heading level 5
+      markup: |
+        <h5>Example heading element</h5>
+        <p class="h5">A non-heading element</p>
+    - name: Heading level 6
+      markup: |
+        <h6>Example heading element</h6>
+        <p class="h6">A non-heading element</p>
+    - name: Super header
+      markup: |
+        <h1 class="superheader">Example super heading</h1>
+        <p class="superheader">Example super heading</p>
+  tags:
+    - cf-core
+*/
+body {
+  color: #5b3b57;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 100%;
+  line-height: 1.375;
+}
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3 {
+  font-family: "AvenirNextLTW01-Regular", Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+h1 em,
+.h1 em,
+h2 em,
+.h2 em,
+h3 em,
+.h3 em,
+h1 i,
+.h1 i,
+h2 i,
+.h2 i,
+h3 i,
+.h3 i {
+  font-family: "AvenirNextLTW01-Italic", Arial, sans-serif;
+  font-style: italic;
+  font-weight: normal;
+}
+.lt-ie9 h1 em,
+.lt-ie9 .h1 em,
+.lt-ie9 h2 em,
+.lt-ie9 .h2 em,
+.lt-ie9 h3 em,
+.lt-ie9 .h3 em,
+.lt-ie9 h1 i,
+.lt-ie9 .h1 i,
+.lt-ie9 h2 i,
+.lt-ie9 .h2 i,
+.lt-ie9 h3 i,
+.lt-ie9 .h3 i {
+  font-style: normal !important;
+}
+h1 strong,
+.h1 strong,
+h2 strong,
+.h2 strong,
+h3 strong,
+.h3 strong,
+h1 b,
+.h1 b,
+h2 b,
+.h2 b,
+h3 b,
+.h3 b {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+.lt-ie9 h1 strong,
+.lt-ie9 .h1 strong,
+.lt-ie9 h2 strong,
+.lt-ie9 .h2 strong,
+.lt-ie9 h3 strong,
+.lt-ie9 .h3 strong,
+.lt-ie9 h1 b,
+.lt-ie9 .h1 b,
+.lt-ie9 h2 b,
+.lt-ie9 .h2 b,
+.lt-ie9 h3 b,
+.lt-ie9 .h3 b {
+  font-weight: normal !important;
+}
+h1,
+.h1 {
+  margin-top: 0;
+  margin-bottom: 0.47058824em;
+  font-size: 2.125em;
+  line-height: 1.29411765;
+}
+@media only all and (max-width: 37.4375em) {
+  h1,
+  .h1 {
+    font-family: "AvenirNextLTW01-Regular", Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 0.73076923em;
+    font-size: 1.625em;
+    line-height: 1.26923077;
+  }
+  h1 em,
+  .h1 em,
+  h1 i,
+  .h1 i {
+    font-family: "AvenirNextLTW01-Italic", Arial, sans-serif;
+    font-style: italic;
+    font-weight: normal;
+  }
+  .lt-ie9 h1 em,
+  .lt-ie9 .h1 em,
+  .lt-ie9 h1 i,
+  .lt-ie9 .h1 i {
+    font-style: normal !important;
+  }
+  h1 strong,
+  .h1 strong,
+  h1 b,
+  .h1 b {
+    font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+  }
+  .lt-ie9 h1 strong,
+  .lt-ie9 .h1 strong,
+  .lt-ie9 h1 b,
+  .lt-ie9 .h1 b {
+    font-weight: normal !important;
+  }
+}
+@media only all and (max-width: 37.4375em) and only all and (max-width: 37.4375em) {
+  h1,
+  .h1 {
+    font-family: "AvenirNextLTW01-Regular", Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 0.95454545em;
+    font-size: 1.375em;
+    line-height: 1.27272727;
+  }
+  h1 em,
+  .h1 em,
+  h1 i,
+  .h1 i {
+    font-family: "AvenirNextLTW01-Italic", Arial, sans-serif;
+    font-style: italic;
+    font-weight: normal;
+  }
+  .lt-ie9 h1 em,
+  .lt-ie9 .h1 em,
+  .lt-ie9 h1 i,
+  .lt-ie9 .h1 i {
+    font-style: normal !important;
+  }
+  h1 strong,
+  .h1 strong,
+  h1 b,
+  .h1 b {
+    font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+  }
+  .lt-ie9 h1 strong,
+  .lt-ie9 .h1 strong,
+  .lt-ie9 h1 b,
+  .lt-ie9 .h1 b {
+    font-weight: normal !important;
+  }
+}
+@media only all and (max-width: 37.4375em) and only all and (max-width: 37.4375em) and only all and (max-width: 37.4375em) {
+  h1,
+  .h1 {
+    margin-top: 0;
+    margin-bottom: 1.16666667em;
+    font-size: 1.125em;
+    font-family: "AvenirNextLTW01-Medium", Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.22222222;
+  }
+  .lt-ie9 h1,
+  .lt-ie9 .h1 {
+    font-weight: normal !important;
+  }
+}
+h2,
+.h2 {
+  margin-top: 0;
+  margin-bottom: 0.73076923em;
+  font-size: 1.625em;
+  line-height: 1.26923077;
+}
+@media only all and (max-width: 37.4375em) {
+  h2,
+  .h2 {
+    font-family: "AvenirNextLTW01-Regular", Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 0.95454545em;
+    font-size: 1.375em;
+    line-height: 1.27272727;
+  }
+  h2 em,
+  .h2 em,
+  h2 i,
+  .h2 i {
+    font-family: "AvenirNextLTW01-Italic", Arial, sans-serif;
+    font-style: italic;
+    font-weight: normal;
+  }
+  .lt-ie9 h2 em,
+  .lt-ie9 .h2 em,
+  .lt-ie9 h2 i,
+  .lt-ie9 .h2 i {
+    font-style: normal !important;
+  }
+  h2 strong,
+  .h2 strong,
+  h2 b,
+  .h2 b {
+    font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+  }
+  .lt-ie9 h2 strong,
+  .lt-ie9 .h2 strong,
+  .lt-ie9 h2 b,
+  .lt-ie9 .h2 b {
+    font-weight: normal !important;
+  }
+}
+@media only all and (max-width: 37.4375em) and only all and (max-width: 37.4375em) {
+  h2,
+  .h2 {
+    margin-top: 0;
+    margin-bottom: 1.16666667em;
+    font-size: 1.125em;
+    font-family: "AvenirNextLTW01-Medium", Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.22222222;
+  }
+  .lt-ie9 h2,
+  .lt-ie9 .h2 {
+    font-weight: normal !important;
+  }
+}
+h3,
+.h3 {
+  margin-top: 0;
+  margin-bottom: 0.95454545em;
+  font-size: 1.375em;
+  line-height: 1.27272727;
+}
+@media only all and (max-width: 37.4375em) {
+  h3,
+  .h3 {
+    margin-top: 0;
+    margin-bottom: 1.16666667em;
+    font-size: 1.125em;
+    font-family: "AvenirNextLTW01-Medium", Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.22222222;
+  }
+  .lt-ie9 h3,
+  .lt-ie9 .h3 {
+    font-weight: normal !important;
+  }
+}
+h4,
+.h4 {
+  margin-top: 0;
+  margin-bottom: 1.16666667em;
+  font-size: 1.125em;
+  font-family: "AvenirNextLTW01-Medium", Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.22222222;
+}
+.lt-ie9 h4,
+.lt-ie9 .h4 {
+  font-weight: normal !important;
+}
+h5,
+h6,
+.h5,
+.h6 {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.lt-ie9 h5,
+.lt-ie9 h6,
+.lt-ie9 .h5,
+.lt-ie9 .h6 {
+  font-weight: normal !important;
+}
+h5,
+.h5 {
+  margin-top: 0;
+  margin-bottom: 0.35714286em;
+  font-size: 0.875em;
+  line-height: 1.57142857;
+}
+h6,
+.h6 {
+  margin-top: 0;
+  margin-bottom: 0.41666667em;
+  font-size: 0.75em;
+  line-height: 1.83333333;
+}
+.superheader {
+  margin-bottom: 0.1875em;
+  font-size: 3em;
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 1.25;
+}
+.lt-ie9 .superheader {
+  font-weight: normal !important;
+}
+/* topdoc
+  name: Margins
+  family: cf-core
+  patterns:
+    - name: Consistent vertical margins
+      notes:
+        - "Assumes that the font size of each of these items remains the default."
+      markup: |
+        <p>Paragraph margin example</p>
+        <p>Paragraph margin example</p>
+  tags:
+    - cf-core
+*/
+p,
+ul,
+ol,
+dl,
+table,
+figure {
+  margin-top: 0;
+  margin-bottom: 1.25em;
+}
+/* topdoc
+  name: Default link
+  notes:
+    - "Note that the .visited, .hover, .focus, .active classes are for demonstration purposes only and should not 
+      be used in production."
+  family: cf-core
+  patterns:
+    - name: Default state
+      markup: |
+        <a href="#">Default link style</a>
+    - name: Visited state
+      markup: |
+        <a href="#" class="visited">Visited link style</a>
+    - name: Hovered state
+      markup: |
+        <a href="#" class="hover">Hovered link style</a>
+    - name: Focused state
+      markup: |
+        <a href="#" class="focus">Focused link style</a>
+    - name: Active state
+      markup: |
+        <a href="#" class="active">Active link style</a>
+  tags:
+    - cf-core
+*/
+a {
+  border-width: 0;
+  border-style: dotted;
+  border-color: #c7336e;
+  color: #c7336e;
+  text-decoration: none;
+}
+a:visited,
+a.visited {
+  border-color: #cf447c;
+  color: #cf447c;
+}
+a:hover,
+a.hover {
+  border-style: solid;
+  border-color: #9e2958;
+  color: #9e2958;
+}
+a:focus,
+a.focus {
+  border-style: solid;
+  outline: thin dotted;
+}
+a:active,
+a.active {
+  border-style: solid;
+  border-color: #8a234c;
+  color: #8a234c;
+}
+/* topdoc
+  name: Underlined links
+  family: cf-core
+  patterns:
+    - name: States
+      notes:
+        - "Note that the .visited, .hover, .focus, .active classes are for demonstration purposes only and should not 
+          be used in production."
+        - "The underline style properties are mostly set above in the a tag.
+          To enable the underline simply set a bottom-border-width as done here."
+      markup: |
+        <p>
+            <a href="#">Default</a>,
+            <a href="#" class="visited">Visited</a>,
+            <a href="#" class="hover">Hovered</a>,
+            <a href="#" class="focus">Focused</a>,
+            <a href="#" class="active">Active</a>
+        </p>
+    - name: Underline conditions
+      notes:
+        - "We're restricting link borders to links within p, li, and dd so that
+          we don't have to override them every time we want a plain link."
+      markup: |
+        <p>
+            <a href="#">A child of a paragraph</a>
+        </p>
+        <ul>
+            <li>
+                <a href="#">A child of a list item</a>
+            </li>
+        </ul>
+        <dl>
+            <dt>
+                Definition list term
+            </dt>
+            <dd>
+                <a href="#">A child of a definition list description</a>
+            </dd>
+        </dl>
+    - name: Exceptions for underlined links
+      notes:
+        - "Inline text links inside of a nav element are not underlined."
+      markup: |
+        <nav>
+            <p>
+                <a href="#">A child of a paragraph</a>
+            </p>
+            <ul>
+                <li>
+                    <a href="#">A child of a list item</a>
+                </li>
+            </ul>
+            <dl>
+                <dt>
+                    Definition list term
+                </dt>
+                <dd>
+                    <a href="#">A child of a definition list description</a>
+                </dd>
+            </dl>
+        </nav>
+  tags:
+    - cf-core
+*/
+p a,
+li a,
+dd a {
+  border-bottom-width: 1px;
+}
+nav a {
+  border-bottom-width: 0;
+}
+/* topdoc
+  name: Lists
+  family: cf-core
+  patterns:
+    - name: Unordered list
+      markup: |
+        <ul>
+            <li>List item</li>
+            <li>List item</li>
+            <li>List item</li>
+        </ul>
+  tags:
+    - cf-core
+*/
+ul {
+  list-style: square;
+}
+/* topdoc
+  name: Tables
+  family: cf-core
+  patterns:
+    - name: Standard table
+      markup: |
+        <table>
+            <thead>
+                <tr>
+                    <th>Column 1 header</th>
+                    <th>Column 2 header</th>
+                    <th>Column 3 header</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Row 1 header</th>
+                    <td>Row 1, column 2</td>
+                    <td>Row 1, column 3</td>
+                </tr>
+                <tr>
+                    <th>Row 2 header</th>
+                    <td>Row 2, column 2</td>
+                    <td>Row 2, column 3</td>
+                </tr>
+                <tr>
+                    <th>Row 3 header</th>
+                    <td>Row 3, column 2</td>
+                    <td>Row 3, column 3</td>
+                </tr>
+            </tbody>
+        </table>
+    - name: Compact table
+      markup: |
+        <table class="compact-table">
+            <thead>
+                <tr>
+                    <th>Column 1 header</th>
+                    <th>Column 2 header</th>
+                    <th>Column 3 header</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Row 1 header</th>
+                    <td>Row 1, column 2</td>
+                    <td>Row 1, column 3</td>
+                </tr>
+                <tr>
+                    <th>Row 2 header</th>
+                    <td>Row 2, column 2</td>
+                    <td>Row 2, column 3</td>
+                </tr>
+                <tr>
+                    <th>Row 3 header</th>
+                    <td>Row 3, column 2</td>
+                    <td>Row 3, column 3</td>
+                </tr>
+            </tbody>
+        </table>
+      notes:
+        - Reduces cell padding to 10px.
+  tags:
+    - cf-core
+*/
+table {
+  font-family: "AvenirNextLTW01-Regular", Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+table em,
+table i {
+  font-family: "AvenirNextLTW01-Italic", Arial, sans-serif;
+  font-style: italic;
+  font-weight: normal;
+}
+.lt-ie9 table em,
+.lt-ie9 table i {
+  font-style: normal !important;
+}
+table strong,
+table b {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+.lt-ie9 table strong,
+.lt-ie9 table b {
+  font-weight: normal !important;
+}
+th,
+td {
+  padding: 0.75em 0.9375em;
+  background: #eee4ed;
+}
+thead th,
+thead td {
+  color: #ffffff;
+  background: #5b3b57;
+}
+tbody > tr:nth-child(odd) > th,
+tbody > tr:nth-child(odd) > td {
+  background: #f4edf3;
+}
+.compact-table th,
+.compact-table td {
+  padding: 0.4375em 0.625em;
+}
+th {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  text-align: left;
+}
+.lt-ie9 th {
+  font-weight: normal !important;
+}
+/* topdoc
+  name: Block quote
+  family: cf-core
+  patterns:
+    - name: Default block quote
+      markup: |
+        <blockquote cite="link-to-source">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa
+            similique fugit hic eligendi praesentium officiis illum optio iusto
+            commodi eum tempore nisi ad in perferendis enim quo dolores.
+            Reprehenderit similique earum quibusdam possimus vitae esse
+            nesciunt mollitia sed beatae aliquid dolores iure a impedit quam
+            minus eum modi illum ducimus eligendi eveniet labore non sequi
+            voluptate et totam praesentium animi itaque asperiores dolorum
+            sunt laudantium repellat nam commodi. Perspiciatis natus aliquam
+            veniam officiis ducimus voluptatum ut necessitatibus non!
+        </blockquote>
+      notes:
+        - "Use a block quote to quote from an external work. See .pull-quote if
+          you need to highlight an excerpt from the current work."
+        - "It is best practice to document the URL of a quoted work using the
+          cite attribute."
+  tags:
+    - cf-core
+*/
+blockquote {
+  margin: 1.25em;
+}
+@media only all and (min-width: 37.5em) {
+  blockquote {
+    margin: 1.75em 2.5em;
+  }
+}
+/* topdoc
+    name: Form labels
+    family: cf-core
+    notes:
+      - "Visit https://github.com/cfpb/cf-forms for advanced form label patterns."
+    patterns:
+    - name: Default label
+      markup: |
+        <label>Form label</label>
+    - name: Label wrapping a radio or checkbox
+      markup: |
+        <label>
+            <input type="radio">
+            Radio label
+        </label>
+        <label>
+            <input type="checkbox">
+            Checkbox label
+        </label>
+    tags:
+    - cf-core
+*/
+label {
+  display: block;
+  margin-bottom: 0.3125em;
+  font-family: "AvenirNextLTW01-Regular", Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+label em,
+label i {
+  font-family: "AvenirNextLTW01-Italic", Arial, sans-serif;
+  font-style: italic;
+  font-weight: normal;
+}
+.lt-ie9 label em,
+.lt-ie9 label i {
+  font-style: normal !important;
+}
+label strong,
+label b {
+  font-family: "AvenirNextLTW01-Demi", Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+.lt-ie9 label strong,
+.lt-ie9 label b {
+  font-weight: normal !important;
+}
+label input[type="radio"],
+label input[type="checkbox"] {
+  margin-right: 0.375em;
+}
+/* topdoc
+    name: Form elements
+    family: cf-core
+    notes:
+      - "The .focus class is only included for documentation demos and should
+         not be used in production."
+      - "Visit https://github.com/cfpb/cf-forms for advanced form field patterns."
+    patterns:
+    - name: type="text"
+      markup: |
+        <input type="text" value="Lorem ipsum">
+        <input class="focus" type="text" value="Lorem ipsum">
+        <br><br>
+        <input placeholder="Lorem ipsum" type="text" value="">
+    - name: type="search"
+      markup: |
+        <input type="search" value="Lorem ipsum">
+        <input class="focus" type="search" value="Lorem ipsum">
+        <br><br>
+        <input placeholder="Lorem ipsum" type="search" value="">
+    - name: type="email"
+      markup: |
+        <input type="email" value="Lorem ipsum">
+        <input class="focus" type="email" value="Lorem ipsum">
+        <br><br>
+        <input placeholder="Lorem ipsum" type="email" value="">
+    - name: type="url"
+      markup: |
+        <input type="url" value="Lorem ipsum">
+        <input class="focus" type="url" value="Lorem ipsum">
+        <br><br>
+        <input placeholder="Lorem ipsum" type="url" value="">
+    - name: type="tel"
+      markup: |
+        <input type="tel" value="Lorem ipsum">
+        <input class="focus" type="tel" value="Lorem ipsum">
+        <br><br>
+        <input placeholder="Lorem ipsum" type="tel" value="">
+    - name: type="number"
+      markup: |
+        <input type="number" value="1000">
+        <input class="focus" type="number" value="1000">
+        <br><br>
+        <input placeholder="Lorem ipsum" type="number" value="">
+    - name: textarea
+      markup: |
+        <textarea>Lorem ipsum</textarea>
+        <textarea class="focus">Lorem ipsum</textarea>
+    - name: multi-select
+      markup: |
+        <select multiple>
+            <option value="option1">Lorem</option>
+            <option value="option2">Ipsum</option>
+            <option value="option3">Dolor</option>
+            <option value="option4">Sit</option>
+        </select>
+        <select class="focus" multiple>
+            <option value="option1">Lorem</option>
+            <option value="option2">Ipsum</option>
+            <option value="option3">Dolor</option>
+            <option value="option4">Sit</option>
+        </select>
+    tags:
+    - cf-core
+*/
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="url"],
+input[type="tel"],
+input[type="number"],
+textarea,
+select[multiple] {
+  display: inline-block;
+  margin: 0;
+  padding: 0.375em;
+  font-family: Arial, sans-serif;
+  font-size: 1em;
+  background: #ffffff;
+  border: 1px solid #5b3b57;
+  border-radius: 0;
+  vertical-align: top;
+  -webkit-appearance: none;
+  -webkit-user-modify: read-write-plaintext-only;
+}
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+input[type="text"]:focus,
+input[type="text"].focus,
+input[type="search"]:focus,
+input[type="search"].focus,
+input[type="email"]:focus,
+input[type="email"].focus,
+input[type="url"]:focus,
+input[type="url"].focus,
+input[type="tel"]:focus,
+input[type="tel"].focus,
+input[type="number"]:focus,
+input[type="number"].focus,
+textarea:focus,
+textarea.focus,
+select[multiple]:focus,
+select[multiple].focus {
+  border: 1px solid #c7336e;
+  outline: 1px solid #c7336e;
+  outline-offset: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+::-webkit-input-placeholder {
+  color: grayscale(#c7336e);
+}
+::-moz-placeholder {
+  color: grayscale(#c7336e);
+}
+:-ms-input-placeholder {
+  color: grayscale(#c7336e);
+}
+/* topdoc
+  name: Images
+  family: cf-core
+  patterns:
+    - name: max-width
+      markup: |
+            <img src="http://placekitten.com/800/40" alt="">
+      notes:
+        - "Gives all images a default max-width of 100% of their container."
+  tags:
+    - cf-core
+*/
+img {
+  max-width: 100%;
+}
+/* topdoc
+  name: Figure
+  family: cf-core
+  patterns:
+    - name: figure
+      markup: |
+        <figure>
+            <img src="http://placekitten.com/340/320">
+        </figure>
+    - name: figure.figure__bordered
+      markup: |
+        <figure class="figure__bordered">
+            <img src="http://placekitten.com/340/320">
+        </figure>
+  tags:
+    - cf-core
+*/
+figure {
+  margin-left: 0;
+  margin-right: 0;
+}
+figure img {
+  vertical-align: middle;
+}
+.figure__bordered img {
+  border: 1px solid #5b3b57;
+}
+/* topdoc
+  name: EOF
+  eof: true
+*/
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9zcmMvdmVuZG9yL2NmLWNvbmNhdC9jZi5sZXNzIiwiL3NyYy92ZW5kb3IvY2YtY29yZS9jZi1iYXNlLmxlc3MiLCIvc3JjL3ZlbmRvci9jZi1jb3JlL2NmLW1lZGlhLXF1ZXJpZXMubGVzcyIsIi9zcmMvdmVuZG9yL2NmLWNvcmUvY2YtdXRpbGl0aWVzLmxlc3MiLCIvc3JjL3ZlbmRvci9ub3JtYWxpemUtY3NzL25vcm1hbGl6ZS5jc3MiLCIvc3JjL3ZlbmRvci9ub3JtYWxpemUtbGVnYWN5LWFkZG9uL25vcm1hbGl6ZS1sZWdhY3ktYWRkb24uY3NzIiwiL3NyYy92ZW5kb3IvY2YtY29yZS9saWNlbnNlZC1mb250cy5jc3MiLCIvc3JjL3ZlbmRvci9jZi1jb3JlL2NmLXZhcnMubGVzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBZ0lHLFdBQUM7RUNsRkEsYUFBYSw0Q0FBYjtFQUNBLGtCQUFBO0VBQ0EsbUJBQUE7RUE2SUEsYUFBQTtFQUdBLDJCQUFBO0VBQ0Esa0JBQUE7RUFDQSx1QkFBQTtFRDlERywyQkFBQTtFQUNBLGNBQUE7O0FDbkZILFdEOEVBLEtDOUVFO0FBQ0YsV0Q2RUEsS0M3RUU7RUFXRixhQUFhLDJDQUFiO0VBQ0Esa0JBQUE7RUFDQSxtQkFBQTs7QUFDQSxPQUFRLFlEK0RSLEtDOUVFO0FBZUYsT0FBUSxZRCtEUixLQzdFRTtFQWVFLDZCQUFBOztBQVhKLFdEeUVBLEtDekVFO0FBQ0YsV0R3RUEsS0N4RUU7RUF3QkYsYUFBYSx5Q0FBYjtFQUNBLGtCQUFBO0VBQ0EsaUJBQUE7O0FBQ0EsT0FBUSxZRDZDUixLQ3pFRTtBQTRCRixPQUFRLFlENkNSLEtDeEVFO0VBNEJFLDhCQUFBOztBQ0pSLHFCQUgwQztFQUcxQyxXRmdESTtJQzZFQSxhQUFBO0lBR0EsMkJBQUE7SUFDQSxrQkFBQTtJ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 */
