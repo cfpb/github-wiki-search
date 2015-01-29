@@ -352,14 +352,13 @@ def index_all_users(repo_data):
         # compile the proper data structure for elasticsearch
         for issue in issues:
             index = {}
-            index['_type'] = "page"
+            index['_type'] = "jira_issue"
             index['_id'] = issue['key']
-            index['_index'] = 'jira'
+            index['_index'] = 'search'
             obj = {}
             obj['url'] = settings.JIRA_HOST + "/browse/" + issue['key']
-            obj['repo'] = "doesn't make sense"
             obj['title'] = issue['fields']['summary']
-            obj['creator'] = issue['fields']['creator']['name']
+            obj['author'] = issue['fields']['creator']['name']
             obj['created_date'] = issue['fields']['created']
             obj['status'] = issue['fields']['status']['name']
             obj['path'] = "%s (%s)" % (issue['fields']['project']['name'],
