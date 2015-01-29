@@ -73,15 +73,28 @@ def index_all_repos():
 #     repo_names = os.listdir(path_join(CACHE, user_name))
 #     jobs = [pool.spawn(_collect_repo_rows, user_name, repo_name) for repo_name in repo_names]
 #     gevent.joinall(jobs)
-# #    repo_rows = 
+# #    repo_rows =
 
 # def _collect_repo_rows(user_name, repo_name):
 #     repo_dir = path_join(CACHE, user_name, repo_name)
 #     file_names = os.listdir()
 #     file_names.remove('meta')
-#     files = 
+#     files =
 #     bulk_row_docs.remove('')
 
+
+def _get_jira_issue_url(issue_id):
+    return settings.JIRA_HOST + "/browse/" + issue_id
+
+def _get_jira_issue_soup(issue_id, element_id):
+    """
+    return generator that given an issue id, gets the content, parses it and
+    returns a tuple of the issue id and a soup of the tag with the given id
+    """
+    html = urllib2.urlopen(_get_jira_issue_url(issue_id)).read()
+    strainer = SoupStrainer(id=element_id)
+    soup = BS(html, parse_only=strainer)
+    return (issue_id, soup)
 
 def _get_paginated_repos():
     """
@@ -135,7 +148,7 @@ def index_repo(repo_name, indexing):
     # page_count = len(bulk_rows)/2
     # repo_id = urllib.quote(repo_name, '')
 
-    # bulk_rows += [{ 
+    # bulk_rows += [{
     #     "index": {
     #         "_index": "autocomplete", "_type": "repo", "_id": repo_id
     # }},
@@ -174,7 +187,7 @@ def index_wiki_page(repo_name, page_url):
     soup = BS(html, 'lxml', parse_only=strainer)
     path = urlparse(page_url).path[1:]
     page_id = urllib.quote(path, '')  # remove initial slash
-    return ({ 
+    return ({
         "index": {
             "_index": "docs", "_type": "wiki_page", "_id": page_id
     }},
@@ -202,7 +215,7 @@ def index_readme(repo_name):
         _write_bulk_rows(repo_name, 'readme', [])
         return
 
-    bulk_rows = ({ 
+    bulk_rows = ({
         "index": {
             "_index": "docs", "_type": "readme", "_id": page_id
     }},
@@ -278,7 +291,7 @@ def index_gh_page(page_url, repo_name, base_url, already_visited):
     return bulk_rows
 
 def index_all_users(repo_data):
-    """ 
+    """
     given a lst of repo_data containing page_count and user for each repo
     retur bulk_rows for user autocomplete
     """
@@ -289,7 +302,7 @@ def index_all_users(repo_data):
 
     bulk_rows = []
     for user, page_count in users.items():
-            bulk_rows.append({ 
+            bulk_rows.append({
                 "index": {
                     "_index": "autocomplete", "_type": "user", "_id": user
             }})
@@ -298,6 +311,72 @@ def index_all_users(repo_data):
                 'count': page_count
             })
     return bulk_rows
+
+    def index_all_jira_issues(self):
+        """
+        sync all jira issues
+        """
+        jira_endpoint = '%s/rest/api/2/search' % settings.JIRA_HOST
+        jira_fields = 'fields=assignee,creator,created,updated,project,status,summary,labels'
+        # TODO arbitrary date to keep queries small until this is more mature
+        jira_query = 'jql=updated>"2014/10/20"'
+        max_results = 500
+        offset = 0
+        jira_url = jira_endpoint + "?" + jira_fields + "&" + jira_query
+        issues = []
+
+        # Grab almost all data via API calls, 500 issues at a time
+        while True:
+            json_result = urllib2.urlopen("%s&startAt=%d&maxResults=%d&" % (jira_url, offset, max_results)).read()
+            json_parsed = json.loads(json_result)
+            issues += json_parsed['issues']
+            if json_parsed["total"] > len(issues):
+                offset += max_results
+            else:
+                break
+
+        # scrape the description data for each issue, which removes markdown
+        # syntax as a factor
+        jobs = [pool.spawn(_get_jira_issue_soup, issue['key'], 'description-val') for issue in issues]
+        gevent.joinall(jobs)
+        descriptions = {}
+        for job in jobs:
+            (issue_id, soup) = job.value
+            if soup.get_text() != "Click to add description":
+                descriptions[issue_id] = " ".join(soup.get_text().split())
+            else:
+                descriptions[issue_id] = None
+
+        bulk_data_obj = []
+
+        # compile the proper data structure for elasticsearch
+        for issue in issues:
+            index = {}
+            index['_type'] = "page"
+            index['_id'] = issue['key']
+            index['_index'] = 'jira'
+            obj = {}
+            obj['url'] = settings.JIRA_HOST + "/browse/" + issue['key']
+            obj['repo'] = "doesn't make sense"
+            obj['title'] = issue['fields']['summary']
+            obj['creator'] = issue['fields']['creator']['name']
+            obj['created_date'] = issue['fields']['created']
+            obj['status'] = issue['fields']['status']['name']
+            obj['path'] = "%s (%s)" % (issue['fields']['project']['name'],
+                                       issue['fields']['project']['key'])
+            if issue['fields']['assignee']:
+                obj['assignee'] = issue['fields']['assignee']['name']
+            else:
+                obj['assignee'] = None
+            obj['content'] = descriptions[issue['key']]
+            bulk_data_obj.append({'index': index})
+            bulk_data_obj.append(obj)
+
+        # submit the issues to elasticsearch
+        bulk_data = '\n'.join([json.dumps(row) for row in bulk_data_obj]) + '\n'
+        resp = es_client._bulk.post(data=bulk_data)
+        es_client._refresh.post()
+        return resp
 
 def _get_visible_text(soup):
     texts = soup.findAll(text=True)
@@ -334,7 +413,7 @@ def _set_versions(repo_name, versions):
 
 def _write_bulk_rows(repo_name, typ, bulk_rows):
 url = 'http://localhost:8080/search/wiki/%s/_query' % typ
-data = {"query": 
+data = {"query":
     {
       "filtered": {
         "filter": {
@@ -384,5 +463,6 @@ indexing = {'tot': 0, 'cur':set(), 'skipped': 0}
 
 if __name__ == "__main__":
     index_all_repos()
+    index_all_jira_issues()
     with open(LOG, 'a') as log:
         log.write('%s - synced\n' % datetime.utcnow().isoformat())
