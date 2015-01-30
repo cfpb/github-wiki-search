@@ -317,7 +317,7 @@ def index_all_users(repo_data):
         sync all jira issues
         """
         jira_endpoint = '%s/rest/api/2/search' % settings.JIRA_HOST
-        jira_fields = 'fields=assignee,creator,created,project,status,summary,labels,description'
+        jira_fields = 'fields=assignee,creator,created,project,status,summary,labels,description,comment'
         # TODO arbitrary date to keep queries small until this is more mature
         #jira_query = 'jql=updated>"2014/10/20"'
         jira_query = ''
@@ -358,6 +358,22 @@ def index_all_users(repo_data):
                 obj['assignee'] = None
             bulk_data_obj.append({'index': index})
             bulk_data_obj.append(obj)
+
+            for comment in issue['fields']['comment']['comments']:
+                index['_id'] = comment['id']
+                obj['content'] = comment['body']
+                if 'author' in comment.keys():
+                    obj['author'] = comment['author']['name']
+                else:
+                    obj['author'] = None
+                obj['created_date'] = comment['created']
+                obj['title'] = "Comment for Jira issue %s" % issue['key']
+                obj['url'] = "%s/browse/%s?focusedCommentId=%s" % (settings.JIRA_HOST, issue['key'], comment['id'])
+                obj['status'] = None
+                obj['path'] = "%s/%s" % (issue['fields']['project']['key'], issue['key'])
+
+                bulk_data_obj.append({'index': index})
+                bulk_data_obj.append(obj)
 
         # submit the issues to elasticsearch
         bulk_data = '\n'.join([json.dumps(row) for row in bulk_data_obj]) + '\n'
