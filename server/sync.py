@@ -317,9 +317,10 @@ def index_all_users(repo_data):
         sync all jira issues
         """
         jira_endpoint = '%s/rest/api/2/search' % settings.JIRA_HOST
-        jira_fields = 'fields=assignee,creator,created,updated,project,status,summary,labels'
+        jira_fields = 'fields=assignee,creator,created,project,status,summary,labels,description'
         # TODO arbitrary date to keep queries small until this is more mature
-        jira_query = 'jql=updated>"2014/10/20"'
+        #jira_query = 'jql=updated>"2014/10/20"'
+        jira_query = ''
         max_results = 500
         offset = 0
         jira_url = jira_endpoint + "?" + jira_fields + "&" + jira_query
@@ -335,18 +336,6 @@ def index_all_users(repo_data):
             else:
                 break
 
-        # scrape the description data for each issue, which removes markdown
-        # syntax as a factor
-        jobs = [pool.spawn(_get_jira_issue_soup, issue['key'], 'description-val') for issue in issues]
-        gevent.joinall(jobs)
-        descriptions = {}
-        for job in jobs:
-            (issue_id, soup) = job.value
-            if soup.get_text() != "Click to add description":
-                descriptions[issue_id] = " ".join(soup.get_text().split())
-            else:
-                descriptions[issue_id] = None
-
         bulk_data_obj = []
 
         # compile the proper data structure for elasticsearch
@@ -358,16 +347,15 @@ def index_all_users(repo_data):
             obj = {}
             obj['url'] = settings.JIRA_HOST + "/browse/" + issue['key']
             obj['title'] = issue['fields']['summary']
+            obj['content'] = issue['fields']['description']
             obj['author'] = issue['fields']['creator']['name']
             obj['created_date'] = issue['fields']['created']
             obj['status'] = issue['fields']['status']['name']
-            obj['path'] = "%s (%s)" % (issue['fields']['project']['name'],
-                                       issue['fields']['project']['key'])
+            obj['path'] = "%s" % issue['fields']['project']['key']
             if issue['fields']['assignee']:
                 obj['assignee'] = issue['fields']['assignee']['name']
             else:
                 obj['assignee'] = None
-            obj['content'] = descriptions[issue['key']]
             bulk_data_obj.append({'index': index})
             bulk_data_obj.append(obj)
 
