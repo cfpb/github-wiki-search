@@ -25,6 +25,8 @@ call('rpm --import http://packages.elasticsearch.org/GPG-KEY-elasticsearch'.spli
 call(['sudo', 'cp', join(TEMPLATE_DIR, 'elasticsearch.repo'), '/etc/yum.repos.d/elasticsearch.repo'])
 #install elastic search
 call('yum install -y elasticsearch.noarch'.split())
+#install elasticsearch-head, a gui for elasticsearch
+call(['sudo', '/usr/share/elasticsearch/bin/plugin', '-install', 'mobz/elasticsearch-head'])
 
 # # if yum isn't installed, need to run apt commands - this is no longer maintained
 # # but need to update to use elasticsearch repo (http://www.elasticsearch.org/blog/apt-and-yum-repositories/)
