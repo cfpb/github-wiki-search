@@ -8,7 +8,7 @@ from subprocess import call
 PROVISION_DIR = path.dirname(path.realpath(__file__))
 REPO_DIR = path.dirname(PROVISION_DIR)
 TEMPLATE_DIR = path.join(PROVISION_DIR, 'templates')
-SCHEMA_DIR = path.join(PROVISION_DIR, 'schema')
+SERVER_DIR = path.join(PROVISION_DIR, 'server')
 
 call('yum update -y'.split())
 #install java
@@ -66,6 +66,9 @@ call('chkconfig elasticsearch on'.split())
 
 # install python dependencies
 call(('pip install -r %s' % path.join(REPO_DIR, 'server', 'requirements.txt')).split())
+
+# symlink server dir into python packages
+call(('ln -s %s /usr/lib/python2.6/site-packages/server' % SERVER_DIR).split())
 
 with open(join(TEMPLATE_DIR, 'cron.template'), 'r') as conf_file:
     nginx_conf = conf_file.read() %  join(REPO_DIR, 'server', 'sync.py')
