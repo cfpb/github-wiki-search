@@ -326,7 +326,7 @@ def index_all_users(repo_data):
         jira_url = jira_endpoint + "?" + jira_fields + "&" + jira_query
         issues = []
 
-        # Grab almost all data via API calls, 500 issues at a time
+        # Grab all data via API calls, 500 issues at a time
         while True:
             json_result = urllib2.urlopen("%s&startAt=%d&maxResults=%d&" % (jira_url, offset, max_results)).read()
             json_parsed = json.loads(json_result)
@@ -337,6 +337,8 @@ def index_all_users(repo_data):
                 break
 
         bulk_data_obj = []
+        paths = set()
+        users = set()
 
         # compile the proper data structure for elasticsearch
         for issue in issues:
@@ -375,8 +377,36 @@ def index_all_users(repo_data):
                 bulk_data_obj.append({'index': index})
                 bulk_data_obj.append(obj)
 
+                # use set type to prevent duplicates
+                paths.add(obj['path'])
+                users.add(obj['author'])
+                if issue['fields']['assignee']:
+                    users.add(obj['assignee'])
+
+        for user in users:
+            bulk_data_obj.append({
+                "index": {
+                    "_index": "autocomplete", "_type": "user", "_id": user
+            }})
+            bulk_data_obj.append({
+                'owner': user
+            })
+
+        for path_str in paths:
+            bulk_data_obj.append({
+                "index": {
+                    "_index": "autocomplete", "_type": "user", "_id": path_str
+            }})
+            # TODO is this necessary?
+            bulk_data_obj.append({
+                'path': path_str
+            })
+
+
         # submit the issues to elasticsearch
         bulk_data = '\n'.join([json.dumps(row) for row in bulk_data_obj]) + '\n'
+        with open(path_join(DIR, 'bulk_data.txt'), 'w') as f:
+            f.write(bulk_data)
         resp = es_client._bulk.post(data=bulk_data)
         es_client._refresh.post()
         return resp
