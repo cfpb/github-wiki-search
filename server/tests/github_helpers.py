@@ -73,6 +73,28 @@ class TestDeleteRepoType(unittest.TestCase):
         actual = es_client.test_search.readme.test1.get()
         self.assertEqual(actual.status_code, 200)
 
+class TestGetIndexedVersion(unittest.TestCase):
+    def setUp(self):
+        github_helpers.reset_index('test_history')
+
+    def test_expect_returns_None_if_no_indexed_version(self):
+        repo_name = '/a/b'
+
+        cut = github_helpers.get_indexed_version
+        actual = cut(repo_name, 'wiki')
+
+        self.assertIsNone(actual)
+
+    def test_expect_returns_indexed_version_if_exists(self):
+        repo_name = '/a/b'
+        github_helpers.save_indexed_version(repo_name, 'wiki', 'xxx')
+
+        cut = github_helpers.get_indexed_version
+        actual = cut(repo_name, 'wiki')
+
+        self.assertEqual(actual, 'xxx')
+
+
 class TestSaveIndexedVersion(unittest.TestCase):
     def setUp(self):
         github_helpers.reset_index('test_history')
@@ -84,5 +106,17 @@ class TestSaveIndexedVersion(unittest.TestCase):
 
         cut(repo_name, 'wiki', 'xxx')
 
-        actual = github_helpers.history_client.wiki._(escaped_repo_name).get()
-        print actual.json()
+        actual = github_helpers.history_client.wiki._(escaped_repo_name).get().json()
+        self.assertEqual(actual['_source'], {u'version': u'xxx'})
+
+    def test_expect_update_doc_with_new_verison_if_already_exist(self):
+        repo_name = '/a/b'
+        escaped_repo_name = repo_name.replace('/', '%2F')
+        cut = github_helpers.save_indexed_version
+
+        cut(repo_name, 'wiki', 'xxx')
+
+        cut(repo_name, 'wiki', 'yyy')
+
+        actual = github_helpers.history_client.wiki._(escaped_repo_name).get().json()
+        self.assertEqual(actual['_source'], {u'version': u'yyy'})

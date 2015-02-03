@@ -22,7 +22,7 @@ def get_latest_version(repo_name, typ):
 def get_indexed_version(repo_name, typ):
     escaped_repo_name = repo_name.replace('/', '%2F')
     resp = history_client._(typ)._(escaped_repo_name).get()
-    version = resp.json().get('version')
+    version = resp.json().get('_source', {}).get('version')
     return version
 
 
@@ -42,12 +42,11 @@ def get_version_if_modified(repo_name, typ):
 
 
 def save_indexed_version(repo_name, typ, version):
-    import pdb
-    pdb.set_trace()
     repo_name = repo_name.replace('/', '%2F')
     # TODO: create; update if error
     resp = history_client._(typ)._(repo_name)._update.post(data={'version': version})
-    print resp
+    if resp.status_code == 500:
+        history_client._(typ)._(repo_name).put(data={'version': version})
 
 def delete_repo_type(repo_name, typ):
     query = {"query": {
