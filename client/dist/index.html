@@ -49,29 +49,132 @@
                 <input type="text" class="mega-search-bar_query" id="mega-search-bar_query" placeholder="Search here..." autocomplete="off" autofocus>
             </form>
 
-            <dl class="expandable">
+            <div class="expandable">
 
-                <dt>
-                    <a href="">Filters</a>
-                </dt>
-                <dd>Some future filters blah blah </dd>
+                <span>
+                    <a href="#" class="btn btn__disabled">
+                                 Filter Results
+                    <span class="btn_icon__right cf-icon cf-icon-down"></span>
+                </a>
+                </span>
+                <div>
 
 
-            </dl>
+                    <div class="form-container">
+                        <div class="four">
 
-            <div class="results" id="results">
-                <ul class="results_list" id="results_list"></ul>
-                <p>
-                    <a class="results_search-more" href="#">More results...</a>
-                </p>
+                            <h6>Data Source</h6>
+                            <label>
+                                <input type="checkbox" value="github_enteprise"> Github Enteprise
+                            </label>
+                            <label>
+                                <input type="checkbox" value="github"> Github
+                            </label>
+                            <label>
+                                <input type="checkbox" value="jira"> Jira
+                            </label>
+
+
+                        </div>
+
+                        <div class="four ">
+
+                            <h6>Location</h6>
+
+                            <input type="text">
+
+                        </div>
+                        <div class="four ">
+
+                            <h6> Author</h6>
+
+                            <input type="text">
+
+                        </div>
+                        <div class="four ">
+
+                            <h6> Date Range</h6>
+                            <div class="form-group">
+                                <div class="form-group_item">
+
+
+                                    <div>
+                                        <label for="month">From:</label>
+                                        <select name="month" id="month">
+                                            <option> month</optio>
+                                                <option value="1">01</option>
+                                                <option value="2">02</option>
+                                                <option value="3">03</option>
+                                                <option value="4">04</option>
+                                                <option value="5">05</option>
+                                                <option value="6">06</option>
+                                                <option value="7">07</option>
+                                                <option value="8">08</option>
+                                                <option value="9">09</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                        </select>
+                                        <select name="year" id="year">
+                                            <option>year</option>
+                                            <option value="2010">01</option>
+                                            <option value="2011">02</option>
+                                            <option value="2012">03</option>
+                                            <option value="2013">04</option>
+                                            <option value="2014">05</option>
+                                            <option value="2015">06</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group_item">
+
+
+                                    <label for="month">To:</label>
+                                    <select name="month" id="month">
+                                        <option> month</optio>
+                                            <option value="1">01</option>
+                                            <option value="2">02</option>
+                                            <option value="3">03</option>
+                                            <option value="4">04</option>
+                                            <option value="5">05</option>
+                                            <option value="6">06</option>
+                                            <option value="7">07</option>
+                                            <option value="8">08</option>
+                                            <option value="9">09</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                    </select>
+                                    <select name="year" id="year">
+                                        <option>year</option>
+                                        <option value="2010">01</option>
+                                        <option value="2011">02</option>
+                                        <option value="2012">03</option>
+                                        <option value="2013">04</option>
+                                        <option value="2014">05</option>
+                                        <option value="2015">06</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class=" results " id="results ">
+            <ul class="results_list " id="results_list "></ul>
+            <p>
+                <a class="results_search-more " href="# ">More results...</a>
+            </p>
+        </div>
     </div>
-    <!--<script type="text/javascript" src="vendor/jquery/jquery.js"></script>
-    <script type="text/javascript" src="vendor/typeahead.js/typeahead.bundle.js"></script>
-    <script type="text/javascript" src="static/js/jquery-hashchange.js"></script>
-    <script type="text/javascript" src="static/js/app.js"></script>-->
-    <script src="static/js/main.min.js"></script>
+
+    <!--<script type="text/javascript " src="vendor/jquery/jquery.js "></script>
+    <script type="text/javascript " src="vendor/typeahead.js/typeahead.bundle.js "></script>
+    <script type="text/javascript " src="static/js/jquery-hashchange.js "></script>
+    <script type="text/javascript " src="static/js/app.js "></script>-->
+    <script src="static/js/main.min.js "></script>
 
 </body>
 

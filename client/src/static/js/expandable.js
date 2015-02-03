@@ -1,8 +1,8 @@
 (function($) {
 
-    var allPanels = $('.expandable > dd').hide();
+    var allPanels = $('.expandable > div').hide();
 
-    $('.expandable > dt > a').click(function() {
+    $('.expandable > span > a').click(function() {
         $(this).parent().next().toggle();
         return false;
     });

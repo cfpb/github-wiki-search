@@ -282,7 +282,6 @@ module.exports = function(grunt) {
      */
     grunt.registerTask('vendor', ['clean:bowerDir', 'bower:install', 'concat:cf-less']);
     grunt.registerTask('default', ['less', 'autoprefixer', 'cssmin', 'uglify']);
-    grunt.registerTask('compile', ['less', 'autoprefixer', 'cssmin', 'uglify']);
     grunt.registerTask('dist', ['clean:dist', 'copy:dist', 'copy:vendor']);
 
     /**
