@@ -1,106 +1,91 @@
 #! /usr/bin/python
 from universalclient import Client
+import bs4
 from bs4 import SoupStrainer, BeautifulSoup as BS
 import settings
-from urlparse import urlparse
+from urlparse import urlparse, urljoin
 import urllib
 import json
-import re
 from datetime import datetime
 import gevent
 from gevent import monkey
 from gevent.pool import Pool
+import itertools
+import os
+from gevent import subprocess
 
 pool = Pool(50)
 
 # patches stdlib (including socket and ssl modules) to cooperate with other greenlets
 monkey.patch_all()
 
-import urllib2
+import urllib3
 from os import path
 from os.path import join as path_join
 
 DIR = path.dirname(path.realpath(__file__))
 LOG = path_join(DIR, '..', 'client', 'dist', 'log')
+CACHE = path.join(DIR, 'cache')
 
 es_client = Client(settings.ES_HOST)
 gh_client = Client(settings.GITHUB_HOST)
 gh_api_client = gh_client.api.v3
 
-whitespace_re = re.compile(r'(\W|\n)+')
-def extract_text_from_html(soup):
-    text_nodes = soup.findAll(text=True)
-    text_with_newlines = ' '.join(text_nodes)
-    text = whitespace_re.sub(' ', text_with_newlines)
-    return text
-
-def _get_soup(url, id):
+def index_all_repos():
     """
-    return generator that given a url, gets the content, parses it and
-    returns a tuple of the urle, the repo name,  and the soup of the tag
-    with the given id
+    index all repos, reset elasticsearch, rebuild elasticsearchindices
     """
-    html = urllib2.urlopen(url).read()
-    strainer = SoupStrainer(id=id)
-    soup = BS(html, 'lxml', parse_only=strainer)
-    path = urlparse(url).path[1:]
-    repo_name = '/' + '/'.join(path.split('/')[:2])
+    start_time = datetime.now()
+    repo_names = (repo['full_name'] for page in _get_paginated_repos() for repo in page)
+    indexing = {'tot': 0, 'cur':set(), 'skipped': 0}
+    jobs = [pool.spawn(index_repo, repo_name, indexing) for repo_name in repo_names]
+    gevent.joinall(jobs)
 
-    return (url, repo_name, path, soup)
+    # _rebuild_indices()
+    # repo_data = [job.value for job in jobs]
+    # bulk_rows = (row for item in repo_data for row in item['bulk_rows'])
+    # bulk_rows = itertools.chain(bulk_rows, index_all_users(repo_data))
+    # bulk_data = '\n'.join([json.dumps(row) for row in bulk_rows]) + '\n'
 
-class GitEvents(object):
-    client = Client(settings.GITHUB_HOST + '/api/v3/events')
-    # the etag for the last call to github
-    etag = ''
-    # the last event id to be pulled from github
-    last_event = None
-    def get_page_of_events(self, page=1, etag=True):
-        """
-        return a page (1-10) of events. if etag is True, will check
-        etag version
-        """
-        headers = {'If-None-Match': self.etag} if etag else {}
-        resp = self.client.get(headers=headers, params={"page": page})
-        if etag:
-            self.etag = resp.headers.get('ETag', self.etag)
-        if resp.status_code == 200:
-            return resp.json()
-        elif resp.status_code == 304:
-            return []
+    # print "writing bulk data"
+    # with open(path_join(DIR, 'bulk_data.txt'), 'w') as f:
+    #     f.write(bulk_data)
 
-    def get_changed_page_urls(self):
-        """
-        return the urls for all pages changed since the last
-        time get_changed_page_urls was called. Uses a combination
-        of etag and the last synced event id to minimize (hopefully
-        eliminate) duplication.
-        """
-        data = self.get_page_of_events()
-        if not data:
-            return data
-        newest_last_event = int(data[0]['id'])
-        intermediate_last_event = int(data[-1]['id'])
-        pages = range(2, 11)
-        for page in pages:
-            if intermediate_last_event <= self.last_event:
-                break
-            data += self.get_page_of_events(page=page, etag=False)
-            intermediate_last_event = int(data[-1]['id'])
+    # # reset index
+    # es_client.docs.delete()
+    # es_client.autocomplete.delete()
+    # with open(path_join(DIR, 'schema', 'docs.json'), 'r') as schema_page:
+    #     es_client.docs.post(data=schema_page.read())
+    # with open(path_join(DIR, 'schema', 'autocomplete.json'), 'r') as schema_auto:
+    #     es_client.autocomplete.post(data=schema_auto.read())
+    # resp = es_client._bulk.post(data=bulk_data)
+    # es_client._refresh.post()
+    print 'total time:', datetime.now() - start_time
+#    return resp
 
-        #get the pages changed for gollumEvents that happened after the last sync
-        page_lists = [event['pages'] for event in data if event['type'] == 'gollumEvent' and int(event['id']) > self.last_event]
-        # each event can have multiple pages changed, so flatten
-        pages = [item for sublist in page_lists for item in sublist] # flatten the lists of pages
+# def _rebuild_indices():
+#     user_names = os.listdir(CACHE)
+#     state = {'reset': False, bulk_rows: []}
+#     jobs = [pool.spawn(_collect_user_rows, user_name, state) for user_name in user_names]
+#     gevent.joinall(jobs)
 
-        urls = [page['html_url'] for page in pages]
-        urls = list(set(urls)) # dedup
-        # update the last_event counter
-        self.last_event = newest_last_event
-        return urls
+# def _collect_user_rows(user_name, state):
+#     repo_names = os.listdir(path_join(CACHE, user_name))
+#     jobs = [pool.spawn(_collect_repo_rows, user_name, repo_name) for repo_name in repo_names]
+#     gevent.joinall(jobs)
+# #    repo_rows = 
 
-def _repo_pages():
+# def _collect_repo_rows(user_name, repo_name):
+#     repo_dir = path_join(CACHE, user_name, repo_name)
+#     file_names = os.listdir()
+#     file_names.remove('meta')
+#     files = 
+#     bulk_row_docs.remove('')
+
+
+def _get_paginated_repos():
     """
-    generate pages of all repos in the repository
+    generate paginated list of all repos in the enterprise github system
     """
     last_repo_id = 0
     while last_repo_id is not None:
@@ -111,120 +96,293 @@ def _repo_pages():
         if last_repo_id:
             yield repos
 
+def index_repo(repo_name, indexing):
+    """
+    return a dict of {'user', 'page_count', 'bulk_rows'}
+    for the given repo_name
+    """
+    user, repo = repo_name.split('/')
+    versions = _get_versions(repo_name)
+    new_versions = _get_current_versions(repo_name)
+    if versions == new_versions:
+        indexing['skipped'] += 1
+        print 'skipping', repo_name
+        return
 
-class ES(object):
-    github = GitEvents()
-    def _create_bulk_data(self, urls):
-        """
-        given a list of urls, get the index data and return
-        in the bulk upload format
-        """
-        print "generating bulk data for urls"
-        bulk_data_obj = []
+    indexing['cur'].add(repo_name)
+    print 'start', repo_name, indexing
 
-        jobs = [pool.spawn(_get_soup, url, 'wiki-wrapper') for url in urls]
-        gevent.joinall(jobs)
-        soups = (job.value for job in jobs)
+    if versions.get('wiki') != new_versions['wiki']:
+        index_wiki(repo_name)
+#        print 'updating wiki', versions.get('wiki'), wiki_version
+        new_versions['dirty'] = True
+    if versions.get('gh_pages') != new_versions['gh_pages']:
+#        print 'updating gh_pages', versions.get('gh_pages'), gh_pages_version
+        index_gh_pages(repo_name)
+        new_versions['dirty'] = True
+    if versions.get('readme') != new_versions['readme']:
+#        print 'updating readme', versions.get('readme'), readme_version
+        index_readme(repo_name)
+        new_versions['dirty'] = True
 
-        for url, repo_name, path, soup in soups:
-            page_id = urllib.quote(path, '')  # remove initial slash
-            bulk_data_obj.append({ 
-                "index": {
-                    "_index": "wiki", "_type": "page", "_id": page_id
-            }})
-            bulk_data_obj.append({
-                'url': url,
-                'title': ' '.join(soup.find(id='head').h1.findAll(text=True)),
-                'content': ' '.join(soup.find(id='wiki-content').findAll(text=True)),
-                'repo': repo_name
-            })
-        bulk_data = '\n'.join([json.dumps(row) for row in bulk_data_obj]) + '\n'
+    _set_versions(repo_name, new_versions)
 
-        return bulk_data
+    indexing['cur'].remove(repo_name)
+    indexing['tot'] += 1
+    print 'finish', repo_name, indexing
 
-    def sync_indices(self):
-        """
-        update all wikis that have changed since last call to update_indices
-        """
-        changed_urls = self.github.get_changed_page_urls()
-        bulk_data = self._create_bulk_data(changed_urls)
-        resp = es_client._bulk.post(data=bulk_data)
-        es_client._refresh.post()
-        return resp
+    # # add autocomplete data for repo
+    # page_count = len(bulk_rows)/2
+    # repo_id = urllib.quote(repo_name, '')
 
-    def _create_wiki_bulk_data(self, repo_tuples):
-        page_links = (link for tpl in repo_tuples for link in tpl[3])
-        page_urls = (settings.GITHUB_HOST + link.get('href') for link in page_links)
-        bulk_data = self._create_bulk_data(page_urls)
-        return bulk_data
+    # bulk_rows += [{ 
+    #     "index": {
+    #         "_index": "autocomplete", "_type": "repo", "_id": repo_id
+    # }},
+    # {
+    #     'owner': user,
+    #     'repo': repo,
+    #     'count': page_count
+    # }]
 
-    def _create_autocomplete_bulk_data(self, repo_tuples):
-        users = {}
-        repos = {}
-        for url, repo_name, path, links in repo_tuples:
-            page_count = len(links)
-            user = repo_name.split('/')[1]
-            users.setdefault(user, 0)
-            users[user] += page_count
-            repos[repo_name] = page_count
+#    return {'user': user, 'page_count':page_count, 'bulk_rows': bulk_rows}
 
-        bulk_data_obj = []
-        for user, page_count in users.items():
-            bulk_data_obj.append({ 
+def index_wiki(repo_name):
+    """ return bulk rows for wiki for repo_name repo """
+    # get and parse a list of all wiki page urls
+    url_template = '%s/%s/wiki/_pages'
+    url = url_template % (settings.GITHUB_HOST, repo_name)
+    html = urllib3.request('get', url).data
+    strainer = SoupStrainer(id='wiki-content')
+    soup = BS(html, 'lxml', parse_only=strainer)
+    if not soup.ul:
+        return []
+    page_links = soup.ul.find_all('a')
+    page_urls = (settings.GITHUB_HOST + link.get('href') for link in page_links)
+
+    # index each page
+    jobs = [pool.spawn(index_wiki_page, repo_name, page_url) for page_url in page_urls]
+    gevent.joinall(jobs)
+    _rerase(jobs)
+    bulk_rows = [row for job in jobs for row in job.value]
+    _write_bulk_rows(repo_name, 'wiki', bulk_rows)
+
+def index_wiki_page(repo_name, page_url):
+    """ return bulk rows for wiki page at page_url for repo_name repo """
+    html = urllib3.request('get', page_url).read()
+    strainer = SoupStrainer(id='wiki-wrapper')
+    soup = BS(html, 'lxml', parse_only=strainer)
+    path = urlparse(page_url).path[1:]
+    page_id = urllib.quote(path, '')  # remove initial slash
+    return ({ 
+        "index": {
+            "_index": "docs", "_type": "wiki_page", "_id": page_id
+    }},
+    {
+        'url': page_url,
+        'title': ' '.join(soup.find(id='head').h1.findAll(text=True)),
+        'content': ' '.join(soup.find(id='wiki-content').findAll(text=True)),
+        'repo': '/' + repo_name
+    },)
+
+def index_readme(repo_name):
+    url_template = '%s/%s/'
+    url = url_template % (settings.GITHUB_HOST, repo_name)
+    html = urllib3.request('get', url).data
+    strainer = SoupStrainer(id='readme')
+    soup = BS(html, 'lxml', parse_only=strainer)
+    path = urlparse(url).path[1:]  # remove initial slash
+    page_id = urllib.quote(path, '')
+
+    # if there is no readme, skip
+    try:
+        title = ' '.join(soup.find(class_='name').findAll(text=True))
+        content = ' '.join(soup.find('article').findAll(text=True))
+    except AttributeError:
+        _write_bulk_rows(repo_name, 'readme', [])
+        return
+
+    bulk_rows = ({ 
+        "index": {
+            "_index": "docs", "_type": "readme", "_id": page_id
+    }},
+    {
+        'url': url,
+        'title': title,
+        'content': content,
+        'repo': '/' + repo_name
+    },)
+    _write_bulk_rows(repo_name, 'readme', bulk_rows)
+
+
+def index_gh_pages(repo_name):
+    """ return bulk rows for github pages for repo_name repo """
+    url_template = '%s/pages/%s/'
+    url = url_template % (settings.GITHUB_HOST, repo_name)
+    bulk_rows = index_gh_page(url, repo_name, url, set())
+    _write_bulk_rows(repo_name, 'gh_pages', bulk_rows)
+
+def index_gh_page(page_url, repo_name, base_url, already_visited):
+    """
+    return bulk rows for github page and all linked github pages
+    that haven't already been visited
+    """
+    def gen_url(link):
+        url = urljoin(page_url, link.get('href'))
+        # normalize url by removing index.*
+        split_url = url.rsplit('/', 1)
+        if len(split_url) > 1 and split_url[-1].startswith('index.'):
+            url = split_url[0]
+        url = url.split('#', 1)[0]
+        return url
+
+    def valid_url(url):
+        # only index pages that have not already been indexed and that are in a gh_pages subfolder
+        if not url or url in already_visited or not url.startswith(base_url):
+            return False
+        already_visited.add(url)
+        return True
+
+    try:
+        resp = urllib3.request('get', page_url)
+    except:
+        return []
+    if resp.headers.get('content-type') != 'text/html':
+        return []
+    html = resp.data
+    try:
+        soup = BS(html, 'lxml')
+    except:
+        return []
+    links = soup.find_all('a')
+    child_urls = (gen_url(link) for link in links)
+    child_urls = [url for url in child_urls if valid_url(url)]
+    jobs = [pool.spawn(index_gh_page, child_url, repo_name, base_url, already_visited) for child_url in child_urls]
+    gevent.joinall(jobs)
+    _rerase(jobs)
+
+    bulk_rows = [row for job in jobs for row in job.value]
+    page_id = urllib.quote(urlparse(page_url).path[1:], '')
+    title = soup.find('title')
+    title = title.text if title else page_url
+    bulk_rows += [{
+            "index": {
+                "_index": "docs", "_type": "gh_page", "_id": page_id
+        }},
+        {
+            'url': page_url,
+            'title': title,
+            'content': _get_visible_text(soup),
+            'repo': '/' + repo_name
+    }]
+    return bulk_rows
+
+def index_all_users(repo_data):
+    """ 
+    given a lst of repo_data containing page_count and user for each repo
+    retur bulk_rows for user autocomplete
+    """
+    users = {}
+    for item in repo_data:
+        users.setdefault(item['user'], 0)
+        users[item['user']] += item['page_count']
+
+    bulk_rows = []
+    for user, page_count in users.items():
+            bulk_rows.append({ 
                 "index": {
                     "_index": "autocomplete", "_type": "user", "_id": user
             }})
-            bulk_data_obj.append({
+            bulk_rows.append({
                 'owner': user,
                 'count': page_count
             })
-        for repo, page_count in repos.items():
-            repo_id = urllib.quote(repo[1:], '')  # remove initial slash
-            bulk_data_obj.append({ 
-                "index": {
-                    "_index": "autocomplete", "_type": "repo", "_id": repo_id
-            }})
-            bulk_data_obj.append({
-                'owner': repo.split('/')[1],
-                'repo': repo.split('/')[2],
-                'count': page_count
-            })
-        bulk_data = '\n'.join([json.dumps(row) for row in bulk_data_obj]) + '\n'
-        return bulk_data
+    return bulk_rows
 
-    def index_all_repos(self):
-        """
-        sync all repositories in github enterprise
-        """
-        repo_names = (repo['full_name'] for page in _repo_pages() for repo in page)
-        url_template = '%s/%s/wiki/_pages'
-        repo_urls = [url_template % (settings.GITHUB_HOST, repo) for repo in repo_names]
-        jobs = [pool.spawn(_get_soup, url, 'wiki-content') for url in repo_urls]
-        gevent.joinall(jobs)
-        repo_soups = (job.value for job in jobs)
-        repo_tuples = [(url, repo_name, path, soup.ul.find_all('a'),) for url, repo_name, path, soup in repo_soups if soup.ul]
+def _get_visible_text(soup):
+    texts = soup.findAll(text=True)
 
-        bulk_data = self._create_wiki_bulk_data(repo_tuples)
-        bulk_data += self._create_autocomplete_bulk_data(repo_tuples)
+    def visible(element):
+        if element.parent.name in ['style', 'script', '[document]', 'head', 'title']:
+            return False
+        elif isinstance(element, bs4.element.Comment):
+            return False
+        return True
 
-        print "writing bulk data"
-        with open(path_join(DIR, 'bulk_data.txt'), 'w') as f:
-            f.write(bulk_data)
+    return ' '.join(filter(visible, texts))
 
-        # reset index
-        es_client.wiki.delete()
-        es_client.autocomplete.delete()
-        with open(path_join(DIR, 'schema', 'page.json'), 'r') as schema_page:
-            es_client.wiki.post(data=schema_page.read())
-        with open(path_join(DIR, 'schema', 'autocomplete.json'), 'r') as schema_auto:
-            es_client.autocomplete.post(data=schema_auto.read())
-        resp = es_client._bulk.post(data=bulk_data)
-        es_client._refresh.post()
-        return resp
+def _get_versions(repo_name):
+    cache_path = path.join(CACHE, repo_name)
+    versions_path = path.join(cache_path, 'versions')
+    try:
+        with open(versions_path, 'r') as f:
+            return json.load(f)
+    except IOError:
+        try:
+            os.makedirs(cache_path)
+        except:
+            pass
+        return {}
 
-es = ES()
+def _set_versions(repo_name, versions):
+    dirty = versions.pop('dirty', False)
+
+    if dirty:
+        versions_path = path.join(CACHE, repo_name, 'versions')
+        with open(versions_path, 'w') as f:
+            return json.dump(versions, f)
+
+def _write_bulk_rows(repo_name, typ, bulk_rows):
+url = 'http://localhost:8080/search/wiki/%s/_query' % typ
+data = {"query": 
+    {
+      "filtered": {
+        "filter": {
+          "term": {
+            "repo.path": "/%s" % repo_name
+          }
+        }
+      }
+    }
+}
+
+json = urllib3.request('delete', url, body=data).data
+
+    # cache_path = path.join(CACHE, repo_name, typ)
+
+    # with open(cache_path, 'w') as f:
+    #     gevent.os.make_nonblocking(f)
+    #     out = '\n'.join([json.dumps(row) for row in bulk_rows]) + '\n'
+    #     gevent.os.nb_write(f.fileno(), out)
+
+def _get_current_versions(repo_name):
+    commands = [
+        'git ls-remote https://github.cfpb.gov/%s.wiki.git HEAD' % repo_name,
+        'git ls-remote https://github.cfpb.gov/%s.git -b gh-pages' % repo_name,
+        'git ls-remote https://github.cfpb.gov/%s.git HEAD' % repo_name,
+    ]
+    procs = [subprocess.Popen(command.split(), stdout=subprocess.PIPE) for command in commands]
+    gevent.wait(procs, timeout=3)
+    return {
+        'wiki': procs[0].stdout.read().split('\t')[0],
+        'gh_pages': procs[1].stdout.read().split('\t')[0],
+        'readme': procs[2].stdout.read().split('\t')[0],
+    }
+
+def _rerase(jobs):
+    if any([job.exception for job in jobs]):
+        raise BaseException('sub-gevent error')
+
+prev_string = None
+def _update_status(indexing):
+    global prev_string
+    if prev_string:
+        print '\r' * len(prev_string),
+    prev_string = 'tot: %04d   new: %04d   skipped: %04d' % (indexing['tot'] + indexing['skipped'], indexing['tot'], indexing['skipped'])
+
+indexing = {'tot': 0, 'cur':set(), 'skipped': 0}
 
 if __name__ == "__main__":
-    es.index_all_repos()
+    index_all_repos()
     with open(LOG, 'a') as log:
         log.write('%s - synced\n' % datetime.utcnow().isoformat())
