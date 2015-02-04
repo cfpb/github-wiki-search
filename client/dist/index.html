@@ -161,20 +161,47 @@
                 </div>
             </div>
         </div>
+        <div class="results" id="results">
+            <script id="results-template" type="text/x-handlebars-template">
 
-        <div class=" results " id="results ">
+
+                <ul class="results_list " id="results_list ">
+
+                    {{#each hits}}
+                    <li>
+                        <a class="results_item" href={{url}}>
+                            <span class="results_item_title">{{repo}}  |
+             {{title}}</span>
+                            <span class="results_item_highlight">{{content}}</span>
+                        </a>
+
+
+                    </li>
+                    {{/each}}
+                </ul>
+                <p>
+                    <a class="results_search-more " href="# ">More results...</a>
+                </p>
+
+            </script>
+        </div>
+
+
+        <!--    <div class=" results " id="results ">
             <ul class="results_list " id="results_list "></ul>
             <p>
                 <a class="results_search-more " href="# ">More results...</a>
             </p>
-        </div>
+        </div> -->
     </div>
 
     <!--<script type="text/javascript " src="vendor/jquery/jquery.js "></script>
     <script type="text/javascript " src="vendor/typeahead.js/typeahead.bundle.js "></script>
     <script type="text/javascript " src="static/js/jquery-hashchange.js "></script>
     <script type="text/javascript " src="static/js/app.js "></script>-->
-    <script src="static/js/main.min.js "></script>
+
+    <script src="//cdn.jsdelivr.net/handlebarsjs/2.0.0/handlebars.js"></script>
+    <script src="static/js/main.min.js"></script>
 
 </body>
 

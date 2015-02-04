@@ -11822,13 +11822,12 @@ textarea.success {
    Grid mixins
    ========================================================================== */
 /* topdoc
-  name: Less variables
+  name: "Global Less variables"
   notes:
-    - "The following variables are exposed,
-       allowing you to easily override them before compiling.
-       Most mixins allows you to further override these values by passing them
-       arguments."
-  family: cf-grid
+    - "The following variables are default values used in creating grids.
+      They can be overridden in your application's stylesheet.
+      Most mixins allows you to override these values by passing them arguments."
+  family: "cf-grid"
   patterns:
     - codenotes:
         - "@grid_box-sizing-polyfill-path: '/cf-grid/custom-demo/static/css';"
@@ -11852,25 +11851,25 @@ textarea.success {
       notes:
         - "Gives column blocks a background color if set to true."
   tags:
-    - cf-grid
+    - "cf-grid"
 */
 /* topdoc
-  name: Wrapper
+  name: "Wrapper"
   notes:
     - "Wrappers are centered containers with a max-width and fixed gutters
-       that match the gutter widths of columns."
+      that match the gutter widths of columns."
     - "To support IE 6/7, ensure that the path to boxsizing.htc is set using
-       the @grid_box-sizing-polyfill-path Less variable.
-       Read more: https://github.com/Schepp/box-sizing-polyfill."
-  family: cf-grid
+      the @grid_box-sizing-polyfill-path Less variable.
+      Read more: https://github.com/Schepp/box-sizing-polyfill."
+  family: "cf-grid"
   patterns:
-    - name: Less mixin
+    - name: "Less mixin"
       codenotes:
         - ".grid_wrapper( @grid_wrapper-width: @grid_wrapper-width )"
       notes:
         - "You can create wrappers with different max-widths by passing a pixel
-           value into the mixin."
-    - name: Usage
+          value into the mixin."
+    - name: "Usage"
       codenotes:
         - |
           .main-wrapper {
@@ -11887,19 +11886,19 @@ textarea.success {
               This container is the same except it has a wider max-width.
           </div>
   tags:
-    - cf-grid
+    - "cf-grid"
 */
 /* topdoc
-  name: Columns
-  family: cf-grid
+  name: "Columns"
+  family: "cf-grid"
   patterns:
-    - name: Less mixin
+    - name: "Less mixin"
       codenotes:
         - ".grid_column( @columns: 1; @total: @grid_total-columns; @prefix: 0; @suffix: 0 )"
       notes:
         - "Computes column widths and prefix/suffix padding."
         - "CSS borders are used for fixed gutters."
-    - name: Usage
+    - name: "Usage"
       codenotes:
         - |
           .main-wrapper {
@@ -11913,20 +11912,20 @@ textarea.success {
               <div class="half">I am half of my parent.</div>
               <div class="half">I am half of my parent.</div>
           </div>
-    - name: This is a placeholder for documenting prefix and suffix
+    - name: "This is a placeholder for documenting prefix and suffix"
       codenotes:
         - "..."
   tags:
-    - cf-grid
+    - "cf-grid"
 */
 /* topdoc
-  name: Push and Pull mixins for source ordering
-  family: cf-grid
+  name: "Push and Pull mixins for source ordering"
+  family: "cf-grid"
   patterns:
     - codenotes:
         - ".push( @offset: 1, @grid_total-columns: @grid_total-columns )"
         - ".pull( @offset: 1, @grid_total-columns: @grid_total-columns )"
-    - name: Usage
+    - name: "Usage"
       codenotes:
         - |
           .first {
@@ -11943,10 +11942,10 @@ textarea.success {
               <div class="first">I am second in the markup but appear before .second.</div>
           </div>
   tags:
-    - cf-grid
+    - "cf-grid"
 */
 /* topdoc
-  name: Nested columns
+  name: "Nested columns"
   notes:
     - "Since all cf-grid columns have left and right gutters you will notice
       undesireable offsetting when nesting columns.
@@ -11963,12 +11962,12 @@ textarea.success {
       To clarify, if you have a 12 column grid and place 24 columns inside
       of a wrapper cf-grid columns will automaitcally stack into 2 'rows'
       of 12."
-  family: cf-grid
+  family: "cf-grid"
   patterns:
-    - name: Less mixin
+    - name: "Less mixin"
       codenotes:
         - ".grid_nested-col-group()"
-    - name: Usage
+    - name: "Usage"
       codenotes:
         - |
           .main-wrapper {
@@ -11996,7 +11995,7 @@ textarea.success {
               </div>
           </div>
   tags:
-    - cf-grid
+    - "cf-grid"
 */
 /* topdoc
   name: EOF

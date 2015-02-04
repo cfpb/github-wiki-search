@@ -1,45 +1,50 @@
 {
-    "name": "github-wiki-search",
-    "version": "0.1.0",
-    "description": "Search github enterprise wikis.",
-    "keywords": [
-        "github",
-        "github enterprise",
-        "search"
-    ],
-    "author": {
-        "name": "Consumer Financial Protection Bureau",
-        "url": "http://cfpb.github.io/"
-    },
-    "homepage": "https://github.com/cfpb/github-wiki-search",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/cfpb/github-wiki-search.git"
-    },
-    "licenses": [{
-        "type": "Public Domain",
-        "url": "https://github.com/cfpb/github-wiki-search/blob/master/TERMS.md"
-    }],
-    "bugs": {
-        "url": "https://github.com/cfpb/github-wiki-search/issues"
-    },
-    "engines": {
-        "node": ">=0.8.0"
-    },
-    "devDependencies": {
-        "grunt": "latest",
-        "grunt-autoprefixer": "latest",
-        "grunt-bower-task": "~0.3.2",
-        "grunt-contrib-clean": "latest",
-        "grunt-contrib-concat": "latest",
-        "grunt-contrib-connect": "~0.3.0",
-        "grunt-contrib-copy": "latest",
-        "grunt-contrib-cssmin": "~0.6.2",
-        "grunt-contrib-jshint": "~0.6.0",
-        "grunt-contrib-less": "~0.11.0",
-        "grunt-contrib-uglify": "~0.2.2",
-        "grunt-contrib-watch": "~0.4.4",
-        "grunt-gh-pages": "~0.9.1",
-        "grunt-shell": "~0.3.0"
+  "name": "github-wiki-search",
+  "version": "0.1.0",
+  "description": "Search github enterprise wikis.",
+  "keywords": [
+    "github",
+    "github enterprise",
+    "search"
+  ],
+  "author": {
+    "name": "Consumer Financial Protection Bureau",
+    "url": "http://cfpb.github.io/"
+  },
+  "homepage": "https://github.com/cfpb/github-wiki-search",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cfpb/github-wiki-search.git"
+  },
+  "licenses": [
+    {
+      "type": "Public Domain",
+      "url": "https://github.com/cfpb/github-wiki-search/blob/master/TERMS.md"
     }
+  ],
+  "bugs": {
+    "url": "https://github.com/cfpb/github-wiki-search/issues"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-autoprefixer": "latest",
+    "grunt-bower-task": "~0.3.2",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-concat": "latest",
+    "grunt-contrib-connect": "~0.3.0",
+    "grunt-contrib-copy": "latest",
+    "grunt-contrib-cssmin": "~0.6.2",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-less": "~0.11.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-watch": "~0.4.4",
+    "grunt-gh-pages": "~0.9.1",
+    "grunt-shell": "~0.3.0"
+  },
+  "dependencies": {
+    "handlebars": "^2.0.0"
+  }
 }

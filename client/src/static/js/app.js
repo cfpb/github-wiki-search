@@ -35,7 +35,7 @@ ac_test_data = {
         }]
     }
 };
-
+var searchResults = [];
 var repoIdent = '/';
 var ownerIdent = '@';
 
@@ -136,6 +136,9 @@ var $megaSearchBar_query = $('#mega-search-bar_query');
 var $results = $('#results');
 var $results_list = $('#results_list');
 var $more_btn = $('.results_search-more');
+
+var source = $("#results-template").html();
+var template = Handlebars.compile(source);
 
 // Kick things off
 $(function() {
@@ -287,13 +290,21 @@ function querySuccess(data, status, xhr) {
     var raw_results = data.hits.hits;
 
     var results = $.map(raw_results, cleanResult);
+    searchResults['hits'] = results
+
+    console.log(searchResults);
+
+    var templated_html = template(searchResults);
+
+    $("#results").append(template(searchResults));
+    $('#results').show();
 
     if (!this.from) {
         $results_list.html('');
     }
 
     $more_btn.toggle(this.from + 10 < data.hits.total);
-    appendSearchResultsHTML(results);
+    //appendSearchResultsHTML(results);
     busy = false;
 }
 
