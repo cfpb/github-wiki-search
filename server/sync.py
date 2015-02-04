@@ -308,7 +308,7 @@ def index_all_users(repo_data):
                     "_index": "autocomplete", "_type": "user", "_id": user
             }})
             bulk_rows.append({
-                'owner': user,
+                'user': user,
                 'count': page_count
             })
     return bulk_rows
@@ -339,7 +339,7 @@ def index_all_jira_issues():
             break
 
     bulk_data_obj = []
-    paths = set()
+    projs = set()
     users = set()
 
     # compile the proper data structure for elasticsearch
@@ -364,7 +364,7 @@ def index_all_jira_issues():
         bulk_data_obj.append(obj)
 
         # use set type to prevent duplicates
-        paths.add(obj['path'])
+        projs.add(issue['fields']['project']['key'])
         users.add(obj['author'])
         if issue['fields']['assignee']:
             users.add(obj['assignee'])
@@ -386,8 +386,7 @@ def index_all_jira_issues():
             bulk_data_obj.append({'index': index})
             bulk_data_obj.append(obj)
 
-            # use set type to prevent duplicates
-            paths.add(obj['path'])
+            # use set() type to prevent duplicates
             users.add(obj['author'])
             if issue['fields']['assignee']:
                 users.add(obj['assignee'])
@@ -401,14 +400,13 @@ def index_all_jira_issues():
             'owner': user
         })
 
-    for path_str in paths:
+    for proj in projs:
         bulk_data_obj.append({
             "index": {
-                "_index": "autocomplete", "_type": "user", "_id": path_str
+                "_index": "autocomplete", "_type": "path", "_id": proj
         }})
-        # TODO is this necessary?
         bulk_data_obj.append({
-            'path': path_str
+            'path': proj
         })
 
 
