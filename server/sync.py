@@ -91,7 +91,8 @@ def _get_jira_issue_soup(issue_id, element_id):
     return generator that given an issue id, gets the content, parses it and
     returns a tuple of the issue id and a soup of the tag with the given id
     """
-    html = urllib2.urlopen(_get_jira_issue_url(issue_id)).read()
+    conn = urllib3.connection_from_url(settings.JIRA_HOST)
+    html = conn.request('get', _get_jira_issue_url(issue_id)).data
     strainer = SoupStrainer(id=element_id)
     soup = BS(html, parse_only=strainer)
     return (issue_id, soup)
@@ -312,104 +313,112 @@ def index_all_users(repo_data):
             })
     return bulk_rows
 
-    def index_all_jira_issues(self):
-        """
-        sync all jira issues
-        """
-        jira_endpoint = '%s/rest/api/2/search' % settings.JIRA_HOST
-        jira_fields = 'fields=assignee,creator,created,project,status,summary,labels,description,comment'
-        # TODO arbitrary date to keep queries small until this is more mature
-        #jira_query = 'jql=updated>"2014/10/20"'
-        jira_query = ''
-        max_results = 500
-        offset = 0
-        jira_url = jira_endpoint + "?" + jira_fields + "&" + jira_query
-        issues = []
+def index_all_jira_issues():
+    """
+    sync all jira issues
+    """
+    jira_endpoint = '%s/rest/api/2/search' % settings.JIRA_HOST
+    jira_fields = 'fields=assignee,creator,created,project,status,summary,labels,description,comment'
+    # TODO arbitrary date to keep queries small until this is more mature
+    #jira_query = 'jql=updated>"2014/10/20"'
+    jira_query = ''
+    max_results = 500
+    offset = 0
+    jira_url = jira_endpoint + "?" + jira_fields + "&" + jira_query
+    issues = []
 
-        # Grab all data via API calls, 500 issues at a time
-        while True:
-            json_result = urllib2.urlopen("%s&startAt=%d&maxResults=%d&" % (jira_url, offset, max_results)).read()
-            json_parsed = json.loads(json_result)
-            issues += json_parsed['issues']
-            if json_parsed["total"] > len(issues):
-                offset += max_results
+    # Grab all data via API calls, 500 issues at a time
+    while True:
+        conn = urllib3.connection_from_url(settings.JIRA_HOST)
+        json_result = conn.request('get', "%s&startAt=%d&maxResults=%d&" % (jira_url, offset, max_results)).data
+        json_parsed = json.loads(json_result)
+        issues += json_parsed['issues']
+        if json_parsed["total"] > len(issues):
+            offset += max_results
+        else:
+            break
+
+    bulk_data_obj = []
+    paths = set()
+    users = set()
+
+    # compile the proper data structure for elasticsearch
+    for issue in issues:
+        index = {}
+        index['_type'] = "jira_issue"
+        index['_id'] = issue['key']
+        index['_index'] = 'search'
+        obj = {}
+        obj['url'] = settings.JIRA_HOST + "/browse/" + issue['key']
+        obj['title'] = issue['fields']['summary']
+        obj['content'] = issue['fields']['description']
+        obj['author'] = issue['fields']['creator']['name']
+        obj['created_date'] = issue['fields']['created']
+        obj['status'] = issue['fields']['status']['name']
+        obj['path'] = "%s" % issue['fields']['project']['key']
+        if issue['fields']['assignee']:
+            obj['assignee'] = issue['fields']['assignee']['name']
+        else:
+            obj['assignee'] = None
+        bulk_data_obj.append({'index': index})
+        bulk_data_obj.append(obj)
+
+        # use set type to prevent duplicates
+        paths.add(obj['path'])
+        users.add(obj['author'])
+        if issue['fields']['assignee']:
+            users.add(obj['assignee'])
+
+        for comment in issue['fields']['comment']['comments']:
+            index['_id'] = comment['id']
+            obj['content'] = comment['body']
+            if 'author' in comment.keys():
+                obj['author'] = comment['author']['name']
             else:
-                break
+                obj['author'] = None
+            obj['assignee'] = None
+            obj['created_date'] = comment['created']
+            obj['title'] = "Comment for Jira issue %s" % issue['key']
+            obj['url'] = "%s/browse/%s?focusedCommentId=%s" % (settings.JIRA_HOST, issue['key'], comment['id'])
+            obj['status'] = None
+            obj['path'] = "%s/%s" % (issue['fields']['project']['key'], issue['key'])
 
-        bulk_data_obj = []
-        paths = set()
-        users = set()
-
-        # compile the proper data structure for elasticsearch
-        for issue in issues:
-            index = {}
-            index['_type'] = "jira_issue"
-            index['_id'] = issue['key']
-            index['_index'] = 'search'
-            obj = {}
-            obj['url'] = settings.JIRA_HOST + "/browse/" + issue['key']
-            obj['title'] = issue['fields']['summary']
-            obj['content'] = issue['fields']['description']
-            obj['author'] = issue['fields']['creator']['name']
-            obj['created_date'] = issue['fields']['created']
-            obj['status'] = issue['fields']['status']['name']
-            obj['path'] = "%s" % issue['fields']['project']['key']
-            if issue['fields']['assignee']:
-                obj['assignee'] = issue['fields']['assignee']['name']
-            else:
-                obj['assignee'] = None
             bulk_data_obj.append({'index': index})
             bulk_data_obj.append(obj)
 
-            for comment in issue['fields']['comment']['comments']:
-                index['_id'] = comment['id']
-                obj['content'] = comment['body']
-                if 'author' in comment.keys():
-                    obj['author'] = comment['author']['name']
-                else:
-                    obj['author'] = None
-                obj['created_date'] = comment['created']
-                obj['title'] = "Comment for Jira issue %s" % issue['key']
-                obj['url'] = "%s/browse/%s?focusedCommentId=%s" % (settings.JIRA_HOST, issue['key'], comment['id'])
-                obj['status'] = None
-                obj['path'] = "%s/%s" % (issue['fields']['project']['key'], issue['key'])
+            # use set type to prevent duplicates
+            paths.add(obj['path'])
+            users.add(obj['author'])
+            if issue['fields']['assignee']:
+                users.add(obj['assignee'])
 
-                bulk_data_obj.append({'index': index})
-                bulk_data_obj.append(obj)
+    for user in users:
+        bulk_data_obj.append({
+            "index": {
+                "_index": "autocomplete", "_type": "user", "_id": user
+        }})
+        bulk_data_obj.append({
+            'owner': user
+        })
 
-                # use set type to prevent duplicates
-                paths.add(obj['path'])
-                users.add(obj['author'])
-                if issue['fields']['assignee']:
-                    users.add(obj['assignee'])
-
-        for user in users:
-            bulk_data_obj.append({
-                "index": {
-                    "_index": "autocomplete", "_type": "user", "_id": user
-            }})
-            bulk_data_obj.append({
-                'owner': user
-            })
-
-        for path_str in paths:
-            bulk_data_obj.append({
-                "index": {
-                    "_index": "autocomplete", "_type": "user", "_id": path_str
-            }})
-            # TODO is this necessary?
-            bulk_data_obj.append({
-                'path': path_str
-            })
+    for path_str in paths:
+        bulk_data_obj.append({
+            "index": {
+                "_index": "autocomplete", "_type": "user", "_id": path_str
+        }})
+        # TODO is this necessary?
+        bulk_data_obj.append({
+            'path': path_str
+        })
 
 
-        # submit the issues to elasticsearch
-        bulk_data = '\n'.join([json.dumps(row) for row in bulk_data_obj]) + '\n'
-        with open(path_join(DIR, 'bulk_data.txt'), 'w') as f:
-            f.write(bulk_data)
-        resp = es_client._bulk.post(data=bulk_data)
-        es_client._refresh.post()
-        return resp
+    # submit the issues to elasticsearch
+    bulk_data = '\n'.join([json.dumps(row) for row in bulk_data_obj]) + '\n'
+    with open(path_join(DIR, 'bulk_data.txt'), 'w') as f:
+        f.write(bulk_data)
+    resp = es_client._bulk.post(data=bulk_data)
+    es_client._refresh.post()
+    return resp
 
 def _get_visible_text(soup):
     texts = soup.findAll(text=True)
@@ -445,20 +454,20 @@ def _set_versions(repo_name, versions):
             return json.dump(versions, f)
 
 def _write_bulk_rows(repo_name, typ, bulk_rows):
-url = 'http://localhost:8080/search/wiki/%s/_query' % typ
-data = {"query":
-    {
-      "filtered": {
-        "filter": {
-          "term": {
-            "repo.path": "/%s" % repo_name
+    url = 'http://localhost:8080/search/wiki/%s/_query' % typ
+    data = {"query":
+        {
+          "filtered": {
+            "filter": {
+              "term": {
+                "repo.path": "/%s" % repo_name
+              }
+            }
           }
         }
-      }
     }
-}
 
-json = urllib3.request('delete', url, body=data).data
+    json = urllib3.request('delete', url, body=data).data
 
     # cache_path = path.join(CACHE, repo_name, typ)
 
