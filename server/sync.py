@@ -370,26 +370,31 @@ def index_all_jira_issues():
             users.add(obj['assignee'])
 
         for comment in issue['fields']['comment']['comments']:
-            index['_id'] = comment['id']
-            obj['content'] = comment['body']
+            comment_index = {}
+            index['_type'] = "jira_issue"
+            comment_index['_id'] = comment['id']
+            index['_index'] = 'search'
+            comment_obj = {}
+            comment_obj['content'] = comment['body']
             if 'author' in comment.keys():
-                obj['author'] = comment['author']['name']
+                comment_obj['author'] = comment['author']['name']
             else:
-                obj['author'] = None
-            obj['assignee'] = None
-            obj['created_date'] = comment['created']
-            obj['title'] = "Comment for Jira issue %s" % issue['key']
-            obj['url'] = "%s/browse/%s?focusedCommentId=%s" % (settings.JIRA_HOST, issue['key'], comment['id'])
-            obj['status'] = None
-            obj['path'] = "%s/%s" % (issue['fields']['project']['key'], issue['key'])
+                comment_obj['author'] = None
+            comment_obj['assignee'] = None
+            comment_obj['created_date'] = comment['created']
+            comment_obj['title'] = "Comment for Jira issue %s" % issue['key']
+            comment_obj['url'] = "%s/browse/%s?focusedCommentId=%s" % (settings.JIRA_HOST, issue['key'], comment['id'])
+            comment_obj['status'] = None
+            comment_obj['path'] = "%s/%s" % (issue['fields']['project']['key'], issue['key'])
 
-            bulk_data_obj.append({'index': index})
-            bulk_data_obj.append(obj)
+            bulk_data_obj.append({'index': comment_index})
+            bulk_data_obj.append(comment_obj)
 
             # use set() type to prevent duplicates
-            users.add(obj['author'])
-            if issue['fields']['assignee']:
-                users.add(obj['assignee'])
+            if comment_obj['author']:
+                users.add(comment_obj['author'])
+            if comment_obj['assignee']:
+                users.add(comment_obj['assignee'])
 
     for user in users:
         bulk_data_obj.append({
