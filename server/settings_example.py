@@ -1,6 +1,9 @@
 # the ElasticSearch host
 ES_HOST = 'http://localhost:9200'
 
+# the Jira host
+JIRA_HOST = 'https://jira.example.com'
+
 # the GitHub enterprise host
 GITHUB = {
     'GHE': {
