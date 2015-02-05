@@ -32,6 +32,7 @@ def index_gh_pages(gh_type, repo_name, gh_pool):
     bulk_rows = index_gh_page(gh_type, gh_pool, url, repo_name, url, set([url]))
     return bulk_rows
 
+
 def index_gh_page(gh_type, gh_pool, page_url, repo_name, base_url, already_visited):
     """
     return bulk rows for github page and all linked github pages

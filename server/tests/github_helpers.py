@@ -8,7 +8,6 @@ es_client = github_helpers.es_client
 github_helpers.search_client = es_client.test_search
 github_helpers.ac_client = es_client.test_autocomplete
 github_helpers.history_client = es_client.test_history
-import time
 
 from server import schemas
 
@@ -43,15 +42,15 @@ class TestResetIndex(unittest.TestCase):
         actual = es_client.test_search.test_type.test_item.get()
         self.assertGreater(actual.status_code, 400)
 
-class TestDeleteRepoType(unittest.TestCase):
+class TestDeleteIndexSubset(unittest.TestCase):
     def setUp(self):
         github_helpers.reset_index('test_search')
 
     def test_expect_delete_all_repo_docs(self):
         es_client.test_search.wiki.test1.put(data={'path':'/a/b', 'title': 'test1', 'loc': 'github'})
 
-        cut = github_helpers.delete_repo_type
-        cut('GH', '/a/b', 'wiki')
+        cut = github_helpers.delete_index_subset
+        cut('GH', 'wiki', '/a/b')
 
         actual = es_client.test_search.wiki.test1.get()
         self.assertGreater(actual.status_code, 400)
@@ -59,8 +58,8 @@ class TestDeleteRepoType(unittest.TestCase):
     def test_expect_not_delete_docs_in_other_repo(self):
         es_client.test_search.wiki.test1.put(data={'path':'/a/c', 'title': 'test1', 'loc': 'github'})
 
-        cut = github_helpers.delete_repo_type
-        cut('GH', '/a/b', 'wiki')
+        cut = github_helpers.delete_index_subset
+        cut('GH', 'wiki', '/a/b')
 
         actual = es_client.test_search.wiki.test1.get()
         self.assertEqual(actual.status_code, 200)
@@ -68,8 +67,8 @@ class TestDeleteRepoType(unittest.TestCase):
     def test_expect_not_delete_docs_of_other_type(self):
         es_client.test_search.readme.test1.put(data={'path':'/a/b', 'title': 'test1', 'loc': 'github'})
 
-        cut = github_helpers.delete_repo_type
-        cut('GH', '/a/b', 'wiki')
+        cut = github_helpers.delete_index_subset
+        cut('GH', 'wiki', '/a/b')
 
         actual = es_client.test_search.readme.test1.get()
         self.assertEqual(actual.status_code, 200)
@@ -77,8 +76,8 @@ class TestDeleteRepoType(unittest.TestCase):
     def test_expect_not_delete_docs_of_other_gh_type(self):
         es_client.test_search.wiki.test1.put(data={'path':'/a/b', 'title': 'test1', 'loc': 'enterprise'})
 
-        cut = github_helpers.delete_repo_type
-        cut('GH', '/a/b', 'wiki')
+        cut = github_helpers.delete_index_subset
+        cut('GH', 'wiki', '/a/b')
 
         actual = es_client.test_search.readme.test1.get()
         self.assertEqual(actual.status_code, 200)
@@ -167,6 +166,5 @@ class TestWriteBulkData(unittest.TestCase):
         cut = github_helpers.write_bulk_data
 
         cut(self.bulk_data)
-        time.sleep(1)
         actual = es_client.test_search._count.get().json()
         self.assertEqual(actual['count'], 2)

@@ -57,18 +57,13 @@ def get_version_if_modified(gh_type, repo_name, typ, force=False):
         return latest_version
 
 
-def delete_repo_type(gh_type, repo_name, typ):
-    loc = {'GH': 'github', 'GHE': 'github enterprise'}[gh_type]
+def delete_index_subset(loc, typ, repo_name=None):
+    loc = {'GH': 'github', 'GHE': 'github enterprise'}.get(loc, loc)
     # TODO: this isn't working
     query = {"query": {
       "filtered": {
         "filter": {
           "and": [
-            {
-              "term": {
-                "path.path_full": repo_name
-              },
-            },
             {
               "term": {
                 "loc": loc
@@ -78,11 +73,17 @@ def delete_repo_type(gh_type, repo_name, typ):
         },
       },
     }}
+    if repo_name:
+        query['query']['filtered']['filter']['and'].append({
+          "term": {
+            "path.path_full": repo_name
+          },
+        })
     search_client._(typ)._query.delete(data=query)
 
 
 def update_repo_index(gh_type, repo_name, typ, bulk_data):
-    delete_repo_type(gh_type, repo_name, typ)
+    delete_index_subset(gh_type, typ, repo_name)
     write_bulk_data(bulk_data)
 
 def create_index(db_name):
@@ -102,6 +103,7 @@ def write_bulk_data(bulk_data):
         return
     bulk_rows = '\n'.join([json.dumps(row) for row in bulk_data]) + '\n'
     es_client._bulk.dataFilter().post(data=bulk_rows)
+    es_client._refresh.post()
 
 
 return_regex = re.compile(r'\W*\n\W*')
