@@ -11,9 +11,6 @@ Vagrant.configure("2") do |config|
   # run provision.py on boot - not currently working
   # config.vm.provision "shell", path: "provision.py"
 
-  # enable package caching
-  config.cache.auto_detect = true
-
   # port forwarding
   config.vm.network :forwarded_port, guest: 80, host: 8080
   config.vm.network :forwarded_port, guest: 9200, host: 9200
@@ -21,5 +18,10 @@ Vagrant.configure("2") do |config|
   # up memory (elasticsearch is a memory hog)
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--memory", "1024"]
+  end
+
+  # check if vagrant cachier is installed
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.auto_detect = true
   end
 end
