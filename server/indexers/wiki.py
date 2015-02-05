@@ -1,59 +1,60 @@
 from server.indexers import github_helpers as helpers
 from server import settings
+gh_settings = settings.GITHUB
 from bs4 import SoupStrainer, BeautifulSoup as BS
-import urllib3
-import gevent
-from gevent import monkey
-from gevent.pool import Pool
 from urlparse import urlparse
 import urllib
 
-pool = Pool(50)
+import gevent
+from gevent.pool import Pool
+from datetime import datetime
+import time
 
-# patches stdlib (including socket and ssl modules) to cooperate with other greenlets
-monkey.patch_all()
-
-def index(repo):
-    version = helpers.get_modified_version(repo['full_name'], 'wiki')
+def index(gh_type, repo_name, gh_pool, force=False):
+    start = time.mktime(datetime.now().timetuple())
+    version = helpers.get_version_if_modified(gh_type, repo_name, 'wiki', force)
     if not version:
         return
+    bulk_data = index_wiki(gh_type, repo_name, gh_pool)
+    helpers.update_repo_index(gh_type, repo_name, 'wiki', bulk_data)
+    helpers.save_indexed_version(gh_type, repo_name, 'wiki', version)
+    end = time.mktime(datetime.now().timetuple())
+    print '%s: %s wiki pages (%s secs)' % (repo_name, len(bulk_data)/2, end-start)
 
-def index_wiki(repo_name):
+def index_wiki(gh_type, repo_name, gh_pool):
     """ return bulk rows for wiki for repo_name repo """
     # get and parse a list of all wiki page urls
-    url_template = '%s/%s/wiki/_pages'
-    url = url_template % (settings.GITHUB_HOST, repo_name)
-    html = urllib3.request('get', url).data
-    strainer = SoupStrainer(class_='markdown-body')
+    url_template = 'https://%s/%s/wiki/_pages'
+    url = url_template % (gh_pool.host, repo_name)
+    html = gh_pool.request('get', url).data
+    strainer = SoupStrainer(id='wiki-content')
     soup = BS(html, 'lxml', parse_only=strainer)
-    if not soup.ul:
-        return []
-    page_links = soup.ul.find_all('a')
-    page_urls = (settings.GITHUB_HOST + link.get('href') for link in page_links)
+    page_links = soup.find_all('a')
+    page_urls = (('https://%s%s' % (gh_pool.host, link.get('href')))  for link in page_links)
 
     # index each page
-    jobs = [pool.spawn(index_wiki_page, repo_name, page_url) for page_url in page_urls]
+    pool = Pool(20)
+    jobs = [pool.spawn(index_wiki_page, gh_type, repo_name, page_url, gh_pool) for page_url in page_urls]
     gevent.joinall(jobs)
     helpers._rerase(jobs)
-    bulk_rows = [row for job in jobs for row in job.value]
-    _write_bulk_rows(repo_name, 'wiki', bulk_rows)
+    bulk_data = [row for job in jobs for row in job.value]
+    return bulk_data
 
-def index_wiki_page(repo_name, page_url):
+def index_wiki_page(gh_type, repo_name, page_url, gh_pool):
     """ return bulk rows for wiki page at page_url for repo_name repo """
-    html = urllib3.request('get', page_url).read()
+    html = gh_pool.request('get', page_url).data
     strainer = SoupStrainer(id='wiki-wrapper')
     soup = BS(html, 'lxml', parse_only=strainer)
-    path = urlparse(page_url).path[1:]
-    page_id = urllib.quote(path, '')  # remove initial slash
+    path = urlparse(page_url).path  # remove initial slash
+    page_id = urllib.quote(gh_type + path, '')
     return ({ 
         "index": {
-            "_index": "docs", "_type": "wiki_page", "_id": page_id
+            "_index": "search", "_type": "wiki", "_id": page_id
     }},
     {
         'url': page_url,
-        'title': ' '.join(soup.find(id='head').h1.findAll(text=True)),
-        'content': ' '.join(soup.find(id='wiki-content').findAll(text=True)),
-        'repo': '/' + repo_name
+        'title': ' '.join(soup.find(class_='gh-header-title').findAll(text=True)).strip(),
+        'content': ' '.join(soup.find(id='wiki-body').findAll(text=True)).strip(),
+        'path': '/' + repo_name,
+        'loc': {'GH': 'github', 'GHE': 'github enterprise'}[gh_type],
     },)
-
-
