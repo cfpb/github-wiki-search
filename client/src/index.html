@@ -15,210 +15,245 @@
 
     <!--[if lt IE 9]>
     <script src="/static/vendor/html5shiv/html5shiv-printshiv.min.js"></script>
-<![endif]-->
+    <![endif]-->
 
     <script>
-    // Confirm availability of JS and remove no-js class from html
-    var docElement = document.documentElement;
-    docElement.className = docElement.className.replace(/(^|\s)no-js(\s|$)/, '$1$2');
+        // Confirm availability of JS and remove no-js class from html
+        var docElement = document.documentElement;
+        docElement.className = docElement.className.replace(/(^|\s)no-js(\s|$)/, '$1$2');
     </script>
 
 </head>
 
 <body>
 
-    <div class="page-header">
-        <div class="page-wrapper">
+<div class="page-header">
+    <div class="page-wrapper">
 
-            <a href="http://www.consumerfinance.gov/">
-                <img class="page-header_logo" src="static/img/logo_210.png" alt="Consumer Financial Protection Bureau">
-            </a>
-            <h1 class="page-header_heading">
-                <b>GitHub Enterprise</b> Wiki Search
-            </h1>
+        <a href="http://www.consumerfinance.gov/">
+            <img class="page-header_logo" src="static/img/logo_210.png" alt="Consumer Financial Protection Bureau">
+        </a>
 
-        </div>
+        <h1 class="page-header_heading">
+            <b>GitHub Enterprise</b> Wiki Search
+        </h1>
+
     </div>
+</div>
 
-    <div class="page-body">
-        <div class="page-wrapper">
+<div class="page-body">
+    <div class="page-wrapper">
 
-            <form action="" class="mega-search-bar" id="mega-search-bar" autocomplete="off">
-                <span class="cf-icon cf-icon-search mega-search-bar_icon"></span>
-                <label class="mega-search-bar_label" for="mega-search-bar_query">Search all GitHub wikis</label>
-                <input type="text" class="mega-search-bar_query" id="mega-search-bar_query" placeholder="Search here..." autocomplete="off" autofocus>
-            </form>
+        <form action="" class="mega-search-bar" id="mega-search-bar" autocomplete="off">
+            <span class="cf-icon cf-icon-search mega-search-bar_icon"></span>
+            <label class="mega-search-bar_label" for="mega-search-bar_query">Search all GitHub wikis</label>
+            <input type="text" class="mega-search-bar_query" id="mega-search-bar_query" placeholder="Search here..."
+                   autocomplete="off" autofocus>
+        </form>
 
-            <div class="expandable">
+        <div class="expandable">
 
                 <span>
                     <a href="#" class="btn btn__disabled">
-                                 Filter Results
-                    <span class="btn_icon__right cf-icon cf-icon-down"></span>
-                </a>
+                        Filter Results
+                        <span class="btn_icon__right cf-icon cf-icon-down"></span>
+                    </a>
                 </span>
-                <div>
+
+            <div>
 
 
-                    <div class="form-container">
-                        <div class="four">
+                <div class="form-container">
+                    <div class="four">
 
-                            <h6>Data Source</h6>
-                            <label>
-                                <input type="checkbox" value="github_enteprise"> Github Enteprise
-                            </label>
-                            <label>
-                                <input type="checkbox" value="github"> Github
-                            </label>
-                            <label>
-                                <input type="checkbox" value="jira"> Jira
-                            </label>
+                        <h6>Data Source</h6>
+                        <label>
+                            <input type="checkbox" value="github_enteprise"> Github Enteprise
+                        </label>
+                        <label>
+                            <input type="checkbox" value="github"> Github
+                        </label>
+                        <label>
+                            <input type="checkbox" value="jira"> Jira
+                        </label>
 
-                            <h6>Location</h6>
+                        <h6>Location</h6>
 
-                            <input type="text">
+                        <input type="text">
 
-                        </div>
+                    </div>
 
-                        <div class="four ">
+                    <div class="four ">
 
-                            <h6>Data Type</h6>
-                            <label>
-                                <input type="checkbox" value="issue"> Issue
-                            </label>
-                            <label>
-                                <input type="checkbox" value="readme"> Readme
-                            </label>
-                            <label>
-                                <input type="checkbox" value="wiki"> Wiki
-                            </label>
-                            <label>
-                                <input type="checkbox" value="pages"> Pages
-                            </label>
+                        <h6>Data Type</h6>
+                        <label>
+                            <input type="checkbox" value="issue"> Issue
+                        </label>
+                        <label>
+                            <input type="checkbox" value="readme"> Readme
+                        </label>
+                        <label>
+                            <input type="checkbox" value="wiki"> Wiki
+                        </label>
+                        <label>
+                            <input type="checkbox" value="pages"> Pages
+                        </label>
 
-                        </div>
-                        <div class="four ">
+                    </div>
+                    <div class="four ">
+                        <h5>Users:</h5>
+                        <h6> Author</h6>
 
-                            <h6> Author</h6>
+                        <input type="text">
 
-                            <input type="text">
+                    </div>
+                    <div class="four ">
 
-                        </div>
-                        <div class="four ">
+                        <h6> Date Range</h6>
 
-                            <h6> Date Range</h6>
-                            <div class="form-group">
-                                <div class="form-group_item">
-
-
-                                    <div>
-                                        <label for="month">From:</label>
-                                        <select name="month" id="month">
-                                            <option> month</optio>
-                                                <option value="1">01</option>
-                                                <option value="2">02</option>
-                                                <option value="3">03</option>
-                                                <option value="4">04</option>
-                                                <option value="5">05</option>
-                                                <option value="6">06</option>
-                                                <option value="7">07</option>
-                                                <option value="8">08</option>
-                                                <option value="9">09</option>
-                                                <option value="10">10</option>
-                                                <option value="11">11</option>
-                                                <option value="12">12</option>
-                                        </select>
-                                        <select name="year" id="year">
-                                            <option>year</option>
-                                            <option value="2010">01</option>
-                                            <option value="2011">02</option>
-                                            <option value="2012">03</option>
-                                            <option value="2013">04</option>
-                                            <option value="2014">05</option>
-                                            <option value="2015">06</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group_item">
+                        <div class="form-group">
+                            <div class="form-group_item">
 
 
-                                    <label for="month">To:</label>
+                                <label for="month">From:</label>
+
+                                <div class="custom-select">
                                     <select name="month" id="month">
-                                        <option> month</optio>
-                                            <option value="1">01</option>
-                                            <option value="2">02</option>
-                                            <option value="3">03</option>
-                                            <option value="4">04</option>
-                                            <option value="5">05</option>
-                                            <option value="6">06</option>
-                                            <option value="7">07</option>
-                                            <option value="8">08</option>
-                                            <option value="9">09</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
+                                        <option value=""> month</option>
+                                        <option value="1">01</option>
+                                        <option value="2">02</option>
+                                        <option value="3">03</option>
+                                        <option value="4">04</option>
+                                        <option value="5">05</option>
+                                        <option value="6">06</option>
+                                        <option value="7">07</option>
+                                        <option value="8">08</option>
+                                        <option value="9">09</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
                                     </select>
-                                    <select name="year" id="year">
-                                        <option>year</option>
-                                        <option value="2010">01</option>
-                                        <option value="2011">02</option>
-                                        <option value="2012">03</option>
-                                        <option value="2013">04</option>
-                                        <option value="2014">05</option>
-                                        <option value="2015">06</option>
+                                    <span class="custom-select_icon cf-icon cf-icon-down"></span>
+                                </div>
+
+                                <div class="custom-select">
+
+                                    <select name="year" id="year_from">
+                                        <option value="">year</option>
+                                        <option value="2010">2010</option>
+                                        <option value="2011">2011</option>
+                                        <option value="2012">2012</option>
+                                        <option value="2013">2013</option>
+                                        <option value="2014">2014</option>
+                                        <option value="2015">2015</option>
                                     </select>
+                                    <span class="custom-select_icon cf-icon cf-icon-down"></span>
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group_item">
+
+
+                            <label for="month">To:</label>
+
+                            <div class="custom-select">
+
+                                <select name="month" id="month">
+                                    <option value=""> month</option>
+                                    <option value="1">01</option>
+                                    <option value="2">02</option>
+                                    <option value="3">03</option>
+                                    <option value="4">04</option>
+                                    <option value="5">05</option>
+                                    <option value="6">06</option>
+                                    <option value="7">07</option>
+                                    <option value="8">08</option>
+                                    <option value="9">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <span class="custom-select_icon cf-icon cf-icon-down"></span>
+                            </div>
+                            <div class="custom-select">
+                                <select name="year" id="year_to">
+                                    <option value="">year</option>
+                                    <option value="2010">01</option>
+                                    <option value="2011">02</option>
+                                    <option value="2012">03</option>
+                                    <option value="2013">04</option>
+                                    <option value="2014">05</option>
+                                    <option value="2015">06</option>
+                                </select>
+                                <span class="custom-select_icon cf-icon cf-icon-down"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn__link">Reset Filters</button>
+                            <button class="btn">Apply Filters</button>
+                        </div>
                     </div>
+
+
                 </div>
             </div>
         </div>
-        <div class="results" id="results">
-            <script id="results-template" type="text/x-handlebars-template">
-
-
-                <ul class="results_list" id="results_list">
-
-                    {{#each hits}}
-
-                    <li>
-
-                        <a class="results_item" href={{url}}>
-                            <span class="results_item_title">{{repo}}  |
-             {{title}}</span>
-                            <span class="results_item_highlight">{{{content}}}</span>
-                        </a>
-
-
-                    </li>
-                    {{/each}}
-                </ul>
-                {{#if searchMore}}
-                <p>
-                    <a class="results_search-more " href="# ">More results...</a>
-                </p>
-                {{/if}}
-
-            </script>
-        </div>
-
-
-        <!--    <div class=" results " id="results ">
-            <ul class="results_list " id="results_list "></ul>
-            <p>
-                <a class="results_search-more " href="# ">More results...</a>
-            </p>
-        </div> -->
     </div>
+</div>
 
-    <!--<script type="text/javascript " src="vendor/jquery/jquery.js "></script>
-    <script type="text/javascript " src="vendor/typeahead.js/typeahead.bundle.js "></script>
-    <script type="text/javascript " src="static/js/jquery-hashchange.js "></script>
-    <script type="text/javascript " src="static/js/app.js "></script>-->
+<div class="results" id="results">
+    <script id="results-template" type="text/x-handlebars-template">
 
-    <script src="//cdn.jsdelivr.net/handlebarsjs/2.0.0/handlebars.js"></script>
-    <script src="static/js/main.min.js"></script>
+
+        <ul class="results_list " id="results_list">
+
+            {{#each hits}}
+
+            <li class="main-wrapper">
+
+                <div class="one-third">
+                    <h4>{{type}}</h4>
+                    <h5> {{index}}</h5>
+
+                </div>
+
+
+                <div class="two-thirds">
+                    <a class="results_item" href={{url}} target="_blank">
+                                <span class="results_item_title">{{repo}}  |
+             {{title}}</span>
+                        <span class="results_item_highlight">{{{content}}}</span>
+                    </a>
+                </div>
+
+            </li>
+            {{/each}}
+        </ul>
+        {{#if searchMore}}
+        <p>
+            <a class="results_search-more " href="# ">More results...</a>
+        </p>
+        {{/if}}
+
+    </script>
+</div>
+
+
+<!--    <div class=" results " id="results ">
+    <ul class="results_list " id="results_list "></ul>
+    <p>
+        <a class="results_search-more " href="# ">More results...</a>
+    </p>
+</div> -->
+</div>
+
+<!--<script type="text/javascript " src="vendor/jquery/jquery.js "></script>
+<script type="text/javascript " src="vendor/typeahead.js/typeahead.bundle.js "></script>
+<script type="text/javascript " src="static/js/jquery-hashchange.js "></script>
+<script type="text/javascript " src="static/js/app.js "></script>-->
+
+<script src="//cdn.jsdelivr.net/handlebarsjs/2.0.0/handlebars.js"></script>
+<script src="static/js/main.min.js"></script>
 
 </body>
 

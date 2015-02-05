@@ -9,13 +9,15 @@
 // Import the brand color palette.
 @import (less) "brand-palette.less";
 // Override the Capital Framework theme variables with colors from the brand color palette.
+//stolen from flapjack refresh, at cranfill's direction and blessing
+@import (less) "forms.less";
 @import (less) "cf-theme-overrides.less";
 @cf-icon-path: "/static/fonts/";
 @grid_box-sizing-polyfill-path: "/static/vendor/box-sizing-polyfill";
 /* typeahead.js customizations
    ========================================================================== */
 
-@grid_wrapper-width: 768px;
+@grid_wrapper-width: 1200px;
 .twitter-typeahead {
     display: block !important;
 }
@@ -57,12 +59,23 @@ body {
     padding: 0;
     margin: 0;
 }
+//select {
+//    padding: 5px;
+//    line-height: 1em;
+//    -webkit-appearance: caret;
+//    &:after {
+//        content: "\e006";
+//    }
+//}
+//select:hover {
+//    color: navy
+//}
 /* Page Wrapper
    ========================================================================== */
 
 .page-wrapper {
     .grid_wrapper();
-    max-width: unit( 1020px / @base-font-size-px, em);
+    max-width: unit( 1200px / @base-font-size-px, em);
 }
 /* Page Header
    ========================================================================== */
@@ -138,9 +151,10 @@ body {
 }
 .results {
     display: none;
+    width: 100%;
 }
 .results_list {
-    width: 80%;
+    width: 100%;
     margin: auto;
     display: block;
     padding: 0;
@@ -184,6 +198,11 @@ body {
     padding: 5px 0px 15px 5px;
     margin: 5px 0px 15px 5px;
 }
+.expandable .form-container {
+    border: solid 1px gray;
+    padding: 5px 0px 35px 5px;
+    margin: 35px 0px 0px -10px;
+}
 .expandable>span {
     float: right;
 }
@@ -197,8 +216,29 @@ body {
 .four {
     .grid_column(2, 12);
     padding: 5px 0px 5px 5px;
+    margin: 5px 40px 5px 5px;
+    top: 25px;
+    position: relative;
+    width: 20%;
+}
+.one-third {
+    .grid_column(4, 12);
+    padding: 5px 0px 5px 5px;
     margin: 5px 0px 5px 5px;
     top: 25px;
     position: relative;
     width: 20%;
+}
+.two-thirds {
+    .grid_column(8, 12);
+    padding: 5px 0px 5px 5px;
+    margin: 5px 0px 5px 5px;
+    width: 75%
+}
+.group-item {
+    margin-bottom: 31px
+}
+div.custom-select{
+  width: 93px;
+  display: inline-block;
 }

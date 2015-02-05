@@ -1,12 +1,7 @@
-/* ==========================================================================
-   github-wiki-search
-   ========================================================================== */
-
-
 var $megaSearchBar_query = $('#mega-search-bar_query');
 var $results = $('#results');
 var $results_list = $('#results_list');
-
+var $more_btn = $('.results_search-more');
 
 var source = $("#results-template").html();
 var template = Handlebars.compile(source);
@@ -165,6 +160,7 @@ function querySuccess(data, status, xhr) {
     var results = $.map(raw_results, cleanResult);
     searchResults['hits'] = results;
     searchResults['searchMore'] = data.hits.total > 10;
+    console.log(searchResults);
 
     var templated_html = template(searchResults);
 
@@ -186,6 +182,8 @@ function cleanResult(rawResult) {
         repo: '',
         title: '',
         content: '',
+        index: '',
+        type: ''
     };
 
 
@@ -194,7 +192,9 @@ function cleanResult(rawResult) {
         $.extend(cleanedData, {
             url: fields.url[0],
             repo: fields.repo[0],
-            title: fields.title[0]
+            title: fields.title[0],
+            index: rawResult._index,
+            type: rawResult._type
         });
     }
 

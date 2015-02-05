@@ -47,7 +47,7 @@ module.exports = function(grunt) {
                 src: [
                     'src/vendor/cf-*/*.less'
                 ],
-                dest: 'src/vendor/cf-concat/cf.less',
+                dest: 'src/vendor/cf-concat/cf.less'
             }
         },
 
@@ -59,7 +59,7 @@ module.exports = function(grunt) {
         less: {
             main: {
                 options: {
-                    paths: grunt.file.expand('src/vendor/**/'),
+                    paths: grunt.file.expand('src/vendor/**/')
                 },
                 files: {
                     'src/static/css/main.css': ['src/static/css/main.less']
@@ -82,7 +82,7 @@ module.exports = function(grunt) {
                 // Prefix all CSS files found in `src/static/css` and overwrite.
                 expand: true,
                 src: 'src/static/css/*.css'
-            },
+            }
         },
 
         /**
@@ -104,6 +104,7 @@ module.exports = function(grunt) {
                     'src/vendor/typeahead.js/typeahead.bundle.js',
                     'src/vendor/cf-*/*.js',
                     'src/static/js/query_variables.js',
+                    'src/static/js/custom-select.js',
                     'src/static/js/app.js',
                     'src/static/js/expandable.js'
                 ],
