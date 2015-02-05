@@ -2,140 +2,11 @@
    github-wiki-search
    ========================================================================== */
 
-ac_test_data = {
-    "took": 3,
-    "timed_out": false,
-    "_shards": {
-        "total": 5,
-        "successful": 5,
-        "failed": 0
-    },
-    "hits": {
-        "total": 2,
-        "max_score": 1.0,
-        "hits": [{
-            "_index": "autocomplete",
-            "_type": "user",
-            "_id": "dgreisen",
-            "_score": 1.0,
-            "_source": {
-                "owner": "dgreisen",
-                "count": 2
-            }
-        }, {
-            "_index": "autocomplete",
-            "_type": "repo",
-            "_id": "dgreisen%2Fgithub-search",
-            "_score": 1.0,
-            "_source": {
-                "owner": "dgreisen",
-                "repo": "github-search",
-                "count": 2
-            }
-        }]
-    }
-};
-var searchResults = [];
-var repoIdent = '/';
-var ownerIdent = '@';
-
-var currentRepoTerm = null;
-var currentOwnerOwnly = null;
-
-var queryLocation = '/search/wiki/page/_search';
-var suggestRepoLocation = '/search/autocomplete/repo/_search';
-var suggestOwnerLocation = '/search/autocomplete/user/_search';
-var suggestionOwnerRepoLocation = '/search/autocomplete/_search';
-var queryResults = [];
-var busy = false;
-var query_from = 0;
-var filteredQuery = {
-    "filtered": {
-        "filter": {
-            "term": {
-                "repo.path": "[/<owner>[/<repo>]]"
-            }
-        },
-        "query": {
-            "match": {
-                "_all": "<query>"
-            }
-        }
-    }
-};
-
-var allQuery = {
-    "match": {
-        "_all": "<query>"
-    }
-};
-
-var queryData = {
-    "fields": ["url", "repo", "title"],
-    "from": 0,
-    "query": {},
-    "highlight": {
-        "pre_tags": ["<mark>"],
-        "post_tags": ["</mark>"],
-        "fields": {
-            "content": {},
-            "title": {
-                "number_of_fragments": 0
-            }
-        }
-    }
-};
-
-// when only looking for an owner
-var suggestOwnerQuery = {
-    "size": 5,
-    "filter": {
-        "term": {
-            "owner": "<owner>"
-        }
-    }
-};
-
-// when looking for a specific owner/repo combination
-var suggestRepoQuery = {
-    "size": 5,
-    "filter": {
-        "bool": {
-            "must": [{
-                "term": {
-                    "owner": "<owner>"
-                }
-            }, {
-                "term": {
-                    "repo": "<repo>"
-                }
-            }]
-        }
-    }
-};
-
-// when don't know whether the entered value is owner or repo
-var suggestOwnerRepoQuery = {
-    "size": 5,
-    "filter": {
-        "bool": {
-            "should": [{
-                "term": {
-                    "owner": "<owner>"
-                }
-            }, {
-                "term": {
-                    "repo": "<repo>"
-                }
-            }]
-        }
-    }
-};
 
 var $megaSearchBar_query = $('#mega-search-bar_query');
 var $results = $('#results');
 var $results_list = $('#results_list');
-var $more_btn = $('.results_search-more');
+
 
 var source = $("#results-template").html();
 var template = Handlebars.compile(source);
@@ -281,6 +152,8 @@ function sendQuery() {
 function querySuccess(data, status, xhr) {
     var from = this.from;
 
+    $('#results').html('');
+
     // don't do anything if someone hit the more button and then changed the query before more came back
     if (this.from && this.searchTerm != $megaSearchBar_query.typeahead('val')) {
         busy = false;
@@ -290,9 +163,8 @@ function querySuccess(data, status, xhr) {
     var raw_results = data.hits.hits;
 
     var results = $.map(raw_results, cleanResult);
-    searchResults['hits'] = results
-
-    console.log(searchResults);
+    searchResults['hits'] = results;
+    searchResults['searchMore'] = data.hits.total > 10;
 
     var templated_html = template(searchResults);
 
@@ -302,9 +174,6 @@ function querySuccess(data, status, xhr) {
     if (!this.from) {
         $results_list.html('');
     }
-
-    $more_btn.toggle(this.from + 10 < data.hits.total);
-    //appendSearchResultsHTML(results);
     busy = false;
 }
 
@@ -338,45 +207,6 @@ function cleanResult(rawResult) {
     }
 
     return cleanedData;
-
-}
-
-
-function appendSearchResultsHTML(items) {
-    // Then add the new ones
-    if (items.length > 0) {
-        $.each(items, makeSearchResultItem);
-
-        $results.slideDown('fast');
-
-    } else {
-
-        $results.slideUp('fast');
-
-    }
-
-}
-
-
-function makeSearchResultItem(index, item) {
-
-    // Only include content if it is not empty.
-    var content = '';
-    if (item.content !== '') {
-        content = '<span class="results_item_highlight">' + item.content + '</span>';
-    }
-
-    return $('<li>')
-        .append('' +
-            '<a class="results_item" href="' + item.url + '">' +
-            '<span class="results_item_title">' +
-            item.repo +
-            '/' +
-            item.title +
-            '</span>' +
-            content +
-            '</a>')
-        .appendTo($results_list);
 
 }
 

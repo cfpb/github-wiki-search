@@ -102,8 +102,8 @@ module.exports = function(grunt) {
                     'src/vendor/jquery/jquery.js',
                     'src/static/js/jquery-hashchange.js',
                     'src/vendor/typeahead.js/typeahead.bundle.js',
-
                     'src/vendor/cf-*/*.js',
+                    'src/static/js/query_variables.js',
                     'src/static/js/app.js',
                     'src/static/js/expandable.js'
                 ],
@@ -253,7 +253,7 @@ module.exports = function(grunt) {
                     'Gruntfile.js',
                     'src/index.html',
                     'src/static/css/*.less',
-
+                    'src/static/js/query_variables.js',
                     'src/static/js/expandable.js',
                     'src/static/js/app.js'
                 ],

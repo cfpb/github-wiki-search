@@ -15,7 +15,7 @@
 /* typeahead.js customizations
    ========================================================================== */
 
-@grid_wrapper-width: 1200px;
+@grid_wrapper-width: 768px;
 .twitter-typeahead {
     display: block !important;
 }
@@ -62,7 +62,7 @@ body {
 
 .page-wrapper {
     .grid_wrapper();
-    max-width: unit( 1200px / @base-font-size-px, em);
+    max-width: unit( 1020px / @base-font-size-px, em);
 }
 /* Page Header
    ========================================================================== */
@@ -140,8 +140,9 @@ body {
     display: none;
 }
 .results_list {
+    width: 80%;
+    margin: auto;
     display: block;
-    margin: 0 0 1em;
     padding: 0;
     list-style-type: none;
     li {
@@ -180,8 +181,8 @@ body {
     .webfont-regular();
 }
 .expandable {
-    padding: 5px 0px 5px 5px;
-    margin: 5px 0px 5px 5px;
+    padding: 5px 0px 15px 5px;
+    margin: 5px 0px 15px 5px;
 }
 .expandable>span {
     float: right;

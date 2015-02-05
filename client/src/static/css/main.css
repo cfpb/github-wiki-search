@@ -16332,12 +16332,12 @@ body {
 /* Page Wrapper
    ========================================================================== */
 .page-wrapper {
-  max-width: 1170px;
+  max-width: 738px;
   padding: 0 15px;
   margin: 0 auto;
   position: relative;
   clear: both;
-  max-width: 75em;
+  max-width: 63.75em;
 }
 /* Page Header
    ========================================================================== */
@@ -17451,8 +17451,9 @@ body {
   display: none;
 }
 .results_list {
+  width: 80%;
+  margin: auto;
   display: block;
-  margin: 0 0 1em;
   padding: 0;
   list-style-type: none;
 }
@@ -17567,8 +17568,8 @@ body {
   font-weight: normal !important;
 }
 .expandable {
-  padding: 5px 0px 5px 5px;
-  margin: 5px 0px 5px 5px;
+  padding: 5px 0px 15px 5px;
+  margin: 5px 0px 15px 5px;
 }
 .expandable > span {
   float: right;
@@ -17584,7 +17585,7 @@ body {
   color: black;
 }
 .main-wrapper {
-  max-width: 1170px;
+  max-width: 738px;
   padding: 0 15px;
   margin: 0 auto;
   position: relative;

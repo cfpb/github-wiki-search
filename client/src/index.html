@@ -74,14 +74,27 @@
                                 <input type="checkbox" value="jira"> Jira
                             </label>
 
+                            <h6>Location</h6>
+
+                            <input type="text">
 
                         </div>
 
                         <div class="four ">
 
-                            <h6>Location</h6>
-
-                            <input type="text">
+                            <h6>Data Type</h6>
+                            <label>
+                                <input type="checkbox" value="issue"> Issue
+                            </label>
+                            <label>
+                                <input type="checkbox" value="readme"> Readme
+                            </label>
+                            <label>
+                                <input type="checkbox" value="wiki"> Wiki
+                            </label>
+                            <label>
+                                <input type="checkbox" value="pages"> Pages
+                            </label>
 
                         </div>
                         <div class="four ">
@@ -165,23 +178,27 @@
             <script id="results-template" type="text/x-handlebars-template">
 
 
-                <ul class="results_list " id="results_list ">
+                <ul class="results_list" id="results_list">
 
                     {{#each hits}}
+
                     <li>
+
                         <a class="results_item" href={{url}}>
                             <span class="results_item_title">{{repo}}  |
              {{title}}</span>
-                            <span class="results_item_highlight">{{content}}</span>
+                            <span class="results_item_highlight">{{{content}}}</span>
                         </a>
 
 
                     </li>
                     {{/each}}
                 </ul>
+                {{#if searchMore}}
                 <p>
                     <a class="results_search-more " href="# ">More results...</a>
                 </p>
+                {{/if}}
 
             </script>
         </div>
