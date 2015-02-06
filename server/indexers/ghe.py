@@ -19,7 +19,7 @@ def _get_repos():
 
 
 def index(pool, pages_pool, repo_names=None, force=False):
-    repo_names = repo_names or _get_repos()
+    repo_names = _get_repos() if repo_names is None else repo_names
     jobs = [pool.spawn(wiki, 'GHE', repo_name, ghe_pool, force) for repo_name in repo_names]
     jobs += [pool.spawn(readme, 'GHE', repo_name, ghe_pool, force) for repo_name in repo_names]
     jobs = [pool.spawn(gh_pages, 'GHE', repo_name, pages_pool, force) for repo_name in repo_names]

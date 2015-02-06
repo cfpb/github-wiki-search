@@ -33,66 +33,59 @@ def index():
         else:
             break
 
-    bulk_data_obj = []
+    bulk_data = []
     projs = set()
     users = set()
 
     # compile the proper data structure for elasticsearch
     for issue in issues:
-        index = {}
-        index['_type'] = "jira_issue"
-        index['_id'] = issue['key']
-        index['_index'] = 'search'
-        obj = {}
-        obj['url'] = settings.JIRA_HOST + "/browse/" + issue['key']
-        obj['title'] = issue['fields']['summary']
-        obj['content'] = issue['fields']['description']
-        obj['author'] = issue['fields']['creator']['name']
-        obj['created_date'] = issue['fields']['created']
-        obj['status'] = issue['fields']['status']['name']
-        obj['path'] = "%s" % issue['fields']['project']['key']
-        if issue['fields']['assignee']:
-            obj['assignee'] = issue['fields']['assignee']['name']
-        else:
-            obj['assignee'] = None
-        bulk_data_obj.append({'index': index})
-        bulk_data_obj.append(obj)
+        bulk_data += [{
+            "index": {
+                "_index": "search", "_type": "issue", "_id": issue['key']
+            }},
+            {
+                'url': settings.JIRA_HOST + "/browse/" + issue['key'],
+                'title': issue['fields']['summary'],
+                'content': issue['fields']['description'],
+                'author': issue['fields']['creator']['name'],
+                'created_date': issue['fields']['created'],
+                'status': issue['fields']['status']['name'],
+                'path': "%s" % issue['fields']['project']['key'],
+                'loc': 'jira',
+                'assignee': (issue['fields']['assignee'] or {}).get('name', None)
+            }
+        ]
 
         # use set type to prevent duplicates
         projs.add(issue['fields']['project']['key'])
-        users.add(obj['author'])
+        users.add(issue['fields']['creator']['name'])
         if issue['fields']['assignee']:
-            users.add(obj['assignee'])
+            users.add(issue['fields']['assignee']['name'])
 
         for comment in issue['fields']['comment']['comments']:
-            comment_index = {}
-            index['_type'] = "jira_issue"
-            comment_index['_id'] = comment['id']
-            index['_index'] = 'search'
-            comment_obj = {}
-            comment_obj['content'] = comment['body']
-            if 'author' in comment.keys():
-                comment_obj['author'] = comment['author']['name']
-            else:
-                comment_obj['author'] = None
-            comment_obj['assignee'] = None
-            comment_obj['created_date'] = comment['created']
-            comment_obj['title'] = "Comment for Jira issue %s" % issue['key']
-            comment_obj['url'] = "%s/browse/%s?focusedCommentId=%s" % (settings.JIRA_HOST, issue['key'], comment['id'])
-            comment_obj['status'] = None
-            comment_obj['path'] = "%s/%s" % (issue['fields']['project']['key'], issue['key'])
+            bulk_data += [{
+                "index": {
+                    "_index": "search", "_type": "issue", "_id": comment['id']
+                }},
+                {
+                    'author': (comment.get('author') or {}).get('name', None),
+                    'content': comment['body'],
+                    'assignee': None,
+                    'created_date': comment['created'],
+                    'title': "Comment for Jira issue %s" % issue['key'],
+                    'url': "%s/browse/%s?focusedCommentId=%s" % (settings.JIRA_HOST, issue['key'], comment['id']),
+                    'status': None,
+                    'path': "%s/%s" % (issue['fields']['project']['key'], issue['key']),
+                    'loc': 'jira',
 
-            bulk_data_obj.append({'index': comment_index})
-            bulk_data_obj.append(comment_obj)
+            }]
 
             # use set() type to prevent duplicates
-            if comment_obj['author']:
-                users.add(comment_obj['author'])
-            if comment_obj['assignee']:
-                users.add(comment_obj['assignee'])
+            if comment.get('author'):
+                users.add(comment['author']['name'])
 
 
     # submit the issues to elasticsearch
     helpers.delete_index_subset('jira', 'issue')
-    helpers.write_bulk_data(bulk_data_obj)
+    helpers.write_bulk_data(bulk_data)
     return list(users), list(projs)
