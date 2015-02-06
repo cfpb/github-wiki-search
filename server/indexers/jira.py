@@ -1,30 +1,14 @@
 from server import settings
-from bs4 import SoupStrainer, BeautifulSoup as BS
 import urllib3
 import json
 import github_helpers as helpers
 
-from os.path import join as path_join
 from os import path
 from universalclient import Client
 es_client = Client(settings.ES_HOST)
 DIR = path.dirname(path.realpath(__file__))
 
-def _get_jira_issue_url(issue_id):
-    return settings.JIRA_HOST + "/browse/" + issue_id
-
-def _get_jira_issue_soup(issue_id, element_id):
-    """
-    return generator that given an issue id, gets the content, parses it and
-    returns a tuple of the issue id and a soup of the tag with the given id
-    """
-    conn = urllib3.connection_from_url(settings.JIRA_HOST)
-    html = conn.request('get', _get_jira_issue_url(issue_id)).data
-    strainer = SoupStrainer(id=element_id)
-    soup = BS(html, parse_only=strainer)
-    return (issue_id, soup)
-
-def index_all_jira_issues():
+def index():
     """
     sync all jira issues
     """
