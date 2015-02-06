@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from urlparse import urlparse
 import time
 
-obj_type = 'gh_issue'
+obj_type = 'issue'
 
 
 def index(gh_type, client, repo_name):
