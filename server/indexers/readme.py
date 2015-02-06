@@ -14,7 +14,7 @@ def index(gh_type, repo_name, gh_pool, force=False):
     if not version:
         return
     bulk_data = index_readme(gh_type, repo_name, gh_pool)
-    helpers.update_repo_index(gh_type, repo_name, 'wiki', bulk_data)
+    helpers.rebuild_repo_index(gh_type, repo_name, 'wiki', bulk_data)
     helpers.save_indexed_version(gh_type, repo_name, 'wiki', version)
     end = time.mktime(datetime.now().timetuple())
     print '%s: %s readmes (%s secs)' % (repo_name, len(bulk_data)/2, end-start)
@@ -34,7 +34,7 @@ def index_readme(gh_type, repo_name, gh_pool):
     else:
         title = 'Readme'
     try:
-        return ({ 
+        return ({
             "index": {
                 "_index": "search", "_type": "readme", "_id": page_id
         }},

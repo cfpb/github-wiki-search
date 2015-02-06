@@ -13,14 +13,25 @@ def index(gh_type, client, repo_name):
     indexed_timestamp = helpers.get_indexed_version(gh_type, repo_name, obj_type)
     # increment timestamp by one second to prevent duplicates
     indexed_timestamp = nudge_datetime(indexed_timestamp)
-    bulk_data = index_gh_issues(gh_type, client, repo_name, indexed_timestamp)
-    bulk_data += index_gh_issue_comments(gh_type, client, repo_name, indexed_timestamp)
-    helpers.update_repo_index(gh_type, repo_name, obj_type, bulk_data)
+    bulk_data = []
+    if is_updated_issues(client, repo_name, indexed_timestamp):
+        bulk_data += index_gh_issues(gh_type, client, repo_name)
+        bulk_data += index_gh_issue_comments(gh_type, client, repo_name)
+        helpers.rebuild_repo_index(gh_type, repo_name, obj_type, bulk_data)
+    else:
+        print '%s (%s): skipping %s' % (repo_name, gh_type, obj_type)
     end = time.mktime(datetime.now().timetuple())
     print '%s: %s github issues (%s secs)' % (repo_name, len(bulk_data)/2, end-start)
 
 
-def index_gh_issues(gh_type, client, repo_name, since):
+def is_updated_issues(client, repo_name, since):
+    (owner, repo) = repo_name.split('/')
+    issues = client.repos._(owner)._(repo).issues.params(
+        state='all', since=since)
+    return True if issues.get().json() else False
+
+
+def index_gh_issues(gh_type, client, repo_name, since=None):
     (owner, repo) = repo_name.split('/')
     issues = iter_get(client.repos._(owner)._(repo).issues.params(
         state='all', since=since))
@@ -58,7 +69,7 @@ def index_gh_issues(gh_type, client, repo_name, since):
     return bulk_data
 
 
-def index_gh_issue_comments(gh_type, client, repo_name, since):
+def index_gh_issue_comments(gh_type, client, repo_name, since=None):
     (owner, repo) = repo_name.split('/')
     comments = iter_get(client.repos._(owner)._(repo).issues.comments.params(since=since))
 
