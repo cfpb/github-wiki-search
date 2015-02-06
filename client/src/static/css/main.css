@@ -18382,3 +18382,6 @@ div.custom-select {
   width: 93px;
   display: inline-block;
 }
+.form-group {
+  padding-top: 20px;
+}

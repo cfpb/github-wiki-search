@@ -9,26 +9,29 @@ ac_test_data = {
     "hits": {
         "total": 2,
         "max_score": 1.0,
-        "hits": [{
-            "_index": "autocomplete",
-            "_type": "user",
-            "_id": "dgreisen",
-            "_score": 1.0,
-            "_source": {
-                "owner": "dgreisen",
-                "count": 2
+        "hits": [
+            {
+                "_index": "autocomplete",
+                "_type": "user",
+                "_id": "dgreisen",
+                "_score": 1.0,
+                "_source": {
+                    "owner": "dgreisen",
+                    "count": 2
+                }
+            },
+            {
+                "_index": "autocomplete",
+                "_type": "repo",
+                "_id": "dgreisen%2Fgithub-search",
+                "_score": 1.0,
+                "_source": {
+                    "owner": "dgreisen",
+                    "repo": "github-search",
+                    "count": 2
+                }
             }
-        }, {
-            "_index": "autocomplete",
-            "_type": "repo",
-            "_id": "dgreisen%2Fgithub-search",
-            "_score": 1.0,
-            "_source": {
-                "owner": "dgreisen",
-                "repo": "github-search",
-                "count": 2
-            }
-        }]
+        ]
     }
 };
 var searchResults = [];
@@ -42,7 +45,7 @@ var queryLocation = '/search/wiki/page/_search';
 var suggestRepoLocation = '/search/autocomplete/repo/_search';
 var suggestOwnerLocation = '/search/autocomplete/user/_search';
 var suggestionOwnerRepoLocation = '/search/autocomplete/_search';
-var queryResults = [];
+
 var busy = false;
 var query_from = 0;
 var filteredQuery = {
@@ -97,33 +100,54 @@ var suggestRepoQuery = {
     "size": 5,
     "filter": {
         "bool": {
-            "must": [{
-                "term": {
-                    "owner": "<owner>"
+            "must": [
+                {
+                    "term": {
+                        "owner": "<owner>"
+                    }
+                },
+                {
+                    "term": {
+                        "repo": "<repo>"
+                    }
                 }
-            }, {
-                "term": {
-                    "repo": "<repo>"
-                }
-            }]
+            ]
         }
     }
 };
+var q = {
+    "query": {
+        "filtered": {
+            "filter": {
+
+            },
+            "query": {
+                "match": {
+                    "_all": "content"
+                }
+            }
+        }
+    }
+}
+
 
 // when don't know whether the entered value is owner or repo
 var suggestOwnerRepoQuery = {
     "size": 5,
     "filter": {
         "bool": {
-            "should": [{
-                "term": {
-                    "owner": "<owner>"
+            "should": [
+                {
+                    "term": {
+                        "owner": "<owner>"
+                    }
+                },
+                {
+                    "term": {
+                        "repo": "<repo>"
+                    }
                 }
-            }, {
-                "term": {
-                    "repo": "<repo>"
-                }
-            }]
+            ]
         }
     }
 };
