@@ -51,7 +51,7 @@ def get_version_if_modified(gh_type, repo_name, typ, force=False):
     indexed_version = get_indexed_version(gh_type, repo_name, typ)
 
     if indexed_version == latest_version:
-        print '%s (%s): skipping' % (repo_name, gh_type)
+        print '%s (%s): skipping %s' % (repo_name, gh_type, typ)
         return None
     else:
         return latest_version
