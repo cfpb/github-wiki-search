@@ -39,7 +39,7 @@
       "analyzer": "text_analyzer",
       "store": "yes"
     },
-    "created_date": {
+    "updated_date": {
       "type": "date",
       "format": "date_time"
     },
