@@ -10,14 +10,16 @@ from gevent.pool import Pool
 from datetime import datetime
 import time
 
+obj_type = 'wiki'
+
 def index(gh_type, repo_name, gh_pool, force=False):
     start = time.mktime(datetime.now().timetuple())
-    version = helpers.get_version_if_modified(gh_type, repo_name, 'wiki', force)
+    version = helpers.get_version_if_modified(gh_type, repo_name, obj_type, force)
     if not version:
         return
     bulk_data = index_wiki(gh_type, repo_name, gh_pool)
-    helpers.update_repo_index(gh_type, repo_name, 'wiki', bulk_data)
-    helpers.save_indexed_version(gh_type, repo_name, 'wiki', version)
+    helpers.rebuild_repo_index(gh_type, repo_name, obj_type, bulk_data)
+    helpers.save_indexed_version(gh_type, repo_name, obj_type, version)
     end = time.mktime(datetime.now().timetuple())
     print '%s: %s wiki pages (%s secs)' % (repo_name, len(bulk_data)/2, end-start)
 
@@ -47,9 +49,9 @@ def index_wiki_page(gh_type, repo_name, page_url, gh_pool):
     soup = BS(html, 'lxml', parse_only=strainer)
     path = urlparse(page_url).path  # remove initial slash
     page_id = urllib.quote(gh_type + path, '')
-    return ({ 
+    return ({
         "index": {
-            "_index": "search", "_type": "wiki", "_id": page_id
+            "_index": "search", "_type": obj_type, "_id": page_id
     }},
     {
         'url': page_url,

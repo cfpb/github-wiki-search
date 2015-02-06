@@ -14,14 +14,16 @@ import re
 
 index_regex = re.compile(r'index.html$')
 
+obj_type = 'gh_page'
+
 def index(gh_type, repo_name, gh_pool, force=False):
     start = time.mktime(datetime.now().timetuple())
-    version = helpers.get_version_if_modified(gh_type, repo_name, 'wiki', force)
+    version = helpers.get_version_if_modified(gh_type, repo_name, obj_type, force)
     if not version:
         return
     bulk_data = index_gh_pages(gh_type, repo_name, gh_pool)
-    helpers.update_repo_index(gh_type, repo_name, 'wiki', bulk_data)
-    helpers.save_indexed_version(gh_type, repo_name, 'wiki', version)
+    helpers.rebuild_repo_index(gh_type, repo_name, obj_type, bulk_data)
+    helpers.save_indexed_version(gh_type, repo_name, obj_type, version)
     end = time.mktime(datetime.now().timetuple())
     print '%s: %s gh_pages (%s secs)' % (repo_name, len(bulk_data)/2, end-start)
 
@@ -78,7 +80,7 @@ def index_gh_page(gh_type, gh_pool, page_url, repo_name, base_url, already_visit
     title = title.text if title else page_url
     bulk_rows += [{
             "index": {
-                "_index": "search", "_type": "gh_page", "_id": page_id
+                "_index": "search", "_type": obj_type, "_id": page_id
         }},
         {
             'url': page_url,
