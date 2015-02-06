@@ -30,7 +30,7 @@ def get_indexed_version(gh_type, repo_name, typ):
 def get_latest_version(gh_type, repo_name, typ):
     commands = {
         'wiki': 'git ls-remote %s/%s.wiki.git HEAD' % (settings.GITHUB[gh_type]['WEB'], repo_name),
-        'pages': 'git ls-remote %s/%s.git -b gh-pages' % (settings.GITHUB[gh_type]['WEB'], repo_name),
+        'gh_page': 'git ls-remote %s/%s.git -b gh-pages' % (settings.GITHUB[gh_type]['WEB'], repo_name),
         'readme': 'git ls-remote %s/%s.git HEAD' % (settings.GITHUB[gh_type]['WEB'], repo_name),
     }
     sp = subprocess.Popen(commands[typ].split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
