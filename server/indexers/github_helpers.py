@@ -82,7 +82,7 @@ def delete_index_subset(loc, typ, repo_name=None):
     search_client._(typ)._query.delete(data=query)
 
 
-def update_repo_index(gh_type, repo_name, typ, bulk_data):
+def rebuild_repo_index(gh_type, repo_name, typ, bulk_data):
     delete_index_subset(gh_type, typ, repo_name)
     write_bulk_data(bulk_data)
 
