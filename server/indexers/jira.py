@@ -107,25 +107,8 @@ def index_all_jira_issues():
             if comment_obj['assignee']:
                 users.add(comment_obj['assignee'])
 
-    for user in users:
-        bulk_data_obj.append({
-            "index": {
-                "_index": "autocomplete", "_type": "user", "_id": user
-        }})
-        bulk_data_obj.append({
-            'owner': user
-        })
-
-    for proj in projs:
-        bulk_data_obj.append({
-            "index": {
-                "_index": "autocomplete", "_type": "path", "_id": proj
-        }})
-        bulk_data_obj.append({
-            'path': proj
-        })
-
 
     # submit the issues to elasticsearch
     helpers.delete_index_subset('jira', 'issue')
     helpers.write_bulk_data(bulk_data_obj)
+    return list(users), list(projs)

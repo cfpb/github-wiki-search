@@ -64,11 +64,9 @@ def index_gh_page(gh_type, gh_pool, page_url, repo_name, base_url, already_visit
     except:
         return []
 
-    print '    indexing %s' % page_url
     links = soup.find_all('a')
     child_urls = (gen_url(link) for link in links)
     child_urls = [url for url in child_urls if is_valid_url(url)]
-    print '        children:', len(child_urls)
     pool = Pool(20)
     jobs = [pool.spawn(index_gh_page, gh_type, gh_pool, child_url, repo_name, base_url, already_visited) for child_url in child_urls]
     gevent.joinall(jobs)
