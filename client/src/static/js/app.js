@@ -191,7 +191,7 @@ function cleanResult(rawResult) {
     if (fields) {
         $.extend(cleanedData, {
             url: fields.url[0],
-            repo: fields.repo[0],
+            repo: fields.path[0],
             title: fields.title[0],
             index: rawResult._index,
             type: rawResult._type

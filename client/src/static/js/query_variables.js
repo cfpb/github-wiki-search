@@ -41,7 +41,7 @@ var ownerIdent = '@';
 var currentRepoTerm = null;
 var currentOwnerOwnly = null;
 
-var queryLocation = '/search/wiki/page/_search';
+var queryLocation = '/search/search/_search';
 var suggestRepoLocation = '/search/autocomplete/repo/_search';
 var suggestOwnerLocation = '/search/autocomplete/user/_search';
 var suggestionOwnerRepoLocation = '/search/autocomplete/_search';
@@ -63,14 +63,14 @@ var filteredQuery = {
     }
 };
 
-var allQuery = {
-    "match": {
-        "_all": "<query>"
-    }
-};
+//var allQuery = {
+//    "match": {
+//        "_all": "<query>"
+//    }
+//};
 
 var queryData = {
-    "fields": ["url", "repo", "title"],
+    "fields": ["url", "path", "title"],
     "from": 0,
     "query": {},
     "highlight": {
@@ -115,18 +115,9 @@ var suggestRepoQuery = {
         }
     }
 };
-var q = {
-    "query": {
-        "filtered": {
-            "filter": {
-
-            },
-            "query": {
-                "match": {
-                    "_all": "content"
-                }
-            }
-        }
+var allQuery = {
+    "match": {
+        "_all": "<query>"
     }
 }
 
