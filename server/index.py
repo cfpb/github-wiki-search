@@ -1,6 +1,7 @@
 #! /usr/bin/python
 from universalclient import Client
 import settings
+from utils import iter_get
 import indexers
 import time
 from datetime import datetime
@@ -30,26 +31,13 @@ urllib3.response.HTTPResponse = HTTPResponse
 pages_pool = urllib3.PoolManager(20)
 ghe_pool = urllib3.connection_from_url(settings.GITHUB.get('GHE', {}).get('WEB'), maxsize=50, block=True)
 gh_pool = urllib3.connection_from_url(settings.GITHUB.get('GH', {}).get('WEB'), maxsize=50, block=True)
-ghe_api_client = Client(settings.GITHUB.get('GHE', {}).get('API')).api.v3
+ghe_api_client = Client(settings.GITHUB.get('GHE', {}).get('API'))
 gh_api_client = Client(settings.GITHUB.get('GH', {}).get('API'))
 
 helpers.create_index('history')
 helpers.create_index('search')
 helpers.create_index('autocomplete')
 
-def iter_get(client):
-    """
-    return an iterator over all results from GETing the client and any subsequent pages.
-    """
-    items = []
-    while items or client:
-        if not items:
-            resp = client.get()
-            items = resp.json()
-            next = resp.links.get('next', {}).get('url')
-            client = client._path([next]) if next else None
-        if items:
-            yield(items.pop(0))
 
 def _get_ghe_repos():
     return [repo['full_name'] for repo in iter_get(ghe_api_client.repositories) if not repo['fork']]
@@ -70,6 +58,7 @@ def index_ghe_repos(repo_names=None, force=False):
     jobs = [pool.spawn(indexers.wiki, 'GHE', repo_name, ghe_pool, force) for repo_name in repo_names]
     jobs += [pool.spawn(indexers.readme, 'GHE', repo_name, ghe_pool, force) for repo_name in repo_names]
     jobs = [pool.spawn(indexers.gh_pages, 'GHE', repo_name, pages_pool, force) for repo_name in repo_names]
+    jobs = [pool.spawn(indexers.gh_issues, 'GHE', ghe_api_client, repo_name, force) for repo_name in repo_names]
     return jobs
 
 def index_gh_repos(repo_names=None, force=False):
@@ -77,6 +66,7 @@ def index_gh_repos(repo_names=None, force=False):
     jobs = [pool.spawn(indexers.wiki, 'GH', repo_name, gh_pool, force) for repo_name in repo_names]
     jobs += [pool.spawn(indexers.readme, 'GH', repo_name, gh_pool, force) for repo_name in repo_names]
     jobs += [pool.spawn(indexers.gh_pages, 'GH', repo_name, pages_pool, force) for repo_name in repo_names]
+    jobs = [pool.spawn(indexers.gh_issues, 'GH', gh_api_client, repo_name, force) for repo_name in repo_names]
     return jobs
 
 if __name__ == '__main__':
