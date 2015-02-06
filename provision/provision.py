@@ -8,7 +8,7 @@ from subprocess import call
 PROVISION_DIR = path.dirname(path.realpath(__file__))
 REPO_DIR = path.dirname(PROVISION_DIR)
 TEMPLATE_DIR = path.join(PROVISION_DIR, 'templates')
-SERVER_DIR = path.join(PROVISION_DIR, 'server')
+SERVER_DIR = path.join(REPO_DIR, 'server')
 
 call('yum update -y'.split())
 #install java
