@@ -58,7 +58,7 @@ def index_ghe_repos(repo_names=None, force=False):
     jobs = [pool.spawn(indexers.wiki, 'GHE', repo_name, ghe_pool, force) for repo_name in repo_names]
     jobs += [pool.spawn(indexers.readme, 'GHE', repo_name, ghe_pool, force) for repo_name in repo_names]
     jobs = [pool.spawn(indexers.gh_pages, 'GHE', repo_name, pages_pool, force) for repo_name in repo_names]
-    jobs = [pool.spawn(indexers.gh_issues, 'GHE', ghe_api_client, repo_name, force) for repo_name in repo_names]
+    jobs = [pool.spawn(indexers.gh_issues, 'GHE', ghe_api_client, repo_name) for repo_name in repo_names]
     return jobs
 
 def index_gh_repos(repo_names=None, force=False):
@@ -66,7 +66,7 @@ def index_gh_repos(repo_names=None, force=False):
     jobs = [pool.spawn(indexers.wiki, 'GH', repo_name, gh_pool, force) for repo_name in repo_names]
     jobs += [pool.spawn(indexers.readme, 'GH', repo_name, gh_pool, force) for repo_name in repo_names]
     jobs += [pool.spawn(indexers.gh_pages, 'GH', repo_name, pages_pool, force) for repo_name in repo_names]
-    jobs = [pool.spawn(indexers.gh_issues, 'GH', gh_api_client, repo_name, force) for repo_name in repo_names]
+    jobs = [pool.spawn(indexers.gh_issues, 'GH', gh_api_client, repo_name) for repo_name in repo_names]
     return jobs
 
 if __name__ == '__main__':
