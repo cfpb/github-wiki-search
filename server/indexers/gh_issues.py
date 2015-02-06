@@ -18,22 +18,18 @@ def index(gh_type, client, repo_name):
         bulk_data += index_gh_issues(gh_type, client, repo_name)
         bulk_data += index_gh_issue_comments(gh_type, client, repo_name)
         helpers.rebuild_repo_index(gh_type, repo_name, obj_type, bulk_data)
-    else:
-        print '%s (%s): skipping %s' % (repo_name, gh_type, obj_type)
     end = time.mktime(datetime.now().timetuple())
-    print '%s: %s github issues (%s secs)' % (repo_name, len(bulk_data)/2, end-start)
+    print '%s: %s github issues/comments (%s secs)' % (repo_name, len(bulk_data)/2, end-start)
 
 
 def is_updated_issues(client, repo_name, since):
-    (owner, repo) = repo_name.split('/')
-    issues = client.repos._(owner)._(repo).issues.params(
+    issues = client.repos._(repo_name).issues.params(
         state='all', since=since)
     return True if issues.get().json() else False
 
 
 def index_gh_issues(gh_type, client, repo_name, since=None):
-    (owner, repo) = repo_name.split('/')
-    issues = iter_get(client.repos._(owner)._(repo).issues.params(
+    issues = iter_get(client.repos._(repo_name).issues.params(
         state='all', since=since))
 
     bulk_data = []
@@ -70,8 +66,7 @@ def index_gh_issues(gh_type, client, repo_name, since=None):
 
 
 def index_gh_issue_comments(gh_type, client, repo_name, since=None):
-    (owner, repo) = repo_name.split('/')
-    comments = iter_get(client.repos._(owner)._(repo).issues.comments.params(since=since))
+    comments = iter_get(client.repos._(repo_name).issues.comments.params(since=since))
 
     bulk_data = []
     for comment in comments:
