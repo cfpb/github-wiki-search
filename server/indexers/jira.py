@@ -1,34 +1,32 @@
 from server import settings
-import urllib3
-import json
 import github_helpers as helpers
-
-from os import path
 from universalclient import Client
-es_client = Client(settings.ES_HOST)
-DIR = path.dirname(path.realpath(__file__))
+import time
+from datetime import datetime
+
+jira_api_client = Client(settings.JIRA_HOST).rest.api._(2)
+jira_fields = 'assignee,creator,updated,project,status,summary,labels,description,comment'
+max_results = 500
+
 
 def index():
     """
     sync all jira issues
     """
-    jira_endpoint = '%s/rest/api/2/search' % settings.JIRA_HOST
-    jira_fields = 'fields=assignee,creator,created,project,status,summary,labels,description,comment'
-    # TODO arbitrary date to keep queries small until this is more mature
-    #jira_query = 'jql=updated>"2014/10/20"'
-    jira_query = ''
-    max_results = 500
     offset = 0
-    jira_url = jira_endpoint + "?" + jira_fields + "&" + jira_query
     issues = []
 
+    start = time.mktime(datetime.now().timetuple())
+
     # Grab all data via API calls, 500 issues at a time
+    # TODO gevent solution
     while True:
-        conn = urllib3.connection_from_url(settings.JIRA_HOST)
-        json_result = conn.request('get', "%s&startAt=%d&maxResults=%d&" % (jira_url, offset, max_results)).data
-        json_parsed = json.loads(json_result)
-        issues += json_parsed['issues']
-        if json_parsed["total"] > len(issues):
+        resp = jira_api_client.search.params(fields=jira_fields,
+                                             startAt=offset,
+                                             maxResults=max_results,
+                                             ).get().json()
+        issues += resp['issues']
+        if resp['total'] > len(issues):
             offset += max_results
         else:
             break
@@ -48,7 +46,7 @@ def index():
                 'title': issue['fields']['summary'],
                 'content': issue['fields']['description'],
                 'author': issue['fields']['creator']['name'],
-                'created_date': issue['fields']['created'],
+                'updated_date': issue['fields']['updated'],
                 'status': issue['fields']['status']['name'],
                 'path': "%s" % issue['fields']['project']['key'],
                 'loc': 'jira',
@@ -71,7 +69,7 @@ def index():
                     'author': (comment.get('author') or {}).get('name', None),
                     'content': comment['body'],
                     'assignee': None,
-                    'created_date': comment['created'],
+                    'updated_date': comment['updated'],
                     'title': "Comment for Jira issue %s" % issue['key'],
                     'url': "%s/browse/%s?focusedCommentId=%s" % (settings.JIRA_HOST, issue['key'], comment['id']),
                     'status': None,
@@ -84,8 +82,9 @@ def index():
             if comment.get('author'):
                 users.add(comment['author']['name'])
 
-
     # submit the issues to elasticsearch
     helpers.delete_index_subset('jira', 'issue')
     helpers.write_bulk_data(bulk_data)
+    end = time.mktime(datetime.now().timetuple())
+    print 'Jira: %s issues and comments (%s secs)' % (len(bulk_data)/2, end-start)
     return list(users), list(projs)
