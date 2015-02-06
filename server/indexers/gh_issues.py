@@ -8,7 +8,7 @@ import time
 obj_type = 'gh_issue'
 
 
-def index(gh_type, client, repo_name, force=False):
+def index(gh_type, client, repo_name):
     start = time.mktime(datetime.now().timetuple())
     indexed_timestamp = helpers.get_indexed_version(gh_type, repo_name, obj_type)
     # increment timestamp by one second to prevent duplicates
