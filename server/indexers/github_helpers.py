@@ -1,29 +1,43 @@
 from universalclient import Client, jsonFilter
+import urllib3
 from server import settings
-import subprocess
+from gevent import subprocess
 from server import schemas
 import json
 import bs4
 import re
 
 es_client = Client(settings.ES_HOST, dataFilter=jsonFilter)
+es_pool = urllib3.connection_from_url(settings.ES_HOST,
+                                      maxsize=50,
+                                      block=True,
+                                      headers=urllib3.util.make_headers(keep_alive=True)
+                                     )
+
+history_index = 'history'
+search_index = 'search'
+
 search_client = es_client.search
-ac_client = es_client.autocomplete
 history_client = es_client.history
 
 
 def save_indexed_version(gh_type, repo_name, typ, version):
     doc_id = (gh_type + '/' + repo_name).replace('/', '%2F')
-    # TODO: create; update if error
-    resp = history_client._(typ)._(doc_id)._update.post(data={'version': version})
-    if resp.status_code == 500:
-        history_client._(typ)._(doc_id).put(data={'version': version})
+    body = json.dumps({'version': version})
+
+    url = '/%s/%s/%s/_update' % (history_index, typ, doc_id)
+    resp = es_pool.urlopen('POST', url, body=body)
+    if resp.status == 500:
+        url = '/%s/%s/%s' % (history_index, typ, doc_id)
+        resp = es_pool.urlopen('PUT', url, body=body)
 
 
 def get_indexed_version(gh_type, repo_name, typ):
     doc_id = (gh_type + '/' + repo_name).replace('/', '%2F')
-    resp = history_client._(typ)._(doc_id).get()
-    version = resp.json().get('_source', {}).get('version')
+
+    url = '/%s/%s/%s' % (history_index, typ, doc_id)
+    resp = es_pool.request('GET', url)
+    version = json.loads(resp.data).get('_source', {}).get('version')
     return version
 
 
@@ -79,7 +93,10 @@ def delete_index_subset(loc, typ, repo_name=None):
             "path.path_full": repo_name
           },
         })
-    search_client._(typ)._query.delete(data=query)
+
+    url = '/%s/%s/_query' % (search_index, typ)
+    body = json.dumps(query)
+    es_pool.urlopen('DELETE', url, body=body)
 
 
 def rebuild_repo_index(gh_type, repo_name, typ, bulk_data):
@@ -88,10 +105,13 @@ def rebuild_repo_index(gh_type, repo_name, typ, bulk_data):
 
 def create_index(db_name):
     schema = getattr(schemas, db_name, {})
-    es_client._(db_name).post(data=schema)
+    url = '/%s' % db_name
+    body = json.dumps(schema)
+    es_pool.urlopen('POST', url, body=body)
 
 def reset_index(db_name):
-    es_client._(db_name).delete()
+    url = '/%s' % db_name
+    es_pool.request('DELETE', url)
     create_index(db_name)
 
 def _rerase(jobs):
@@ -102,8 +122,8 @@ def write_bulk_data(bulk_data):
     if not bulk_data:
         return
     bulk_rows = '\n'.join([json.dumps(row) for row in bulk_data]) + '\n'
-    es_client._bulk.dataFilter().post(data=bulk_rows)
-    es_client._refresh.post()
+    es_pool.urlopen('POST', '/_bulk', body=bulk_rows)
+    es_pool.request('POST', '/_refresh')
 
 
 return_regex = re.compile(r'\W*\n\W*')

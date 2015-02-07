@@ -9,6 +9,9 @@ github_helpers.search_client = es_client.test_search
 github_helpers.ac_client = es_client.test_autocomplete
 github_helpers.history_client = es_client.test_history
 
+github_helpers.search_index = 'test_search'
+github_helpers.history_index = 'test_history'
+
 from server import schemas
 
 class TestResetIndex(unittest.TestCase):
