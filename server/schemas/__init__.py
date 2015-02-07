@@ -6,7 +6,7 @@ DIR = os.path.dirname(os.path.abspath(__file__))
 
 typs = {
   'wiki': ['tags', 'status', 'assignee'],
-  'page': ['tags', 'status', 'assignee'],
+  'gh_page': ['tags', 'status', 'assignee'],
   'readme': ['tags', 'status', 'assignee'],
   'issue': [],
 }
