@@ -8,6 +8,7 @@ JIRA_HOST = 'https://jira.example.com'
 GITHUB = {
     'GHE': {
         'API': 'https://github.example.com',
+        'API_PATH': '/api/v3',
         'WEB': 'https://github.example.com',
         'PAGES': 'https://github.example.com/pages/%s/%s/',
         'AUTH': (

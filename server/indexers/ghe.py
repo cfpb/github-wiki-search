@@ -29,5 +29,5 @@ def index(pool, pages_pool, repo_names=None, force=False):
     jobs = [pool.spawn(wiki, 'GHE', repo_name, ghe_pool, force) for repo_name in repo_names]
     jobs += [pool.spawn(readme, 'GHE', repo_name, ghe_pool, force) for repo_name in repo_names]
     jobs = [pool.spawn(gh_pages, 'GHE', repo_name, pages_pool, force) for repo_name in repo_names]
-    jobs = [pool.spawn(gh_issues, 'GHE', ghe_api_client, repo_name) for repo_name in repo_names]
+    jobs = [pool.spawn(gh_issues, 'GHE', ghe_api_pool, repo_name) for repo_name in repo_names]
     return jobs, repo_names

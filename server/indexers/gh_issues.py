@@ -1,36 +1,52 @@
 from server.indexers import github_helpers as helpers
-from server.utils import iter_get
-
+from server.utils import iter_get_url
+from server import settings
+import json
 from datetime import datetime, timedelta
 from urlparse import urlparse
 import time
+import urllib
 
 obj_type = 'issue'
 
 
-def index(gh_type, client, repo_name):
+def index(gh_type, pool, repo_name):
     start = time.mktime(datetime.now().timetuple())
     indexed_timestamp = helpers.get_indexed_version(gh_type, repo_name, obj_type)
     # increment timestamp by one second to prevent duplicates
     indexed_timestamp = nudge_datetime(indexed_timestamp)
     bulk_data = []
-    if is_updated_issues(client, repo_name, indexed_timestamp):
-        bulk_data += index_gh_issues(gh_type, client, repo_name)
-        bulk_data += index_gh_issue_comments(gh_type, client, repo_name)
+    if is_updated_issues(gh_type, pool, repo_name, indexed_timestamp):
+        bulk_data, most_recent_timestamp = index_gh_issues(gh_type, pool, repo_name)
+        bulk_data += index_gh_issue_comments(gh_type, pool, repo_name)
         helpers.rebuild_repo_index(gh_type, repo_name, obj_type, bulk_data)
+        # Update the 'latest version'
+        if most_recent_timestamp:
+            helpers.save_indexed_version(gh_type, repo_name, obj_type,
+                                         most_recent_timestamp)
+
     end = time.mktime(datetime.now().timetuple())
     print '%s: %s github issues/comments (%s secs)' % (repo_name, len(bulk_data)/2, end-start)
 
 
-def is_updated_issues(client, repo_name, since):
-    issues = client.repos._(repo_name).issues.params(
-        state='all', since=since)
-    return True if issues.get().json() else False
+def is_updated_issues(gh_type, pool, repo_name, since):
+    fields = {'state': 'all'}
+    if since:
+        fields = {'state': 'all', 'since': since}
+    url = settings.GITHUB[gh_type].get('API_PATH', '')
+    url += '/repos/%s/issues?%s' % (repo_name, urllib.urlencode(fields))
+    resp = pool.request('GET', url)
+    issues = json.loads(resp.data)
+    return True if issues else False
 
 
-def index_gh_issues(gh_type, client, repo_name, since=None):
-    issues = iter_get(client.repos._(repo_name).issues.params(
-        state='all', since=since))
+def index_gh_issues(gh_type, pool, repo_name, since=None):
+    fields = {'state': 'all'}
+    if since:
+        fields = {'state': 'all', 'since': since}
+    url = settings.GITHUB[gh_type].get('API_PATH', '')
+    url += '/repos/%s/issues?%s' % (repo_name, urllib.urlencode(fields))
+    issues = iter_get_url(url, pool)
 
     bulk_data = []
     most_recent_timestamp = ""
@@ -57,16 +73,16 @@ def index_gh_issues(gh_type, client, repo_name, since=None):
         if most_recent_timestamp < issue['updated_at']:
             most_recent_timestamp = issue['updated_at']
 
-    # Update the 'latest version'
-    if most_recent_timestamp:
-        helpers.save_indexed_version(gh_type, repo_name, obj_type,
-                                     most_recent_timestamp)
-
-    return bulk_data
+    return bulk_data, most_recent_timestamp
 
 
-def index_gh_issue_comments(gh_type, client, repo_name, since=None):
-    comments = iter_get(client.repos._(repo_name).issues.comments.params(since=since))
+def index_gh_issue_comments(gh_type, pool, repo_name, since=None):
+    fields = {}
+    if since:
+        fields = {'since': since}
+    url = settings.GITHUB[gh_type].get('API_PATH', '')
+    url += '/repos/%s/issues/comments?%s' % (repo_name, urllib.urlencode(fields))
+    comments = iter_get_url(url, pool)
 
     bulk_data = []
     for comment in comments:
