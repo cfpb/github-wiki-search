@@ -21,7 +21,9 @@ def iter_get(client):
 
 next_re = re.compile(r'<(.*)>; rel="next"')
 def _get_next_url(resp):
-    links = resp.headers['link']
+    links = resp.headers.get('link')
+    if not links:
+        return None
     next_match = next_re.match(links)
     if next_match:
         return next_match.groups()[0]
