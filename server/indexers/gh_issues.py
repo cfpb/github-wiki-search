@@ -43,7 +43,7 @@ def is_updated_issues(gh_type, pool, repo_name, since):
 def index_gh_issues(gh_type, pool, repo_name, since=None):
     fields = {'state': 'all'}
     if since:
-        fields = {'state': 'all', 'since': since}
+        fields['since'] = since
     url = settings.GITHUB[gh_type].get('API_PATH', '')
     url += '/repos/%s/issues?%s' % (repo_name, urllib.urlencode(fields))
     issues = iter_get_url(url, pool)

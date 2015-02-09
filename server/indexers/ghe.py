@@ -21,7 +21,7 @@ ghe_pool = urllib3.connection_from_url(ghe_settings.get('WEB'), maxsize=50, bloc
 def get_repos():
     if not ghe_settings:
         return []
-    return [repo['full_name'] for repo in utils.iter_get_url('/api/v3/repositories', ghe_api_pool) if not repo['fork']]
+    return [repo['full_name'] for repo in utils.iter_get_url(ghe_settings['API_PATH'] + '/repositories', ghe_api_pool) if not repo['fork']]
 
 
 def index(pool, pages_pool, repo_names=None, force=False):
