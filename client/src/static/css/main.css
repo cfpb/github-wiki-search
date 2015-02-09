@@ -18348,7 +18348,6 @@ body {
   padding: 5px 0px 5px 5px;
   margin: 5px 0px 5px 5px;
   top: 25px;
-  position: relative;
   width: 20%;
 }
 .lt-ie8 .one-third {
@@ -18384,4 +18383,29 @@ div.custom-select {
 }
 .form-group {
   padding-top: 20px;
+}
+.small {
+  font-size: 0.75em;
+  font-family: "AvenirNextLTW01-Medium", Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  margin: 5px 0px;
+}
+.lt-ie9 .small {
+  font-weight: normal !important;
+}
+.lt-ie9 .small {
+  font-weight: normal !important;
+}
+.medium {
+  font-size: 1.5625em;
+  font-family: "AvenirNextLTW01-Medium", Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+}
+.lt-ie9 .medium {
+  font-weight: normal !important;
+}
+.lt-ie9 .medium {
+  font-weight: normal !important;
 }

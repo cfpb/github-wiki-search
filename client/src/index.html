@@ -218,9 +218,19 @@
             <li class="main-wrapper">
 
                 <div class="one-third">
-                    <h4>{{type}}</h4>
-                    <h5> {{index}}</h5>
+                    <h5>{{type}}</h5>
+                    <label> {{index}}</label>
 
+                    <div class="small">
+                        {{#if assignee}}
+                        Assigned to:{{assignee}}
+                        {{/if}}
+                     </div>
+                    <div class="small">
+                        {{#if author}}
+                        <span>Created by:</span>{{assignee}}
+                        {{/if}}
+                    </div>
                 </div>
 
 
@@ -237,7 +247,7 @@
         </ul>
         {{#if searchMore}}
         <p>
-            <a class="results_search-more " href="# ">More results...</a>
+            <a class="results_search-more " href="#">More results...</a>
         </p>
         {{/if}}
 

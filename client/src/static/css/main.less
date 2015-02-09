@@ -226,7 +226,6 @@ body {
     padding: 5px 0px 5px 5px;
     margin: 5px 0px 5px 5px;
     top: 25px;
-    position: relative;
     width: 20%;
 }
 .two-thirds {
@@ -244,4 +243,14 @@ div.custom-select{
 }
 .form-group{
   padding-top: 20px;
+}
+.small{
+   font-size: unit(12px / @base-font-size-px, em);
+  //.u-small-text(100px);
+  .webfont-medium();
+  margin: 5px 0px;
+}
+.medium{
+  font-size: unit(25px / @base-font-size-px, em);
+  .webfont-medium()
 }

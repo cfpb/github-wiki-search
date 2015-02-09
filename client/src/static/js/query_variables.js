@@ -63,14 +63,9 @@ var filteredQuery = {
     }
 };
 
-//var allQuery = {
-//    "match": {
-//        "_all": "<query>"
-//    }
-//};
 
 var queryData = {
-    "fields": ["url", "path", "title"],
+    "fields": ["url", "path", "title", "assignee", "author"],
     "from": 0,
     "query": {},
     "highlight": {

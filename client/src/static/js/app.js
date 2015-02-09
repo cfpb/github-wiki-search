@@ -68,7 +68,7 @@ $(function() {
 
     $megaSearchBar_query.typeahead({
         minLength: 0,
-        highlight: true,
+        highlight: true
     }, {
         name: 'my-dataset',
         source: autocomplete,
@@ -79,7 +79,7 @@ $(function() {
             query.splice(terms[3], 0, ((terms[2]) ? ownerIdent : repoIdent) + decodeURIComponent(obj._id));
             // insert the completed data into the surrounding non-completed data
             return query.join(' ');
-        },
+        }
     }).on('typeahead:autocompleted', function() {
         console.log("AUTOCOMPLETE");
         sendQuery();
@@ -124,13 +124,15 @@ function sendQuery() {
         if (repoTerm) {
             filteredQuery.filtered.filter.term['repo.path'] = '/' + repoTerm;
             filteredQuery.filtered.query.match._all = searchTerm;
+
             queryData.query = filteredQuery;
         } else {
             allQuery.match._all = searchTerm;
+
             queryData.query = allQuery;
         }
         queryData.from = query_from;
-        console.log('QUERY:', JSON.stringify(queryData));
+        console.log('queryData:', queryData);
         $.ajax(queryLocation, {
             type: "POST",
             data: JSON.stringify(queryData),
@@ -173,7 +175,7 @@ function querySuccess(data, status, xhr) {
     busy = false;
 }
 
-// cleans a single response item
+/// cleans a single response item
 function cleanResult(rawResult) {
 
 
@@ -193,6 +195,8 @@ function cleanResult(rawResult) {
             url: fields.url[0],
             repo: fields.path[0],
             title: fields.title[0],
+            author: fields.author? fields.author[0]:"",
+            assignee: fields.assignee? fields.assignee[0]: "",
             index: rawResult._index,
             type: rawResult._type
         });
