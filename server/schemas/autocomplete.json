@@ -21,40 +21,25 @@
     }
   },
   "mappings": {
-    "repo": {
+    "path": {
       "properties": {
-        "owner": {
+        "path": {
           "type": "string",
           "index_analyzer": "autocomplete",
           "index": "analyzed",
           "search_analyzer": "standard",
           "store": "no"
-        },
-        "repo": {
-          "type": "string",
-          "index_analyzer": "autocomplete",
-          "index": "analyzed",
-          "search_analyzer": "standard",
-          "store": "no"
-        },
-        "count": {
-          "type": "integer",
-          "store": "true"
         }
-      }
-    },
-    "user": {
-      "properties": {
-        "owner": {
-          "type": "string",
-          "index_analyzer": "autocomplete",
-          "index": "analyzed",
-          "search_analyzer": "standard",
-          "store": "no"
-        },
-        "count": {
-          "type": "integer",
-          "store": "true"
+      },
+      "user": {
+        "properties": {
+          "user": {
+            "type": "string",
+            "index_analyzer": "autocomplete",
+            "index": "analyzed",
+            "search_analyzer": "standard",
+            "store": "no"
+          }
         }
       }
     }

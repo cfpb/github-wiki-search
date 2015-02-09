@@ -79,8 +79,8 @@ def index_gh_page(gh_type, gh_pool, page_url, repo_name, base_url, already_visit
     title = soup.find('title')
     title = title.text if title else page_url
     bulk_rows += [{
-            "index": {
-                "_index": "search", "_type": obj_type, "_id": page_id
+        "index": {
+            "_index": "search", "_type": obj_type, "_id": page_id
         }},
         {
             'url': page_url,
