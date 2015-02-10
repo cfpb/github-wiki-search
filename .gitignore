@@ -3,6 +3,9 @@ settings.py
 *_data.txt
 
 *.pyc
+*.idea
+
+bower_components/
 client/node_modules
 client/src/vendor
 client/src/static/fonts

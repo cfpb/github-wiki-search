@@ -1,67 +1,280 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
+
 <head>
 
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>GitHub Enterprise Wiki Search</title>
-<meta name="description" content="Search the GitHub Enterprise wikis.">
+    <title>GitHub Enterprise Wiki Search</title>
+    <meta name="description" content="Search the GitHub Enterprise wikis.">
 
-<link rel="stylesheet" href="static/css/main.min.css">
-<link rel="stylesheet" href="static/css/fonts.min.css">
+    <link rel="stylesheet" href="static/css/main.min.css">
+    <link rel="stylesheet" href="static/css/fonts.min.css">
+    <link rel="search" type="application/opensearchdescription+xml" title="Wiki Search" href="/opensearch.xml" />
 
-<!--[if lt IE 9]>
+
+    <!--[if lt IE 9]>
     <script src="/static/vendor/html5shiv/html5shiv-printshiv.min.js"></script>
-<![endif]-->
+    <![endif]-->
 
-<script>
-    // Confirm availability of JS and remove no-js class from html
-    var docElement = document.documentElement;
-    docElement.className = docElement.className.replace(/(^|\s)no-js(\s|$)/, '$1$2');
-</script>
+    <script>
+        // Confirm availability of JS and remove no-js class from html
+        var docElement = document.documentElement;
+        docElement.className = docElement.className.replace(/(^|\s)no-js(\s|$)/, '$1$2');
+    </script>
 
 </head>
+
 <body>
 
-    <div class="page-header">
-        <div class="page-wrapper">
+<div class="page-header">
+    <div class="page-wrapper">
 
-            <a href="http://www.consumerfinance.gov/">
-                <img class="page-header_logo" src="static/img/logo_210.png" alt="Consumer Financial Protection Bureau">
-            </a>
-            <h1 class="page-header_heading">
-                <b>GitHub Enterprise</b> Wiki Search
-            </h1>
+        <a href="http://www.consumerfinance.gov/">
+            <img class="page-header_logo" src="static/img/logo_210.png" alt="Consumer Financial Protection Bureau">
+        </a>
 
+        <h1 class="page-header_heading">
+            <b>GitHub Enterprise</b> Wiki Search
+        </h1>
+
+    </div>
+</div>
+
+<div class="page-body">
+    <div class="page-wrapper">
+
+        <form action="" class="mega-search-bar" id="mega-search-bar" autocomplete="off">
+            <span class="cf-icon cf-icon-search mega-search-bar_icon"></span>
+            <label class="mega-search-bar_label" for="mega-search-bar_query">Search all GitHub wikis</label>
+            <input type="text" class="mega-search-bar_query input__super" id="mega-search-bar_query" placeholder="Search here..."
+                   autocomplete="off" autofocus>
+            <button class="btn btn__super" id="query_search">Search</button>
+        </form>
+
+        <div class="expandable">
+
+                <span>
+                    <a href="#" class="btn btn__disabled">
+                        Filter Results
+                        <span class="btn_icon__right cf-icon cf-icon-down"></span>
+                    </a>
+                </span>
+
+            <div>
+
+
+                <div class="form-container">
+                    <div class="four">
+
+                        <h5>Data Source</h5>
+                        <label>
+                            <input type="checkbox" value="github_enteprise"> Github Enteprise
+                        </label>
+                        <label>
+                            <input type="checkbox" value="github"> Github
+                        </label>
+                        <label>
+                            <input type="checkbox" value="jira"> Jira
+                        </label>
+
+                        <h6>Location</h6>
+
+                        <input type="text">
+
+                    </div>
+
+                    <div class="four ">
+
+                        <h6>Data Type</h6>
+                        <label>
+                            <input type="checkbox" value="issue" id="issue_datatype"> Issue
+                        </label>
+                        <label>
+                            <input type="checkbox" value="readme" id="readme_datatype"> Readme
+                        </label>
+                        <label>
+                            <input type="checkbox" value="wiki" id="wiki_datatype"> Wiki
+                        </label>
+                        <label>
+                            <input type="checkbox" value="pages" id="values_datatype"> Pages
+                        </label>
+
+                    </div>
+                    <div class="four ">
+                        <h5>Users</h5>
+                        <h6> Author:</h6>
+
+                        <input type="text" id="author">
+
+                        <div class="form-group">
+                            <h6> Assigned to:</h6>
+                            <input type="text" id="assignee">
+
+                        </div>
+
+                    </div>
+                    <div class="four ">
+
+                        <h5> Date Range</h5>
+
+
+                        <div class="form-group_item">
+
+
+                            <label for="month">From:</label>
+
+                            <div class="custom-select">
+                                <select name="month" id="month" id="from_month">
+                                    <option value=""> month</option>
+                                    <option value="1">01</option>
+                                    <option value="2">02</option>
+                                    <option value="3">03</option>
+                                    <option value="4">04</option>
+                                    <option value="5">05</option>
+                                    <option value="6">06</option>
+                                    <option value="7">07</option>
+                                    <option value="8">08</option>
+                                    <option value="9">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <span class="custom-select_icon cf-icon cf-icon-down"></span>
+                            </div>
+
+                            <div class="custom-select">
+
+                                <select name="year" id="year_from">
+                                    <option value="">year</option>
+                                    <option value="2010">2010</option>
+                                    <option value="2011">2011</option>
+                                    <option value="2012">2012</option>
+                                    <option value="2013">2013</option>
+                                    <option value="2014">2014</option>
+                                    <option value="2015">2015</option>
+                                </select>
+                                <span class="custom-select_icon cf-icon cf-icon-down"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group_item">
+
+
+                            <label for="to_month">To:</label>
+
+                            <div class="custom-select">
+
+                                <select name="month" id="to_month">
+                                    <option value=""> month</option>
+                                    <option value="1">01</option>
+                                    <option value="2">02</option>
+                                    <option value="3">03</option>
+                                    <option value="4">04</option>
+                                    <option value="5">05</option>
+                                    <option value="6">06</option>
+                                    <option value="7">07</option>
+                                    <option value="8">08</option>
+                                    <option value="9">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <span class="custom-select_icon cf-icon cf-icon-down"></span>
+                            </div>
+                            <div class="custom-select">
+                                <select name="year" id="to_year">
+                                    <option value="">year</option>
+                                    <option value="2010">2010</option>
+                                    <option value="2011">2011</option>
+                                    <option value="2012">2012</option>
+                                    <option value="2013">2013</option>
+                                    <option value="2014">2014</option>
+                                    <option value="2015">2015</option>
+                                </select>
+                                <span class="custom-select_icon cf-icon cf-icon-down"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn__link">Reset Filters</button>
+                            <button class="btn">Apply Filters</button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
-    <div class="page-body">
-        <div class="page-wrapper">
+<div class="results" id="results">
+    <script id="results-template" type="text/x-handlebars-template">
 
-            <form action="" class="mega-search-bar" id="mega-search-bar" autocomplete="off">
-                <span class="cf-icon cf-icon-search mega-search-bar_icon"></span>
-                <label class="mega-search-bar_label" for="mega-search-bar_query">Search all GitHub wikis</label>
-                <input type="text" class="mega-search-bar_query" id="mega-search-bar_query" placeholder="Search ALL the wikis" autocomplete="off" autofocus>
-            </form>
 
-            <div class="results" id="results">
-                <ul class="results_list" id="results_list"></ul>
-                <p>
+        <ul class="results_list " id="results_list">
+
+            {{#each hits}}
+
+            <li class="main-wrapper">
+
+                <div class="one-third">
+                    <h5>{{type}}</h5>
+                    <label> {{index}}</label>
+
+                    <div class="small">
+                        {{#if assignee}}
+                        Assigned to:{{assignee}}
+                        {{/if}}
+                     </div>
+                    <div class="small">
+                        {{#if author}}
+                        <span>Created by:</span>{{author}}
+                        {{/if}}
+                    </div>
+                </div>
+
+
+                <div class="two-thirds">
+                    <a class="results_item" href={{url}} target="_blank">
+                                <span class="results_item_title">{{repo}}  |
+             {{title}}</span>
+                        <span class="results_item_highlight">{{{content}}}</span>
+                    </a>
+                </div>
+
+            </li>
+            {{/each}}
+        </ul>
+        {{#if searchMore}}
+        <p>
                     <a class="results_search-more"
                        href="#">More results...</a>
-                </p>
-            </div>
+        </p>
+        {{/if}}
 
-        </div>
-    </div>
-    <!--<script type="text/javascript" src="vendor/jquery/jquery.js"></script>
-    <script type="text/javascript" src="vendor/typeahead.js/typeahead.bundle.js"></script>
-    <script type="text/javascript" src="static/js/jquery-hashchange.js"></script>
-    <script type="text/javascript" src="static/js/app.js"></script>-->
-    <script src="static/js/main.min.js"></script>
+    </script>
+</div>
+
+
+<!--    <div class=" results " id="results ">
+    <ul class="results_list " id="results_list "></ul>
+    <p>
+        <a class="results_search-more " href="# ">More results...</a>
+    </p>
+</div> -->
+</div>
+
+<!--<script type="text/javascript " src="vendor/jquery/jquery.js "></script>
+<script type="text/javascript " src="vendor/typeahead.js/typeahead.bundle.js "></script>
+<script type="text/javascript " src="static/js/jquery-hashchange.js "></script>
+<script type="text/javascript " src="static/js/app.js "></script>-->
+
+<script src="//cdn.jsdelivr.net/handlebarsjs/2.0.0/handlebars.js"></script>
+<script src="static/js/main.min.js"></script>
 
 </body>
+
 </html>
