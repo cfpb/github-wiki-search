@@ -8,7 +8,7 @@ from subprocess import call
 PROVISION_DIR = path.dirname(path.realpath(__file__))
 REPO_DIR = path.dirname(PROVISION_DIR)
 TEMPLATE_DIR = path.join(PROVISION_DIR, 'templates')
-SCHEMA_DIR = path.join(PROVISION_DIR, 'schema')
+SERVER_DIR = path.join(REPO_DIR, 'server')
 
 call('yum update -y'.split())
 #install java
@@ -25,6 +25,8 @@ call('rpm --import http://packages.elasticsearch.org/GPG-KEY-elasticsearch'.spli
 call(['sudo', 'cp', join(TEMPLATE_DIR, 'elasticsearch.repo'), '/etc/yum.repos.d/elasticsearch.repo'])
 #install elastic search
 call('yum install -y elasticsearch.noarch'.split())
+#install elasticsearch-head, a gui for elasticsearch
+call(['sudo', '/usr/share/elasticsearch/bin/plugin', '-install', 'mobz/elasticsearch-head'])
 
 # # if yum isn't installed, need to run apt commands - this is no longer maintained
 # # but need to update to use elasticsearch repo (http://www.elasticsearch.org/blog/apt-and-yum-repositories/)
@@ -66,6 +68,9 @@ call('chkconfig elasticsearch on'.split())
 
 # install python dependencies
 call(('pip install -r %s' % path.join(REPO_DIR, 'server', 'requirements.txt')).split())
+
+# symlink server dir into python packages
+call(('ln -s %s /usr/lib/python2.6/site-packages/server' % SERVER_DIR).split())
 
 with open(join(TEMPLATE_DIR, 'cron.template'), 'r') as conf_file:
     nginx_conf = conf_file.read() %  join(REPO_DIR, 'server', 'sync.py')

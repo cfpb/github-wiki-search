@@ -21,7 +21,7 @@ $megaSearchBar_query.keyup(function () {
 
 $(window).hashchange(function () {
     var query = decodeURIComponent(window.location.hash.substring(1));
-
+ 
     if (query != $megaSearchBar_query.val()) {
         $megaSearchBar_query.val(query).trigger('input');
     }
@@ -32,6 +32,7 @@ $more_btn
         if (busy) {
             return false;
         }
+      
         query_from += 10;
         sendQuery();
         return false;
