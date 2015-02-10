@@ -12,6 +12,8 @@
 
     <link rel="stylesheet" href="static/css/main.min.css">
     <link rel="stylesheet" href="static/css/fonts.min.css">
+    <link rel="search" type="application/opensearchdescription+xml" title="Wiki Search" href="/opensearch.xml" />
+
 
     <!--[if lt IE 9]>
     <script src="/static/vendor/html5shiv/html5shiv-printshiv.min.js"></script>
@@ -47,8 +49,9 @@
         <form action="" class="mega-search-bar" id="mega-search-bar" autocomplete="off">
             <span class="cf-icon cf-icon-search mega-search-bar_icon"></span>
             <label class="mega-search-bar_label" for="mega-search-bar_query">Search all GitHub wikis</label>
-            <input type="text" class="mega-search-bar_query" id="mega-search-bar_query" placeholder="Search here..."
+            <input type="text" class="mega-search-bar_query input__super" id="mega-search-bar_query" placeholder="Search here..."
                    autocomplete="off" autofocus>
+            <button class="btn btn__super" id="query_search">Search</button>
         </form>
 
         <div class="expandable">
@@ -184,12 +187,12 @@
                             <div class="custom-select">
                                 <select name="year" id="year_to">
                                     <option value="">year</option>
-                                    <option value="2010">01</option>
-                                    <option value="2011">02</option>
-                                    <option value="2012">03</option>
-                                    <option value="2013">04</option>
-                                    <option value="2014">05</option>
-                                    <option value="2015">06</option>
+                                    <option value="2010">2010</option>
+                                    <option value="2011">2011</option>
+                                    <option value="2012">2012</option>
+                                    <option value="2013">2013</option>
+                                    <option value="2014">2014</option>
+                                    <option value="2015">2015</option>
                                 </select>
                                 <span class="custom-select_icon cf-icon cf-icon-down"></span>
                             </div>
@@ -228,7 +231,7 @@
                      </div>
                     <div class="small">
                         {{#if author}}
-                        <span>Created by:</span>{{assignee}}
+                        <span>Created by:</span>{{author}}
                         {{/if}}
                     </div>
                 </div>
@@ -247,7 +250,8 @@
         </ul>
         {{#if searchMore}}
         <p>
-            <a class="results_search-more " href="#">More results...</a>
+                    <a class="results_search-more"
+                       href="#">More results...</a>
         </p>
         {{/if}}
 

@@ -150,6 +150,7 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: 'src/',
                     src: [
+                        "*.xml",
                         'index.html',
                         'static-test.html',
                         // Only include minified assets in css/ and js/

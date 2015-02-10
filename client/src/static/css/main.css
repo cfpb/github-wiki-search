@@ -18088,16 +18088,15 @@ body {
 }
 .mega-search-bar_query[type="text"] {
   box-sizing: border-box;
-  display: block;
-  width: 100%;
+  width: 90%;
   padding: 0.30769231em;
   padding-left: 1.38461538em;
   background-color: transparent;
-  font-size: 1.625em;
+  font-size: 1.40625em;
   font-family: "AvenirNextLTW01-Regular", Arial, sans-serif;
   font-style: normal;
   font-weight: normal;
-  line-height: 1.375;
+  line-height: 1.25em;
 }
 .mega-search-bar_query[type="text"] em,
 .mega-search-bar_query[type="text"] i {
