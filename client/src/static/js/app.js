@@ -21,7 +21,7 @@ $megaSearchBar_query.keyup(function () {
 
 $(window).hashchange(function () {
     var query = decodeURIComponent(window.location.hash.substring(1));
-    console.log("wtf?", query)
+
     if (query != $megaSearchBar_query.val()) {
         $megaSearchBar_query.val(query).trigger('input');
     }
@@ -32,7 +32,6 @@ $more_btn
         if (busy) {
             return false;
         }
-        console.log("trigger")
         query_from += 10;
         sendQuery();
         return false;
@@ -47,7 +46,6 @@ function sendQuery() {
         allQuery.match._all = searchTerm;
 
         queryData.query = allQuery;
-        console.log(searchTerm);
 
         queryData.from = query_from;
 
