@@ -1,45 +1,45 @@
 {
-  "name": "github-wiki-search",
-  "version": "0.1.0",
-  "description": "Search github enterprise wikis.",
-  "keywords": [
-    "github",
-    "github enterprise",
-    "search"
-  ],
-  "authors": [
-    {
-      "name": "Consumer Financial Protection Bureau",
-      "url": "http://cfpb.github.io/"
-    }
-  ],
-  "homepage": "https://github.com/cfpb/github-wiki-search",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cfpb/github-wiki-search.git"
-  },
-  "license": "https://github.com/cfpb/github-wiki-search/blob/master/TERMS.md",
-  "dependencies": {
-    "cf-buttons": "git://github.com/cfpb/cf-buttons.git#0.8.0",
-    "cf-colors": "git://github.com/cfpb/cf-colors.git#0.4.2",
-    "cf-forms": "git://github.com/cfpb/cf-forms.git#0.5.0",
-    "cf-grid": "git://github.com/cfpb/cf-grid.git#0.9.0",
-    "cf-icons": "git://github.com/cfpb/cf-icons.git#0.2.5",
-    "cf-typography": "git://github.com/cfpb/cf-typography.git#0.5.8",
-    "html5shiv": "3.7.2",
-    "jquery": "1.9.1",
-    "typeahead.js": "0.10.2",
-    "normalize-css": "3.0.1"
-  },
-  "exportsOverride": {
-    "cf-*": {
-      "css": "src/**/*.css",
-      "less": "src/**/*.less",
-      "fonts": "src/fonts/*.*",
-      "js": "src/**/*.js"
+    "name": "github-wiki-search",
+    "version": "0.1.0",
+    "description": "Search github enterprise wikis.",
+    "keywords": [
+        "github",
+        "github enterprise",
+        "search"
+    ],
+    "authors": [{
+        "name": "Consumer Financial Protection Bureau",
+        "url": "http://cfpb.github.io/"
+    }],
+    "homepage": "https://github.com/cfpb/github-wiki-search",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/cfpb/github-wiki-search.git"
     },
-    "html5shiv": {
-      "js": "dist/html5shiv-printshiv.min.js"
+    "license": "https://github.com/cfpb/github-wiki-search/blob/master/TERMS.md",
+    "dependencies": {
+        "cf-buttons": "git://github.com/cfpb/cf-buttons.git#1.4.0",
+        "cf-colors": "git://github.com/cfpb/cf-colors.git#0.4.2",
+        "cf-forms": "git://github.com/cfpb/cf-forms.git#1.2.0",
+        "cf-grid": "git://github.com/cfpb/cf-grid.git#0.9.1",
+        "cf-icons": "git://github.com/cfpb/cf-icons.git#0.4.2",
+        "cf-typography": "git://github.com/cfpb/cf-typography.git#0.7.0",
+        "handlebars": "git://github.com/wycats/handlebars.js.git",
+
+        "html5shiv": "3.7.2",
+        "jquery": "~1.11.0",
+        "typeahead.js": "0.10.2",
+        "normalize-css": "3.0.1"
+    },
+    "exportsOverride": {
+        "cf-*": {
+            "css": "src/**/*.css",
+            "less": "src/**/*.less",
+            "fonts": "src/fonts/*.*",
+            "js": "src/**/*.js"
+        },
+        "html5shiv": {
+            "js": "dist/html5shiv-printshiv.min.js"
+        }
     }
-  }
 }

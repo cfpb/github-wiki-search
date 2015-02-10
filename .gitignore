@@ -3,6 +3,9 @@ settings.py
 *_data.txt
 
 *.pyc
+*.idea
+
+bower_components/
 client/node_modules
 client/src/vendor
 client/src/static/fonts
@@ -10,6 +13,7 @@ client/src/static/js/*.min.js
 client/src/static/css/*.min.css
 client/src/static-test.html
 client/src/data.json
+client/dist/
 client/dist/data.json
 client/dist/log
 client/dist/static-test.html
