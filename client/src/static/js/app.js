@@ -80,9 +80,6 @@ function querySuccess(data, status, xhr) {
     searchResults['hits'] = results;
     searchResults['searchMore'] = data.hits.total > 10;
 
-
-    var templated_html = template(searchResults);
-
     $("#results").append(template(searchResults));
     $('#results').show();
 
@@ -93,7 +90,7 @@ function querySuccess(data, status, xhr) {
 }
 
 function cleanResult(rawResult) {
-
+console.log(rawResult);
     var cleanedData = {
         url: '',
         repo: '',
@@ -105,6 +102,7 @@ function cleanResult(rawResult) {
 
 
     var fields = rawResult.fields;
+
     if (fields) {
         $.extend(cleanedData, {
             url: fields.url[0],
