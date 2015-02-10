@@ -30,16 +30,16 @@
           "search_analyzer": "standard",
           "store": "no"
         }
-      },
-      "user": {
-        "properties": {
-          "user": {
-            "type": "string",
-            "index_analyzer": "autocomplete",
-            "index": "analyzed",
-            "search_analyzer": "standard",
-            "store": "no"
-          }
+      }
+    },
+    "user": {
+      "properties": {
+        "user": {
+          "type": "string",
+          "index_analyzer": "autocomplete",
+          "index": "analyzed",
+          "search_analyzer": "standard",
+          "store": "no"
         }
       }
     }
