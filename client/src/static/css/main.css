@@ -18922,7 +18922,6 @@ body {
 }
 .mega-search-bar_query[type="text"] {
   box-sizing: border-box;
-  width: 90%;
   padding: 0.30769231em;
   padding-left: 1.38461538em;
   background-color: transparent;
@@ -18993,9 +18992,9 @@ body {
   padding: 0.30769231em;
   position: absolute;
   top: 0;
-  left: 0;
+  left: 15px;
   font-size: 1.625em;
-  line-height: 1.375;
+  line-height: 1;
   color: #2cb34a;
 }
 /* Results
