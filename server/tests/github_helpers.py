@@ -82,7 +82,7 @@ class TestDeleteIndexSubset(unittest.TestCase):
         cut = github_helpers.delete_index_subset
         cut('GH', 'wiki', '/a/b')
 
-        actual = es_client.test_search.readme.test1.get()
+        actual = es_client.test_search.wiki.test1.get()
         self.assertEqual(actual.status_code, 200)
 
 class TestGetIndexedVersion(unittest.TestCase):
