@@ -2,29 +2,33 @@ var $megaSearchBar_query = $('#mega-search-bar_query');
 var $results = $('#results');
 var $results_list = $('#results_list');
 var searchButton = $('#query_search');
+var filterButton = $('#query_filter');
 var $more_btn = $('.results_search-more');
 
 var source = $("#results-template").html();
 var template = Handlebars.compile(source);
 
 searchButton.click(function () {
-    sendQuery();
+    var query = $megaSearchBar_query.val();
+    console.log(query);
+    set_hash({query: query});
     event.stopPropagation();
     event.preventDefault();
-
 });
-$megaSearchBar_query.keyup(function () {
-    window.location.hash = encodeURIComponent($megaSearchBar_query.val());
+
+
+filterButton.click(function() {
+    console.log('filter button');
     event.stopPropagation();
     event.preventDefault();
 });
 
 $(window).hashchange(function () {
-    var query = decodeURIComponent(window.location.hash.substring(1));
- 
-    if (query != $megaSearchBar_query.val()) {
-        $megaSearchBar_query.val(query).trigger('input');
-    }
+    var hash = get_hash();
+    $megaSearchBar_query.val(hash.query);
+    var query = process_query(hash.query);
+    console.log(query);
+    sendQuery();
 }).hashchange();
 
 $more_btn
@@ -126,7 +130,7 @@ function cleanResult(rawResult) {
     return cleanedData;
 
 }
+
 function processTitleForHighlight(){
 
 }
-

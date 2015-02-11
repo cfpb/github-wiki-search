@@ -18,12 +18,12 @@
     },
     "license": "https://github.com/cfpb/github-wiki-search/blob/master/TERMS.md",
     "dependencies": {
-        "cf-buttons": "git://github.com/cfpb/cf-buttons.git#1.4.0",
-        "cf-colors": "git://github.com/cfpb/cf-colors.git#0.4.2",
-        "cf-forms": "git://github.com/cfpb/cf-forms.git#1.2.0",
-        "cf-grid": "git://github.com/cfpb/cf-grid.git#0.9.1",
-        "cf-icons": "git://github.com/cfpb/cf-icons.git#0.4.2",
-        "cf-typography": "git://github.com/cfpb/cf-typography.git#0.7.0",
+        "cf-buttons": "1.4.0",
+        "cf-expandables": "0.7.0",
+        "cf-forms": "1.2.0",
+        "cf-grid": "0.9.1",
+        "cf-icons": "0.4.2",
+        "cf-typography": "0.7.0",
         "handlebars": "git://github.com/wycats/handlebars.js.git",
 
         "html5shiv": "3.7.2",
