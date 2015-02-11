@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="static/css/main.min.css">
     <link rel="stylesheet" href="static/css/fonts.min.css">
-    <link rel="search" type="application/opensearchdescription+xml" title="Wiki Search" href="/opensearch.xml" />
+    <link rel="search" type="application/opensearchdescription+xml" title="Wiki Search" href="/opensearch.xml"/>
 
 
     <!--[if lt IE 9]>
@@ -47,11 +47,18 @@
     <div class="page-wrapper">
 
         <form action="" class="mega-search-bar" id="mega-search-bar" autocomplete="off">
-            <span class="cf-icon cf-icon-search mega-search-bar_icon"></span>
-            <label class="mega-search-bar_label" for="mega-search-bar_query">Search all GitHub wikis</label>
-            <input type="text" class="mega-search-bar_query input__super" id="mega-search-bar_query" placeholder="Search here..."
-                   autocomplete="off" autofocus>
-            <button class="btn btn__super" id="query_search">Search</button>
+            <div class="input-with-btn">
+                <div class="input-with-btn_input">
+                    <span class="cf-icon cf-icon-search mega-search-bar_icon"></span>
+                    <label class="mega-search-bar_label" for="mega-search-bar_query">Search all GitHub wikis</label>
+                    <input type="text" class="mega-search-bar_query input__super" id="mega-search-bar_query"
+                           placeholder="Search here..."
+                           autocomplete="off" autofocus>
+                </div>
+                <div class="input-with-btn_btn">
+                    <button class="btn btn__super" id="query_search">Search</button>
+                </div>
+            </div>
         </form>
 
         <div class="expandable">
@@ -228,7 +235,7 @@
                         {{#if assignee}}
                         Assigned to:{{assignee}}
                         {{/if}}
-                     </div>
+                    </div>
                     <div class="small">
                         {{#if author}}
                         <span>Created by:</span>{{author}}
@@ -239,8 +246,7 @@
 
                 <div class="two-thirds">
                     <a class="results_item" href={{url}} target="_blank">
-                                <span class="results_item_title">{{repo}}  |
-             {{title}}</span>
+                        <span class="results_item_title results_item_highlight">{{{title}}}</span>
                         <span class="results_item_highlight">{{{content}}}</span>
                     </a>
                 </div>
@@ -250,8 +256,8 @@
         </ul>
         {{#if searchMore}}
         <p>
-                    <a class="results_search-more"
-                       href="#">More results...</a>
+            <a class="results_search-more"
+               href="#">More results...</a>
         </p>
         {{/if}}
 
