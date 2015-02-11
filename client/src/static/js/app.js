@@ -90,7 +90,7 @@ function querySuccess(data, status, xhr) {
 }
 
 function cleanResult(rawResult) {
-console.log(rawResult);
+
     var cleanedData = {
         url: '',
         repo: '',
@@ -116,7 +116,7 @@ console.log(rawResult);
     }
 
     var highlight = rawResult.highlight;
-    if (highlight && highlight.title) {
+    if (highlight && highlight['title']) {
         cleanedData.title = highlight.title[0];
     }
     if (highlight && highlight.content) {
@@ -124,6 +124,9 @@ console.log(rawResult);
     }
 
     return cleanedData;
+
+}
+function processTitleForHighlight(){
 
 }
 
