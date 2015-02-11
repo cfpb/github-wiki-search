@@ -94,6 +94,8 @@ module.exports = function(grunt) {
          */
         uglify: {
             options: {
+                sourceMap: true,
+                sourceMapUrl: '/static/js/main.min.js',
                 beautify: false,
                 drop_console: true
             },
@@ -103,10 +105,12 @@ module.exports = function(grunt) {
                     'src/static/js/jquery-hashchange.js',
                     'src/vendor/typeahead.js/typeahead.bundle.js',
                     'src/vendor/cf-*/*.js',
+                    'src/static/js/jquery.custom-input.js',
+                    'src/static/js/jquery.custom-select.js',
                     'src/static/js/query_variables.js',
                     'src/static/js/custom-select.js',
-                    'src/static/js/app.js',
-                    'src/static/js/expandable.js'
+                    'src/static/js/querry.js',
+                    'src/static/js/app.js'
                 ],
                 dest: 'src/static/js/main.min.js'
             }
@@ -157,6 +161,7 @@ module.exports = function(grunt) {
                         'static/css/*.min.css',
                         'static/js/html5shiv-printshiv.js',
                         'static/js/*.min.js',
+                        'static/js/*.min.js.map',
                         'static/fonts/**',
                         'static/img/**'
                     ],
@@ -257,7 +262,8 @@ module.exports = function(grunt) {
                     'src/static/css/*.less',
                     'src/static/js/query_variables.js',
                     'src/static/js/expandable.js',
-                    'src/static/js/app.js'
+                    'src/static/js/app.js',
+                    'src/static/js/querry.js'
                 ],
                 tasks: ['default', 'dist']
             }
