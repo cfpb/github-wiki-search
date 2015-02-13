@@ -297,7 +297,12 @@
 
         <div class="results" id="results">
             <script id="results-template" type="text/x-handlebars-template">
-
+            {{#if prevUrl}}
+            <p>
+                <a class="results_search-prev"
+                   href="{{prevUrl}}">Previous results...</a>
+            </p>
+            {{/if}}
 
             <ul class="results_list " id="results_list">
 
@@ -332,10 +337,10 @@
             </li>
             {{/each}}
             </ul>
-            {{#if searchMore}}
+            {{#if nextUrl}}
             <p>
-                <a class="results_search-more"
-                   href="#">More results...</a>
+                <a class="results_search-next"
+                   href="{{nextUrl}}">Next results...</a>
             </p>
             {{/if}}
 

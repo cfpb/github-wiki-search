@@ -111,7 +111,6 @@ set_filters = function(query_obj) {
     for (var key in query_obj) {
         if (key == 'query') {continue;}
         var value = query_obj[key];
-        console.log(key, value);
         setters[key](value);
     }
 };
@@ -194,13 +193,19 @@ get_hash = function() {
     return params;
 };
 
-set_hash = function(obj) {
-    // given an object, serialize it to a query string and insert it into hash.
+make_hash = function(obj) {
+    // given an object, serialize it to a hash string and return the hash string
     var params = [];
     for (var k in obj) {
         v = obj[k];
         params.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
     }
     var hash = '#/?' + params.join('&');
+    return hash;
+};
+
+set_hash = function(obj) {
+    // given an object, serialize it to a hash string and insert it into hash.
+    var hash = make_hash(obj);
     window.location.hash = hash;
 };
