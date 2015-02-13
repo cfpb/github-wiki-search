@@ -58,5 +58,5 @@ def index_wiki_page(gh_type, repo_name, page_url, gh_pool):
         'title': ' '.join(soup.find(class_='gh-header-title').findAll(text=True)).strip(),
         'content': ' '.join(soup.find(id='wiki-body').findAll(text=True)).strip(),
         'path': '/' + repo_name,
-        'loc': {'GH': 'github', 'GHE': 'github enterprise'}[gh_type],
+        'source': {'GH': 'github', 'GHE': 'github enterprise'}[gh_type],
     },)

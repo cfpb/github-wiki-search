@@ -65,7 +65,7 @@ def index_gh_issues(gh_type, pool, repo_name, since=None):
         if issue['assignee']:
             obj['assignee'] = issue['assignee']['login']
         obj['path'] = '/' + repo_name
-        obj['loc'] = {'GH': 'github', 'GHE': 'github enterprise'}[gh_type]
+        obj['source'] = {'GH': 'github', 'GHE': 'github enterprise'}[gh_type]
 
         bulk_data.append({'index': index})
         bulk_data.append(obj)
@@ -101,7 +101,7 @@ def index_gh_issue_comments(gh_type, pool, repo_name, since=None):
         obj['author'] = comment['user']['login']
         obj['updated_date'] = comment['updated_at']
         obj['path'] = '/%s/%s' % (repo_name, issue_id)
-        obj['loc'] = {'GH': 'github', 'GHE': 'github enterprise'}[gh_type]
+        obj['source'] = {'GH': 'github', 'GHE': 'github enterprise'}[gh_type]
 
         bulk_data.append({'index': index})
         bulk_data.append(obj)

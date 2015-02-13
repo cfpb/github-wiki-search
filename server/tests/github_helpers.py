@@ -50,7 +50,7 @@ class TestDeleteIndexSubset(unittest.TestCase):
         github_helpers.reset_index('test_search')
 
     def test_expect_delete_all_repo_docs(self):
-        es_client.test_search.wiki.test1.put(data={'path':'/a/b', 'title': 'test1', 'loc': 'github'})
+        es_client.test_search.wiki.test1.put(data={'path':'/a/b', 'title': 'test1', 'source': 'github'})
 
         cut = github_helpers.delete_index_subset
         cut('GH', 'wiki', '/a/b')
@@ -59,7 +59,7 @@ class TestDeleteIndexSubset(unittest.TestCase):
         self.assertGreater(actual.status_code, 400)
 
     def test_expect_not_delete_docs_in_other_repo(self):
-        es_client.test_search.wiki.test1.put(data={'path':'/a/c', 'title': 'test1', 'loc': 'github'})
+        es_client.test_search.wiki.test1.put(data={'path':'/a/c', 'title': 'test1', 'source': 'github'})
 
         cut = github_helpers.delete_index_subset
         cut('GH', 'wiki', '/a/b')
@@ -68,7 +68,7 @@ class TestDeleteIndexSubset(unittest.TestCase):
         self.assertEqual(actual.status_code, 200)
 
     def test_expect_not_delete_docs_of_other_type(self):
-        es_client.test_search.readme.test1.put(data={'path':'/a/b', 'title': 'test1', 'loc': 'github'})
+        es_client.test_search.readme.test1.put(data={'path':'/a/b', 'title': 'test1', 'source': 'github'})
 
         cut = github_helpers.delete_index_subset
         cut('GH', 'wiki', '/a/b')
@@ -77,7 +77,7 @@ class TestDeleteIndexSubset(unittest.TestCase):
         self.assertEqual(actual.status_code, 200)
 
     def test_expect_not_delete_docs_of_other_gh_type(self):
-        es_client.test_search.wiki.test1.put(data={'path':'/a/b', 'title': 'test1', 'loc': 'enterprise'})
+        es_client.test_search.wiki.test1.put(data={'path':'/a/b', 'title': 'test1', 'source': 'enterprise'})
 
         cut = github_helpers.delete_index_subset
         cut('GH', 'wiki', '/a/b')

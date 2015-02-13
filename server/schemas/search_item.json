@@ -1,6 +1,6 @@
 {
   "properties": {
-    "loc": {
+    "source": {
       "type": "string",
       "index": "not_analyzed"
     },

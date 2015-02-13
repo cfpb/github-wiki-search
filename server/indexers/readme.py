@@ -45,7 +45,7 @@ def index_readme(gh_type, repo_name, gh_pool):
             'title': title,
             'content': ' '.join(soup.find('article').findAll(text=True)).strip(),
             'path': '/' + repo_name,
-            'loc': {'GH': 'github', 'GHE': 'github enterprise'}[gh_type],
+            'source': {'GH': 'github', 'GHE': 'github enterprise'}[gh_type],
         },)
     except AttributeError:
         return []
