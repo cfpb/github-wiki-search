@@ -18,16 +18,25 @@ searchButton.click(function () {
 
 
 filterButton.click(function() {
-    console.log('filter button');
     event.stopPropagation();
     event.preventDefault();
+    var current_query = process_query($megaSearchBar_query.val()).query;
+    var new_query_obj = get_filters();
+    new_query_obj.query = current_query;
+    var new_query = build_query(new_query_obj);
+    console.log('filter:', new_query);
+    set_hash({query: new_query});
 });
 
 $(window).hashchange(function () {
     var hash = get_hash();
     $megaSearchBar_query.val(hash.query);
     var query = process_query(hash.query);
-    console.log(query);
+    console.log('hashchange', hash.query, query);
+    set_filters(query);
+    if (!query.query) {
+        return;
+    }
     sendQuery();
 }).hashchange();
 

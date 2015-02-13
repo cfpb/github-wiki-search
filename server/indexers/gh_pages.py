@@ -87,6 +87,6 @@ def index_gh_page(gh_type, gh_pool, page_url, repo_name, base_url, already_visit
             'title': title,
             'content': helpers.get_visible_text(soup),
             'path': '/' + repo_name,
-            'loc': gh_type,
+            'source': gh_type,
     }]
     return bulk_rows

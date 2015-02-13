@@ -71,8 +71,8 @@ def get_version_if_modified(gh_type, repo_name, typ, force=False):
         return latest_version
 
 
-def delete_index_subset(loc, typ, repo_name=None):
-    loc = {'GH': 'github', 'GHE': 'github enterprise'}.get(loc, loc)
+def delete_index_subset(source, typ, repo_name=None):
+    source = {'GH': 'github', 'GHE': 'github enterprise'}.get(source, source)
     # TODO: this isn't working
     query = {"query": {
       "filtered": {
@@ -80,7 +80,7 @@ def delete_index_subset(loc, typ, repo_name=None):
           "and": [
             {
               "term": {
-                "loc": loc
+                "source": source
               },
             },
           ],

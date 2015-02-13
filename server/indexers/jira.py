@@ -49,7 +49,7 @@ def index():
                 'updated_date': issue['fields']['updated'],
                 'status': issue['fields']['status']['name'],
                 'path': "%s" % issue['fields']['project']['key'],
-                'loc': 'jira',
+                'source': 'jira',
                 'assignee': (issue['fields']['assignee'] or {}).get('name', None)
             }
         ]
@@ -74,7 +74,7 @@ def index():
                     'url': "%s/browse/%s?focusedCommentId=%s" % (settings.JIRA_HOST, issue['key'], comment['id']),
                     'status': None,
                     'path': "%s/%s" % (issue['fields']['project']['key'], issue['key']),
-                    'loc': 'jira',
+                    'source': 'jira',
 
             }]
 
