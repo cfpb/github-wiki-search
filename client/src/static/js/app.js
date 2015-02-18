@@ -115,7 +115,7 @@ function cleanResult(rawResult) {
     if (fields) {
         $.extend(cleanedData, {
             url: fields.url[0],
-            repo: fields.path[0],
+            path: fields.path[0],
             title: fields.title[0],
             author: fields.author ? fields.author[0] : "",
             assignee: fields.assignee ? fields.assignee[0] : "",
