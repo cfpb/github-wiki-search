@@ -1,4 +1,4 @@
-from server.indexers import github_helpers as helpers
+from server.search import helpers
 from server.utils import iter_get_url
 from server import settings
 import json

@@ -1,5 +1,5 @@
 from server import settings
-import github_helpers as helpers
+import helpers
 from universalclient import Client
 import time
 from datetime import datetime

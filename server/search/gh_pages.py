@@ -1,4 +1,4 @@
-from server.indexers import github_helpers as helpers
+from server.search import helpers
 from server import settings
 gh_settings = settings.GITHUB
 from bs4 import BeautifulSoup as BS

@@ -73,7 +73,7 @@ call(('pip install -r %s' % path.join(REPO_DIR, 'server', 'requirements.txt')).s
 call(('ln -s %s /usr/lib/python2.6/site-packages/server' % SERVER_DIR).split())
 
 with open(join(TEMPLATE_DIR, 'cron.template'), 'r') as conf_file:
-    nginx_conf = conf_file.read() %  join(REPO_DIR, 'server', 'sync.py')
+    nginx_conf = conf_file.read() %  join(REPO_DIR, 'server', 'index.py')
 
 # run sync script every morning at 3 am
 tmp = join(REPO_DIR, 'cron.tmp')
