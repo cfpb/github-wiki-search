@@ -62,13 +62,9 @@ function sendQuery() {
         $results.slideUp('fast');
     } else {
 
-        allQuery.match._all = query.query;
+        var queryData = buildESQuery(query);
 
-        queryData.query = allQuery;
-
-        queryData.from = queryFrom;
-
-        $.ajax(queryLocation, {
+        $.ajax('/search/search/_search', {
             type: "POST",
             data: JSON.stringify(queryData),
             success: querySuccess,
