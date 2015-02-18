@@ -97,8 +97,22 @@ function buildESQuery(queryObj) {
     
     if (hasQuery(queryObj)) {
         esQuery.query.filtered.query =  {
-        "match": {
-          "_all": queryObj.query
+            "match": {
+              "_all": queryObj.query
+                }
+              };
+        esQuery.highlight = {
+            "pre_tags": [
+              "<mark>"
+            ],
+            "post_tags": [
+              "</mark>"
+            ],
+            "fields": {
+              "content": {},
+              "title": {
+                "number_of_fragments": 0
+              }
             }
           };
     }
@@ -114,7 +128,7 @@ function buildESQuery(queryObj) {
                 }
             };
             if (queryObj.from) {
-                dateTemp.range.updated_date.gte = queryObj.from[1] + "-" + queryObj.to[0];
+                dateTemp.range.updated_date.gte = queryObj.from[1] + "-" + queryObj.from[0];
             }
             if (queryObj.to) {
                 // Add 1 to the higher bounded month so the result set
@@ -129,10 +143,10 @@ function buildESQuery(queryObj) {
             var typesTemp = { "or": []};
             for (var i=0; i < queryObj.type.length; i++) {
                 var indTypeTemp = {
-                                    "type" : {
-                                        "value" : queryObj.type[i]
-                                    }
-                                };
+                    "type" : {
+                        "value" : queryObj.type[i]
+                    }
+                };
                 typesTemp.or.push(indTypeTemp);
             }
             esQuery.query.filtered.filter.and.push(typesTemp);
@@ -154,6 +168,7 @@ function buildESQuery(queryObj) {
             esQuery.query.filtered.filter.and.push(pathsTemp);
         }
     }
+
     
     return esQuery;
 }
