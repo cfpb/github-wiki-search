@@ -101,6 +101,7 @@ function buildESQuery(queryObj) {
               "_all": queryObj.query
                 }
               };
+        esQuery.fields = ['url', 'path', 'title', 'author', 'assignee', 'source'];
         esQuery.highlight = {
             "pre_tags": [
               "<mark>"

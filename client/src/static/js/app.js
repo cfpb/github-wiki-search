@@ -119,6 +119,7 @@ function cleanResult(rawResult) {
             title: fields.title[0],
             author: fields.author ? fields.author[0] : "",
             assignee: fields.assignee ? fields.assignee[0] : "",
+            source: fields.source[0],
             index: rawResult._index,
             type: rawResult._type
         });
