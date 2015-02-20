@@ -1,6 +1,6 @@
 import gh_paths
 import gh_users
-from server.indexers import github_helpers as helpers
+from server.search import helpers
 import time
 from datetime import datetime
 

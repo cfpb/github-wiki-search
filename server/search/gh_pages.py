@@ -1,4 +1,4 @@
-from server.indexers import github_helpers as helpers
+from server.search import helpers
 from server import settings
 gh_settings = settings.GITHUB
 from bs4 import BeautifulSoup as BS
@@ -14,7 +14,7 @@ import re
 
 index_regex = re.compile(r'index.html$')
 
-obj_type = 'gh_page'
+obj_type = 'gh page'
 
 def index(gh_type, repo_name, gh_pool, force=False):
     start = time.mktime(datetime.now().timetuple())

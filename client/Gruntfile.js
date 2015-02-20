@@ -108,9 +108,8 @@ module.exports = function(grunt) {
                     'src/vendor/cf-*/*.js',
                     'src/static/js/jquery.custom-input.js',
                     'src/static/js/jquery.custom-select.js',
-                    'src/static/js/query_variables.js',
                     'src/static/js/custom-select.js',
-                    'src/static/js/querry.js',
+                    'src/static/js/query.js',
                     'src/static/js/app.js'
                 ],
                 dest: 'src/static/js/main.min.js'
@@ -264,7 +263,7 @@ module.exports = function(grunt) {
                     'src/static/js/query_variables.js',
                     'src/static/js/expandable.js',
                     'src/static/js/app.js',
-                    'src/static/js/querry.js'
+                    'src/static/js/query.js'
                 ],
                 tasks: ['default', 'dist']
             }

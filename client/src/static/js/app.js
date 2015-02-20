@@ -62,13 +62,9 @@ function sendQuery() {
         $results.slideUp('fast');
     } else {
 
-        allQuery.match._all = query.query;
+        var queryData = buildESQuery(query);
 
-        queryData.query = allQuery;
-
-        queryData.from = queryFrom;
-
-        $.ajax(queryLocation, {
+        $.ajax('/search/search/_search', {
             type: "POST",
             data: JSON.stringify(queryData),
             success: querySuccess,
@@ -119,10 +115,11 @@ function cleanResult(rawResult) {
     if (fields) {
         $.extend(cleanedData, {
             url: fields.url[0],
-            repo: fields.path[0],
+            path: fields.path[0],
             title: fields.title[0],
             author: fields.author ? fields.author[0] : "",
             assignee: fields.assignee ? fields.assignee[0] : "",
+            source: fields.source[0],
             index: rawResult._index,
             type: rawResult._type
         });

@@ -24,7 +24,7 @@ process_query = function(raw_query) {
         var match = regex.exec(processed_query.query);
         if (match) {
             var value = strip(match[0].split(':').slice(1).join(':'));
-            if (['source', 'author', 'assignee', 'path'].indexOf(keyword) >= 0) {
+            if (['source', 'author', 'assignee', 'path', 'type'].indexOf(keyword) >= 0) {
                 value = value.split(',');
             } else if (['to', 'from'].indexOf(keyword) >= 0) {
                 value = value.split('-');
@@ -44,7 +44,7 @@ build_query = function(processed_query) {
         if (keyword == 'query') {continue;}
         var value = processed_query[keyword];
         if (!value || (value instanceof Array && !value.length)) {continue;}
-        if (['source', 'author', 'assignee', 'path'].indexOf(keyword) >= 0) {
+        if (['source', 'author', 'assignee', 'path', 'type'].indexOf(keyword) >= 0) {
             value = value.join(',');
         } else if (['to', 'from'].indexOf(keyword) >= 0) {
             value = value.join('-');
@@ -53,6 +53,126 @@ build_query = function(processed_query) {
     }
     return strip(query);
 };
+
+function buildESQuery(queryObj) {
+    // takes in a query object and returns an ElasticSearch query
+    function hasFilters(queryObj) {
+        if (Object.keys(queryObj).length > 1) {
+            return true;
+        }
+        else if (Object.keys(queryObj).length == 1 &&
+                 Object.keys(queryObj)[0] != 'query') {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    function hasQuery(queryObj) {
+        if (queryObj.query && queryObj.query.length > 0) {
+         return true;
+        }
+        else {
+            return false;
+        }
+    }
+    function buildTermOr(field) {
+        var orTemp = { "or": []};
+        for (var i=0; i < queryObj[field].length; i++) {
+            var singleTemp = {"term": {}};
+            singleTemp.term[field] = queryObj[field][i];
+            orTemp.or.push(singleTemp);
+        }
+        return orTemp;
+    }
+    
+    var esQuery = {
+      "query": {
+        "filtered": {
+          "filter": {
+          }
+        }
+      }
+    };
+    
+    if (hasQuery(queryObj)) {
+        esQuery.query.filtered.query =  {
+            "match": {
+              "_all": queryObj.query
+                }
+              };
+        esQuery.fields = ['url', 'path', 'title', 'author', 'assignee', 'source'];
+        esQuery.highlight = {
+            "pre_tags": [
+              "<mark>"
+            ],
+            "post_tags": [
+              "</mark>"
+            ],
+            "fields": {
+              "content": {},
+              "title": {
+                "number_of_fragments": 0
+              }
+            }
+          };
+    }
+
+    if (hasFilters(queryObj)) {
+        esQuery.query.filtered.filter = {"and": []};
+    
+        if (queryObj.from || queryObj.to) {
+            var dateTemp = {
+                "range": {
+                    "updated_date": {
+                    }
+                }
+            };
+            if (queryObj.from) {
+                dateTemp.range.updated_date.gte = queryObj.from[1] + "-" + queryObj.from[0];
+            }
+            if (queryObj.to) {
+                // Add 1 to the higher bounded month so the result set
+                // includes results from that month
+                var monthFixed = (parseInt(queryObj.to[0], 10) + 1).toString();
+                dateTemp.range.updated_date.lt = queryObj.to[1] + "-" + monthFixed;
+            }
+            esQuery.query.filtered.filter.and.push(dateTemp);
+        }
+        
+        if (queryObj.type) {
+            var typesTemp = { "or": []};
+            for (var i=0; i < queryObj.type.length; i++) {
+                var indTypeTemp = {
+                    "type" : {
+                        "value" : queryObj.type[i]
+                    }
+                };
+                typesTemp.or.push(indTypeTemp);
+            }
+            esQuery.query.filtered.filter.and.push(typesTemp);
+        }
+        if (queryObj.source) {
+            sourcesTemp = buildTermOr("source");
+            esQuery.query.filtered.filter.and.push(sourcesTemp);
+        }
+        if (queryObj.author) {
+            authorsTemp = buildTermOr("author");
+            esQuery.query.filtered.filter.and.push(authorsTemp);
+        }
+        if (queryObj.assignee) {
+            assigneesTemp = buildTermOr("assignee");
+            esQuery.query.filtered.filter.and.push(assigneesTemp);
+        }
+        if (queryObj.path) {
+            pathsTemp = buildTermOr("path");
+            esQuery.query.filtered.filter.and.push(pathsTemp);
+        }
+    }
+
+    
+    return esQuery;
+}
 
 
 _set_source = function(sources) {

@@ -1,11 +1,11 @@
-from server import utils, indexers
+from server import utils, search
 import itertools
 
-gh_settings = indexers.gh.gh_settings
-ghe_settings = indexers.ghe.ghe_settings
+gh_settings = search.gh.gh_settings
+ghe_settings = search.ghe.ghe_settings
 
-gh_api_client = indexers.gh.gh_api_client
-ghe_api_client = indexers.ghe.ghe_api_client
+gh_api_client = search.gh.gh_api_client
+ghe_api_client = search.ghe.ghe_api_client
 
 def _get_org_users(org_name):
     return (user for user in utils.iter_get(gh_api_client.orgs._(org_name).members))

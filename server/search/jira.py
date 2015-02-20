@@ -1,5 +1,5 @@
 from server import settings
-import github_helpers as helpers
+import helpers
 from universalclient import Client
 import time
 from datetime import datetime
@@ -48,7 +48,7 @@ def index():
                 'author': issue['fields']['creator']['name'],
                 'updated_date': issue['fields']['updated'],
                 'status': issue['fields']['status']['name'],
-                'path': "%s" % issue['fields']['project']['key'],
+                'path': "/%s" % issue['fields']['project']['key'],
                 'source': 'jira',
                 'assignee': (issue['fields']['assignee'] or {}).get('name', None)
             }
