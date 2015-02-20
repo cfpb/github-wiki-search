@@ -1,7 +1,31 @@
 # GitHub Wiki Search
 
-Search the contents of GitHub Enterprise wikis.
+While this project started as a github wiki search, it has morphed into a search all documentation search.
 
+It can search:
+  * Github.com
+    * Issues
+    * Github Pages
+    * Wiki
+    * Readmes
+  * Github Enterprise
+    * Issues
+    * Github Pages
+    * Wiki
+    * Readmes
+  * Jira
+    * Issues
+
+There is no "backend". The static web client communicates directly with elasticsearch.
+
+Repository highlights:
+  * Vagrantfile - Use vagrant to quickly setup a development environment. (See Installation, below)
+  * client - where the web app lives. Web app is simple javascript, html, and mustache.
+  * server - a set of python scripts for indexing Github/Github Enterprise/Jira
+  * provision - a simple python script, with templates, for setting up a development environment with:
+    * ElasticSearch
+    * Nginx
+    * Cronjob to run indexer every night
 
 ## Contributing
 
@@ -44,9 +68,9 @@ We welcome your feedback and contributions.
 
     sudo /vagrant/provision/provision.py
 
-1. run the sync script
+1. run the indexing script
 
-    /vagrant/server/sync.py
+    /vagrant/server/index.py
 
 1. visit the search page at
 
