@@ -263,7 +263,7 @@ module.exports = function(grunt) {
                     'src/static/js/query_variables.js',
                     'src/static/js/expandable.js',
                     'src/static/js/app.js',
-                    'src/static/js/querry.js'
+                    'src/static/js/query.js'
                 ],
                 tasks: ['default', 'dist']
             }
