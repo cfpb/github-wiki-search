@@ -5,7 +5,7 @@ regexes = {
     assignee: /assignee:(\S+)\s*/i,
     from: /from:(\d\d+-\d\d\d\d)\s*/i,
     to: /to:(\d\d+-\d\d\d\d)\s*/i,
-    path: /path:(\S+)\s*/i,
+    path_analyzed: /path:(\S+)\s*/i,
 };
 
 strip_regex = /^\s*(.*?)\s*$/;
@@ -24,7 +24,7 @@ process_query = function(raw_query) {
         var match = regex.exec(processed_query.query);
         if (match) {
             var value = strip(match[0].split(':').slice(1).join(':'));
-            if (['source', 'author', 'assignee', 'path', 'type'].indexOf(keyword) >= 0) {
+            if (['source', 'author', 'assignee', 'path_analyzed', 'type'].indexOf(keyword) >= 0) {
                 value = value.split(',');
             } else if (['to', 'from'].indexOf(keyword) >= 0) {
                 value = value.split('-');
