@@ -76,11 +76,12 @@ function buildESQuery(queryObj) {
             return false;
         }
     }
-    function buildTermOr(field) {
+    function buildTermOr(esFieldName, qFieldName) {
         var orTemp = { "or": []};
-        for (var i=0; i < queryObj[field].length; i++) {
+        var qField = queryObj[qFieldName || esFieldName];
+        for (var i=0; i < qField.length; i++) {
             var singleTemp = {"term": {}};
-            singleTemp.term[field] = queryObj[field][i];
+            singleTemp.term[esFieldName] = qField[i];
             orTemp.or.push(singleTemp);
         }
         return orTemp;
@@ -165,7 +166,7 @@ function buildESQuery(queryObj) {
             esQuery.query.filtered.filter.and.push(assigneesTemp);
         }
         if (queryObj.path) {
-            pathsTemp = buildTermOr("path");
+            pathsTemp = buildTermOr("path_analyzed", "path");
             esQuery.query.filtered.filter.and.push(pathsTemp);
         }
     }
