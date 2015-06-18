@@ -63,7 +63,8 @@ function sendQuery() {
     } else {
 
         var queryData = buildESQuery(query);
-
+        queryData.from = queryFrom;
+        
         $.ajax('/search/search/_search', {
             type: "POST",
             data: JSON.stringify(queryData),
