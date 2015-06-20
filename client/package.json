@@ -31,7 +31,7 @@
   "devDependencies": {
     "grunt": "latest",
     "grunt-autoprefixer": "latest",
-    "grunt-bower-task": "~0.3.2",
+    "grunt-bower-task": "~0.4.x",
     "grunt-contrib-clean": "latest",
     "grunt-contrib-concat": "latest",
     "grunt-contrib-connect": "~0.3.0",

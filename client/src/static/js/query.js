@@ -1,5 +1,5 @@
 regexes = {
-    type: /type:(issue|readme|wiki|gh page)(,issue|,readme|,wiki|,gh page)*\s*/i,
+    type: /type:(issue|readme|wiki|gh_page)(,issue|,readme|,wiki|,gh_page)*\s*/i,
     source: /source:(github enterprise|github|jira)(,github enterprise|,github|,jira)*\s*/i,
     author: /author:(\S+)\s*/i,
     assignee: /assignee:(\S+)\s*/i,
@@ -187,7 +187,7 @@ _set_source = function(sources) {
 };
 
 _set_type = function(types) {
-    ['issue', 'readme', 'wiki', 'gh page'].forEach(function(type) {
+    ['issue', 'readme', 'wiki', 'gh_page'].forEach(function(type) {
         if (types.indexOf(type) >= 0) {
             $('[value="' + type + '"]').prop('checked', true).parent('.form-group_item').addClass('is-checked');
         } else {

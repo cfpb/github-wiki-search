@@ -54,7 +54,7 @@ We welcome your feedback and contributions.
 
     cd github-wiki-search
 
-1. copy `settings_example.py` to `settings.py` and modify for your installation
+1. copy `server/settings_example.py` to `server/settings.py` and modify for your installation
 
 1. start the virtualmachine
 
@@ -84,6 +84,10 @@ We welcome your feedback and contributions.
 
 
 ### Install front end tools and components
+
+1. cd into client
+
+    `cd client`
 
 1. install dependencies:
 

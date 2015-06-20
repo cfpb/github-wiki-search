@@ -157,6 +157,8 @@ module.exports = function(grunt) {
                         "*.xml",
                         'index.html',
                         'static-test.html',
+                        //simplify debugging
+                        'static/js/app.js',
                         // Only include minified assets in css/ and js/
                         'static/css/*.min.css',
                         'static/js/html5shiv-printshiv.js',
