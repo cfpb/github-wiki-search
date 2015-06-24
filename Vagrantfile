@@ -2,11 +2,9 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  # vbox name
-  config.vm.box = "centos_6_5_64"
 
-  # vbox url
-  config.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.5.1/centos65-x86_64-20131205.box"
+  config.vm.box = "centos65"
+  config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-puppet.box"
 
   # run provision.py on boot - not currently working
   # config.vm.provision "shell", path: "provision.py"
