@@ -81,3 +81,19 @@ We welcome your feedback and contributions.
     `grunt dist`
 
 Or use `grunt serve`. This will run both commands when commonly edited front end files have changed. It also sets up a local server on port `8000` for previewing the front end.
+
+### Revuilding the Index
+
+If your index isn't updating quite right, it may help to drop the index first.  One example we found of this is where the mapping file wasn't updating correctly during the index process unless we dropped the index beforehand.
+
+1. Drop the existing index:
+
+```
+curl -XDELETE http://search.demo.cfpb.gov/search/_all/_all/
+```
+
+1. Run a python script to rebuild everything
+
+```
+./server/index.py
+```
