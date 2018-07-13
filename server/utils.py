@@ -22,11 +22,11 @@ def iter_get(client):
 next_re = re.compile(r'<(.*)>; rel="next"')
 def _get_next_url(resp):
     links = resp.headers.get('link', '')
-    next_match = next_re.match(links)
-    if next_match:
-        return next_match.groups()[0]
-    else:
-        return None
+    split_links = links.split(",")
+    for item in split_links:
+        next_match = next_re.match(item)
+        if next_match:
+            return next_match.groups()[0]
 
 def iter_get_url(url, pool):
     """
