@@ -1,41 +1,43 @@
 {
   "properties": {
     "source": {
-      "type": "string",
-      "index": "not_analyzed"
+      "type": "keyword",
+      "index": true
     },
     "path": {
-      "type": "multi_field",
+      "type": "text",
       "fields": {
         "path_full": {
-          "type": "string",
-          "index": "not_analyzed",
+          "type": "keyword",
+          "index": true,
           "include_in_all": "false"
         },
         "path_analyzed": {
-          "type": "string",
+          "type": "text",
+          "index": true,
           "search_analyzer": "keyword",
-          "index_analyzer": "path_analyzer",
+          "analyzer": "path_analyzer",
           "include_in_all": "false"
         }
       }
     },
     "url": {
-      "type": "string",
+      "type": "text",
+      "index": true,
       "store": "yes",
       "include_in_all": "false"
     },
     "title": {
-      "index": "analyzed",
-      "type": "string",
+      "index": true,
+      "type": "text",
       "analyzer": "text_analyzer",
       "store": "yes",
       "boost": 2
     },
     "content": {
       "term_vector": "with_positions_offsets",
-      "index": "analyzed",
-      "type": "string",
+      "index": true,
+      "type": "text",
       "analyzer": "text_analyzer",
       "store": "yes"
     },
@@ -44,19 +46,22 @@
       "format": "date_time"
     },
     "author": {
-      "type": "string"
+      "type": "text",
+      "index": true
 
     },
     "tags": {
-      "type": "string",
-      "index_name": "tag"
+      "type": "text",
+      "index": true,
+      "copy_to": "tag"
     },
     "status": {
-      "type": "string",
-      "index": "not_analyzed"
+      "type": "keyword",
+      "index": true
     },
     "assignee": {
-      "type": "string"
+      "type": "text",
+      "index":true
     }
   }
 }
