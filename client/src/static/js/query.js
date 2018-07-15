@@ -89,7 +89,9 @@ function buildESQuery(queryObj) {
     
     var esQuery = {
       "query": {
-        "filtered": {
+        "bool": {
+          "must": {
+          },
           "filter": {
           }
         }
@@ -97,12 +99,12 @@ function buildESQuery(queryObj) {
     };
     
     if (hasQuery(queryObj)) {
-        esQuery.query.filtered.query =  {
+        esQuery.query.bool.must =  {
             "match": {
               "_all": queryObj.query
                 }
               };
-        esQuery.fields = ['url', 'path', 'title', 'author', 'assignee', 'source'];
+        esQuery.stored_fields = ['url', 'path', 'title', 'author', 'assignee', 'source'];
         esQuery.highlight = {
             "pre_tags": [
               "<mark>"
