@@ -125,3 +125,18 @@ curl -XDELETE http://search.demo.cfpb.gov/search/_all/_all/
 ```
 ./server/index.py
 ```
+
+### Docker
+
+If you're using `docker-machine` and see this error:
+
+```
+max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+```
+
+`docker-machine ssh` and make the following change to `/var/lib/boot2docker/profile`:
+
+```
+# Update the vm.max_map_count setting
+sysctl -w vm.max_map_count=262144
+```
