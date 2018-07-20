@@ -45,7 +45,11 @@ def index():
                 'url': settings.JIRA_HOST + "/browse/" + issue['key'],
                 'title': issue['fields']['summary'],
                 'content': issue['fields']['description'],
-                'author': issue['fields']['creator']['name'],
+                'author': (
+                    issue['fields']['creator'].get('name', '')
+                    if issue['fields'].get('creator')
+                    else ''
+                ),
                 'updated_date': issue['fields']['updated'],
                 'status': issue['fields']['status']['name'],
                 'path': "/%s" % issue['fields']['project']['key'],
@@ -56,7 +60,12 @@ def index():
 
         # use set type to prevent duplicates
         projs.add(issue['fields']['project']['key'])
-        users.add(issue['fields']['creator']['name'])
+        users.add(
+            issue['fields']['creator'].get('name', '')
+            if issue['fields'].get('creator')
+            else ''
+        )
+
         if issue['fields']['assignee']:
             users.add(issue['fields']['assignee']['name'])
 
