@@ -86,19 +86,17 @@ function buildESQuery(queryObj) {
         }
         return orTemp;
     }
-    
+
     var esQuery = {
       "_source": true,
       "query": {
         "bool": {
           "must": {
-          },
-          "filter": {
           }
         }
       }
     };
-    
+
     if (hasQuery(queryObj)) {
         esQuery.query.bool.must =  {
             "match": {
@@ -123,8 +121,8 @@ function buildESQuery(queryObj) {
     }
 
     if (hasFilters(queryObj)) {
-        esQuery.query.filtered.filter = {"and": []};
-    
+        esQuery.query.bool.must = {"and": []};
+
         if (queryObj.from || queryObj.to) {
             var dateTemp = {
                 "range": {
@@ -141,9 +139,9 @@ function buildESQuery(queryObj) {
                 var monthFixed = (parseInt(queryObj.to[0], 10) + 1).toString();
                 dateTemp.range.updated_date.lt = queryObj.to[1] + "-" + monthFixed;
             }
-            esQuery.query.filtered.filter.and.push(dateTemp);
+            esQuery.query.bool.must.and.push(dateTemp);
         }
-        
+
         if (queryObj.type) {
             var typesTemp = { "or": []};
             for (var i=0; i < queryObj.type.length; i++) {
@@ -154,23 +152,23 @@ function buildESQuery(queryObj) {
                 };
                 typesTemp.or.push(indTypeTemp);
             }
-            esQuery.query.filtered.filter.and.push(typesTemp);
+            esQuery.query.bool.must.and.push(typesTemp);
         }
         if (queryObj.source) {
             sourcesTemp = buildTermOr("source");
-            esQuery.query.filtered.filter.and.push(sourcesTemp);
+            esQuery.query.bool.must.and.push(sourcesTemp);
         }
         if (queryObj.author) {
             authorsTemp = buildTermOr("author");
-            esQuery.query.filtered.filter.and.push(authorsTemp);
+            esQuery.query.bool.must.and.push(authorsTemp);
         }
         if (queryObj.assignee) {
             assigneesTemp = buildTermOr("assignee");
-            esQuery.query.filtered.filter.and.push(assigneesTemp);
+            esQuery.query.bool.must.and.push(assigneesTemp);
         }
         if (queryObj.path) {
             pathsTemp = buildTermOr("path_analyzed", "path");
-            esQuery.query.filtered.filter.and.push(pathsTemp);
+            esQuery.query.bool.must.and.push(pathsTemp);
         }
     }
 
