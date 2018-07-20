@@ -24,8 +24,7 @@
         "cf-grid": "0.9.1",
         "cf-icons": "0.4.2",
         "cf-typography": "0.7.0",
-        "handlebars": "git://github.com/wycats/handlebars.js.git",
-
+        "handlebars": "https://github.com/wycats/handlebars.js.git",
         "html5shiv": "3.7.2",
         "jquery": "~1.11.0",
         "typeahead.js": "0.10.2",
