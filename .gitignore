@@ -1,5 +1,4 @@
 .vagrant
-settings.py
 *_data.txt
 
 *.pyc
