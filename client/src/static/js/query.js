@@ -88,6 +88,7 @@ function buildESQuery(queryObj) {
     }
     
     var esQuery = {
+      "_source": true,
       "query": {
         "bool": {
           "must": {
