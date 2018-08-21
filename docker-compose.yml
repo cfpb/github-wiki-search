@@ -1,0 +1,14 @@
+---
+version: '3'
+services:
+  nginx_runner:
+    build: ./client
+    ports:
+      - 80:8080
+  python_indexer:
+    build: ./server
+  elasticsearch:
+    build: ./ES
+    ports:
+      - 9200:9200
+      - 9300:9300

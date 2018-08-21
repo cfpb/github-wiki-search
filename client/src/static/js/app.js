@@ -111,16 +111,15 @@ function cleanResult(rawResult) {
         type: ''
     };
 
-
-    var fields = rawResult.fields;
+    var fields = rawResult._source;
     if (fields) {
         $.extend(cleanedData, {
-            url: fields.url[0],
-            path: fields.path[0],
-            title: fields.title[0],
-            author: fields.author ? fields.author[0] : "",
-            assignee: fields.assignee ? fields.assignee[0] : "",
-            source: fields.source[0],
+            url: fields.url,
+            path: fields.path,
+            title: fields.title,
+            author: fields.author ? fields.author : "",
+            assignee: fields.assignee ? fields.assignee : "",
+            source: fields.source,
             index: rawResult._index,
             type: rawResult._type
         });
