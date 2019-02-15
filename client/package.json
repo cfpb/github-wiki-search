@@ -45,7 +45,7 @@
     "grunt-shell": "~0.3.0"
   },
   "dependencies": {
-    "handlebars": "^2.0.0",
+    "handlebars": "^4.0.13",
     "jasmine": "^2.2.0"
   }
 }
