@@ -1,3 +1,5 @@
+:warning: We are no longer maintaining this repo :warning:
+
 # GitHub Wiki Search
 
 While this project started as a github wiki search (hence the repo name),
